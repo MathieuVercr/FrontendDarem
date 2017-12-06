@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Challenges</title>
+    <link href="./css/index.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Convergence" rel="stylesheet">
+    <script src="./js/app.bundle.js"></script>
+  </head>
+  <body>
+    <header>
+      <figure id='logo'>
+        <a href="./index.html">
+          <img src="./assets/DaremWeb.png"></img>
+        </a>
+      </figure>
+      <nav>
+        <a href="./challenge.html">Challenge</a>
+        <a href="#">Share</a>
+        <a href="#">Chat</a>
+        <a href="#" id="getStarted" class="startNow">Get Started</a>
+      </nav>
+    </header>
+    <main class="challengePage">
+      <aside>
+        <section id="profile">
+          <img class="profilePic" src="./assets/profilepic.jpg" alt="Profile Picture">
+          <section id="icons">
+            <img src="./assets/victory.png" alt="Challenges">
+            <img src="./assets/mail.png" alt="Notifications">
+          </section>
+          <section id="info">
+            <div>
+              <label>FirstName</label>
+              <label>LastName</label>
+            </div>
+            <label>Email Address</label>
+          </section>
+        </section>
+        <section id="activities">
+          <h3>Your friends</h3>
+          <div class="filler"></div>
+          <h3>Your challenges</h3>
+          <div class="filler"></div>
+          <div class="filler"></div>
+          <div class="filler"></div>
+        </section>
+      </aside>
+      <article class="createChallenge">
+        <h2>Create your challenges</h2>
+        <form class="createChallenge" action="#" method="post">
+          <p>
+          <label for="Name">Challenge Name</label>
+          <input type="text" name="Name" class="challengeFields"/>
+          </p>
+          <p>
+          <label for="Description">Challenge Description</label>
+          <input type="text" name="Description"  class="challengeFields"/>
+          </p>
+          <p>
+          <label for="Category">Pick a category</label>
+          <label for="addFriends">Add Friends</label>
+          </p>
+          <input type="submit" name="submit" value="Submit">
+        </form>
+      </article>
+    </main>
+    <section id="signup" class="popup">
+      <div class="popup-content">
+        <span class="close">&times;</span>
+        <img src="./assets/DaremApp.png" alt="Daremlogo">
+        <h2>Get Started</h2>
+        <form class="" action="index.html" method="post">
+          <label for="email">Email: </label>
+          <input type="text" name="email">
+          <label for="password">Password: </label>
+          <input type="password" name="password">
+          <input type="submit" value="Sign up">
+        </form>
+        <p>Get the app!</p>
+      </div>
+    </section>
+  </body>
+</html>

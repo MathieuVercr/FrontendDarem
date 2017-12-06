@@ -1,0 +1,239 @@
+////////////// GENERAL ////////////////
+$bgcolor: #FFF;
+$itemcolor: #BFBFC1;
+
+$primaryColorlLight: #9e2929;
+$primaryColorDark: #922828;
+$primaryTextDefault: #deffffff;
+$backgroundColor: #fafafa;
+
+body{
+  background-color: $bgcolor;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  margin: 0;
+  font-family: 'Convergence', sans-serif;
+}
+
+////////////// HEADER ////////////////
+
+img{
+  width: 200px;
+}
+
+header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 10px;
+
+  border-bottom: solid $primaryColorDark 3px;
+
+  background-color: $primaryColorlLight;
+
+  figure{
+    flex-grow: 1;
+    margin: 0;
+  }
+  nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-grow: 2;
+
+    width: 500px;
+
+    a{
+      text-decoration: none;
+      font-weight: bold;
+      margin-right: 50px;
+      font-size: large;
+
+      color: $backgroundColor;
+    }
+  }
+}
+
+.startNow{
+  text-decoration: none;
+  font-weight: bold;
+
+  font-size: large;
+  padding: 10px;
+  margin-right: 0;
+  background-color: $backgroundColor;
+  color: $primaryColorlLight;
+}
+
+////////////// BODY: POPUP ////////////////
+
+.popup{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.popup-content{
+  background-color: $backgroundColor;
+  border: solid $primaryColorDark 3px;
+  margin: 10% auto;
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  span{
+    align-self: flex-end;
+  }
+  img{
+    width: 65px;
+  }
+  form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.close{
+  color: $backgroundColor;
+  background-color: $primaryColorDark;
+  padding: 0 10px;
+  margin: 2px 2px 0 0;
+  font-size: 20pt;
+  font-style: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: $primaryColorDark;
+    background-color: $backgroundColor;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+////////////// BODY: INDEX ////////////////
+
+.indexPage{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.bodyitem, .bodyitem-reverse{
+  height: 500px;
+  background: $backgroundColor;
+  margin: 5px;
+
+  display: flex;
+  flex-direction: row;
+
+  section{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    div{
+      text-align: center;
+    }
+  }
+  img{
+    flex-grow: 1;
+  }
+}
+
+.bodyitem-reverse{
+  flex-direction: row-reverse;
+}
+
+h1{
+  color: $primaryColorlLight
+}
+
+#startNow{
+  margin: 20px 10px;
+  background-color: $primaryColorlLight;
+  color: $backgroundColor;
+}
+
+////////////// BODY: CHALLENGE ////////////////
+
+.challengePage{
+  display: flex;
+  flex-direction: row;
+
+  aside{
+    width: 400px;
+    border-right: solid $primaryColorDark 3px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 10px;
+
+  }
+  article{
+    flex-grow: 1;
+  }
+}
+
+#profile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  #icons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    align-self: stretch;
+
+    img{
+      width: 50px;
+    }
+  }
+  #info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.filler{
+  height: 50px;
+  background-color: $primaryColorlLight;
+  margin-bottom: 10px;
+}
+
+.profilePic{
+  border-radius: 50%;
+  margin-top: 20px;
+  width: 150px;
+}
+
+.createChallenge, .createChallenge p{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.challengeFields{
+  height: 50px;
+  align-self: stretch;
+}
