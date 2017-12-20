@@ -1,8 +1,14 @@
+html {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1; }
+
 body {
   background-color: #FFF;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  flex: 1;
   margin: 0;
   font-family: 'Convergence', sans-serif; }
 
@@ -167,18 +173,19 @@ h1 {
   background-color: #9e2929;
   color: #fafafa; }
 
-.challengePage {
+.challengePage, .chatPage {
   display: flex;
   flex-direction: row;
-  align-items: stretch; }
-  .challengePage aside {
+  align-items: stretch;
+  flex: 1; }
+  .challengePage aside, .chatPage aside {
     width: 400px;
     border-right: solid #922828 3px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     padding: 0 10px; }
-  .challengePage article {
+  .challengePage article, .chatPage article {
     flex-grow: 1; }
 
 #profile {
@@ -217,13 +224,13 @@ h1 {
   height: 50px;
   align-self: stretch; }
 
-.chatPage {
+.chatInterface {
   display: flex;
   flex-direction: column;
   align-items: stretch; }
-  .chatPage h2 {
+  .chatInterface h2 {
     align-self: center; }
-  .chatPage section {
+  .chatInterface section {
     flex-grow: 1;
     display: flex;
     flex-direction: column; }

@@ -7,11 +7,18 @@ $primaryColorDark: #922828;
 $primaryTextDefault: #deffffff;
 $backgroundColor: #fafafa;
 
+html{
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 body{
   background-color: $bgcolor;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  flex: 1;
 
   margin: 0;
   font-family: 'Convergence', sans-serif;
@@ -30,9 +37,7 @@ header{
   justify-content: space-between;
 
   padding: 10px;
-
   border-bottom: solid $primaryColorDark 3px;
-
   background-color: $primaryColorlLight;
 
   figure{
@@ -222,10 +227,12 @@ h1{
 
 ////////////// BODY: CHALLENGE ////////////////
 
-.challengePage{
+.challengePage, .chatPage{
   display: flex;
   flex-direction: row;
   align-items: stretch;
+
+  flex: 1;
 
   aside{
     width: 400px;
@@ -292,7 +299,7 @@ h1{
 
 ////////////// BODY: CHAT ////////////////
 
-.chatPage{
+.chatInterface{
   display: flex;
   flex-direction: column;
   align-items: stretch;
