@@ -225,10 +225,13 @@ h1{
 .challengePage{
   display: flex;
   flex-direction: row;
+  align-items: stretch;
 
   aside{
     width: 400px;
     border-right: solid $primaryColorDark 3px;
+
+
 
     display: flex;
     flex-direction: column;
@@ -285,4 +288,31 @@ h1{
 .challengeFields{
   height: 50px;
   align-self: stretch;
+}
+
+////////////// BODY: CHAT ////////////////
+
+.chatPage{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  h2{
+    align-self: center;
+  }
+
+  section{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.chatSpace{
+  flex-grow: 1;
+}
+
+.chatbar{
+  height: 50px;
+  background-color: red;
 }
