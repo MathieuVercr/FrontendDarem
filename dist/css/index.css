@@ -1,3 +1,6 @@
+* {
+  font-family: 'Convergence', sans-serif; }
+
 html {
   min-height: 100%;
   display: flex;
@@ -5,12 +8,11 @@ html {
   flex: 1; }
 
 body {
-  background-color: #FFF;
+  background-color: #fefefe;
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin: 0;
-  font-family: 'Convergence', sans-serif; }
+  margin: 0; }
 
 img {
   width: 200px; }
@@ -21,16 +23,17 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  border-bottom: solid #922828 3px;
+  padding-bottom: 0;
   background-color: #9e2929; }
   header figure {
     flex-grow: 1;
-    margin: 0; }
+    margin: 0;
+    margin-bottom: 10px; }
   header nav {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    align-items: center;
+    align-self: flex-end;
     flex-grow: 2;
     width: 500px; }
     header nav a {
@@ -38,20 +41,26 @@ header {
       font-weight: bold;
       margin-right: 50px;
       font-size: large;
-      color: #fafafa; }
+      padding: 10px;
+      color: #fefefe; }
+    header nav a:last-child {
+      margin-right: 30px; }
 
+#highlight {
+  background-color: #fefefe;
+  color: #9e2929; }
+
+/* Hover effect
+#highlight:hover, #highlight:focus{
+  background-color: $mainColorPrimary;
+  color: $backgroundColorSecondary;
+}
+*/
 .startNow {
   text-decoration: none;
   font-weight: bold;
   font-size: large;
-  padding: 10px;
-  margin-right: 0;
-  background-color: #fafafa;
-  color: #9e2929; }
-
-.startNow:hover, .startNow:focus {
-  background-color: #9e2929;
-  color: #fafafa; }
+  margin-right: 0; }
 
 .popup {
   display: none;
@@ -66,8 +75,8 @@ header {
   background-color: rgba(0, 0, 0, 0.4); }
 
 .popup-content {
-  background-color: #fafafa;
-  border: solid #922828 3px;
+  background-color: #f8f8f8;
+  border: solid #e0e0e0 3px;
   margin: 10% auto;
   width: 50%;
   display: flex;
@@ -83,8 +92,8 @@ header {
     align-items: center; }
 
 .close {
-  color: #fafafa;
-  background-color: #922828;
+  color: #f8f8f8;
+  background-color: #e0e0e0;
   padding: 0 10px;
   margin: 2px 2px 0 0;
   font-size: 20pt;
@@ -92,8 +101,8 @@ header {
 
 .close:hover,
 .close:focus {
-  color: #922828;
-  background-color: #fafafa;
+  color: #e0e0e0;
+  background-color: #f8f8f8;
   text-decoration: none;
   cursor: pointer; }
 
@@ -147,7 +156,7 @@ header {
 
 .bodyitem, .bodyitem-reverse {
   height: 500px;
-  background: #fafafa;
+  background: #f8f8f8;
   margin: 5px;
   display: flex;
   flex-direction: row; }
@@ -170,8 +179,9 @@ h1 {
 
 #startNow {
   margin: 20px 10px;
+  padding: 10px;
   background-color: #9e2929;
-  color: #fafafa; }
+  color: #f8f8f8; }
 
 .challengePage, .chatPage {
   display: flex;
@@ -180,7 +190,8 @@ h1 {
   flex: 1; }
   .challengePage aside, .chatPage aside {
     width: 400px;
-    border-right: solid #922828 3px;
+    border-right: solid #e0e0e0 3px;
+    background-color: #f8f8f8;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -207,7 +218,7 @@ h1 {
 
 .filler {
   height: 50px;
-  background-color: #9e2929;
+  background-color: #e0e0e0;
   margin-bottom: 10px; }
 
 .profilePic {
@@ -239,5 +250,25 @@ h1 {
   flex-grow: 1; }
 
 .chatbar {
-  height: 50px;
-  background-color: red; }
+  height: 40px;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch; }
+  .chatbar input {
+    flex: 1;
+    padding-left: 5px;
+    margin: 3px 0; }
+  .chatbar button {
+    padding: 0 25px;
+    margin: 3px; }
+  .chatbar button:active {
+    background-color: #9e2929;
+    color: #f8f8f8; }
+  .chatbar input, .chatbar button {
+    font-size: 12pt;
+    border: none;
+    outline: none;
+    background-color: #f8f8f8;
+    color: #9e2929;
+    margin-bottom: 0; }
