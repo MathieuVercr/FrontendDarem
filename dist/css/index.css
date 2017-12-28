@@ -14,9 +14,6 @@ body {
   flex: 1;
   margin: 0; }
 
-img {
-  width: 200px; }
-
 header {
   display: flex;
   flex-direction: row;
@@ -50,12 +47,6 @@ header {
   background-color: #fefefe;
   color: #9e2929; }
 
-/* Hover effect
-#highlight:hover, #highlight:focus{
-  background-color: $mainColorPrimary;
-  color: $backgroundColorSecondary;
-}
-*/
 .startNow {
   text-decoration: none;
   font-weight: bold;
@@ -75,7 +66,7 @@ header {
   background-color: rgba(0, 0, 0, 0.4); }
 
 .popup-content {
-  background-color: #f8f8f8;
+  background-color: #fefefe;
   border: solid #e0e0e0 3px;
   margin: 10% auto;
   width: 50%;
@@ -92,8 +83,8 @@ header {
     align-items: center; }
 
 .close {
-  color: #f8f8f8;
-  background-color: #e0e0e0;
+  color: #e0e0e0;
+  background-color: #fefefe;
   padding: 0 10px;
   margin: 2px 2px 0 0;
   font-size: 20pt;
@@ -101,8 +92,7 @@ header {
 
 .close:hover,
 .close:focus {
-  color: #e0e0e0;
-  background-color: #f8f8f8;
+  color: #9e2929;
   text-decoration: none;
   cursor: pointer; }
 
@@ -152,24 +142,31 @@ header {
 .indexPage {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; }
+  justify-content: flex-start;
+  padding-top: 5px; }
 
 .bodyitem, .bodyitem-reverse {
-  height: 500px;
-  background: #f8f8f8;
-  margin: 5px;
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  align-items: center;
+  background-color: #fefefe;
+  margin: 0 5px; }
   .bodyitem section, .bodyitem-reverse section {
-    flex-grow: 1;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center; }
     .bodyitem section div, .bodyitem-reverse section div {
       text-align: center; }
-  .bodyitem img, .bodyitem-reverse img {
-    flex-grow: 1; }
+  .bodyitem div, .bodyitem-reverse div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+    .bodyitem div img, .bodyitem-reverse div img {
+      max-width: 100%;
+      max-height: 100%; }
 
 .bodyitem-reverse {
   flex-direction: row-reverse; }
@@ -181,7 +178,12 @@ h1 {
   margin: 20px 10px;
   padding: 10px;
   background-color: #9e2929;
-  color: #f8f8f8; }
+  color: #f8f8f8;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+
+#startNow:hover,
+#startNow:active {
+  box-shadow: none; }
 
 .challengePage, .chatPage {
   display: flex;
