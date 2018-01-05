@@ -223,7 +223,7 @@ h1 {
   background-color: #e0e0e0;
   margin-bottom: 10px; }
 
-.profilePic {
+#profilePic {
   border-radius: 50%;
   margin-top: 20px;
   width: 150px; }

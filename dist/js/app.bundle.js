@@ -101,14 +101,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 // CODE FOR INDEX PAGE
 function initIndex() {
 
-  /*(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = 'https://projecthowest.herokuapp.com/users/auth/facebook';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));*/
-
   var popup = document.getElementById("signup");
   var fbLogin = document.getElementsByClassName("loginBtn--facebook")[0];
   var signups = document.getElementsByClassName("startNow");
@@ -137,9 +129,18 @@ function initIndex() {
 
   function authenticate() {
     window.authenticateCallback = function (token) {
-      console.log(token);
-      storage.setItem("nmct.darem.authtoken", token);
-      window.location.href = "./challenge.html";
+      var xmlhttp = new XMLHttpRequest();
+      var url = "https://projecthowest.herokuapp.com/users/userprofile?authToken=" + token;
+      xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          console.log(myArr[0]);
+          storage.setItem("nmct.darem.user", JSON.stringify(myArr[0]));
+          window.location.href = "./challenge.html";
+        }
+      };
+      xmlhttp.open("GET", url, true);
+      xmlhttp.send();
     };
 
     window.open('https://projecthowest.herokuapp.com/users/auth/facebook');
@@ -148,21 +149,22 @@ function initIndex() {
 
 // CODE FOR CHALLENGE PAGE
 function initChallenge() {
-  if (storage.getItem("nmct.darem.authtoken") == null) {
+  if (storage.getItem("nmct.darem.user") == null) {
     window.location.href = "./index.html";
   } else {
-    var token = storage.getItem("nmct.darem.authtoken");
+    var userString = storage.getItem("nmct.darem.user");
+    var userObject = JSON.parse(userString);
+    console.log(userObject);
 
-    var xmlhttp = new XMLHttpRequest();
-    var url = "https://projecthowest.herokuapp.com/users/userprofile?authToken=" + token;
-    xmlhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        var myArr = JSON.parse(this.responseText);
-        console.log(myArr);
-      }
-    };
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
+    //SHOW USER INFO ON SCREEN
+    var profilepic = document.getElementById("profilePic");
+    var labelFirstName = document.getElementById("firstName");
+    var lableLastName = document.getElementById("lastName");
+    var labelEmail = document.getElementById("email");
+    profilePic.src = userObject.facebook.photo;
+    labelFirstName.innerHTML = userObject.givenName;
+    lableLastName.innerHTML = userObject.familyName;
+    labelEmail.innerHTML = userObject.email;
   }
 }
 
