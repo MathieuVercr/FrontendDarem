@@ -138,7 +138,7 @@ function initIndex() {
       console.log(token);
 
       var xmlhttp = new XMLHttpRequest();
-      var url = "https://darem.herokuapp.com/userprofile?authToken=" + token;
+      var url = "https://projecthowest.herokuapp.com/userprofile?authToken=" + token;
       xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
           var myArr = JSON.parse(this.responseText);
@@ -148,7 +148,7 @@ function initIndex() {
       xmlhttp.open("GET", url, true);
       xmlhttp.send();
     };
-    window.open('http://localhost:3000/users/auth/facebook');
+    window.open('https://projecthowest.herokuapp.com/users/auth/facebook');
   }
 }
 
