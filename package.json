@@ -24,5 +24,13 @@
     "css-loader": "^0.28.7",
     "passport-facebook": "^2.1.1",
     "sass-loader": "^6.0.6"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MathieuVercr/FrontendDarem.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MathieuVercr/FrontendDarem/issues"
+  },
+  "homepage": "https://github.com/MathieuVercr/FrontendDarem#readme"
 }
