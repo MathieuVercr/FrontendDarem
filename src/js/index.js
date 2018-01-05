@@ -1,3 +1,5 @@
+var storage = window.localStorage;
+
 
 document.addEventListener("DOMContentLoaded", (event) => {
 
@@ -58,25 +60,32 @@ function initIndex(){
   function authenticate() {
     window.authenticateCallback = function(token) {
       console.log(token);
-
-      var xmlhttp = new XMLHttpRequest();
-      var url = "https://projecthowest.herokuapp.com/userprofile?authToken=" + token;
-      xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          var myArr = JSON.parse(this.responseText);
-          console.log(myArr);
-        }
-      };
-      xmlhttp.open("GET", url, true);
-      xmlhttp.send();
+      storage.setItem("nmct.darem.authtoken", token);
+      window.location.href = "./challenge.html";
     };
+
     window.open('https://projecthowest.herokuapp.com/users/auth/facebook');
   }
 }
 
 // CODE FOR CHALLENGE PAGE
 function initChallenge(){
-  console.log("challenge");
+  if(storage.getItem("nmct.darem.authtoken")==null){
+    window.location.href = "./index.html";
+  }else{
+    var token = storage.getItem("nmct.darem.authtoken");
+
+    var xmlhttp = new XMLHttpRequest();
+    var url = "https://projecthowest.herokuapp.com/users/userprofile?authToken=" + token;
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var myArr = JSON.parse(this.responseText);
+        console.log(myArr);
+      }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+  }
 }
 
 // CODE FOR CHAT PAGE
