@@ -21,6 +21,7 @@
       </nav>
     </header>
     <main class="chatPage">
+
       <aside>
         <section id="profile">
           <img id="profilePic" src="./assets/profilepic.png" alt="Profile Picture">
@@ -30,21 +31,23 @@
           </section>
           <section id="info">
             <div>
-              <label>FirstName</label>
-              <label>LastName</label>
+              <label id="firstName">FirstName</label>
+              <label id="lastName">LastName</label>
             </div>
-            <label>Email Address</label>
+            <label id="email">Email Address</label>
           </section>
         </section>
         <section id="activities">
           <h3>Your friends</h3>
-          <div class="filler"></div>
+          <div id="friends" class="filler"></div>
+
           <h3>Your challenges</h3>
           <div class="filler"></div>
           <div class="filler"></div>
           <div class="filler"></div>
         </section>
       </aside>
+
       <article class="chatInterface">
         <h2>Chat with your friends</h2>
         <section>
@@ -57,6 +60,7 @@
           </div>
         </section>
       </article>
+
     </main>
   </body>
 </html>

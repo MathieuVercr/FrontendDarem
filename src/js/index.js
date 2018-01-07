@@ -1,6 +1,5 @@
 var storage = window.localStorage;
 
-
 document.addEventListener("DOMContentLoaded", (event) => {
 
   let body = document.getElementsByTagName("body")[0];
@@ -71,6 +70,16 @@ function initIndex(){
 
 // CODE FOR CHALLENGE PAGE
 function initChallenge(){
+  loadAside();
+}
+
+// CODE FOR CHAT PAGE
+function initChat(){
+  loadAside();
+}
+
+function loadAside(){
+
   if(storage.getItem("nmct.darem.user")==null){
     window.location.href = "./index.html";
   }else{
@@ -83,14 +92,25 @@ function initChallenge(){
     var labelFirstName = document.getElementById("firstName");
     var lableLastName = document.getElementById("lastName");
     var labelEmail = document.getElementById("email");
+    var divFriends = document.getElementById("friends");
+
     profilePic.src = userObject.facebook.photo;
     labelFirstName.innerHTML = userObject.givenName;
     lableLastName.innerHTML = userObject.familyName;
     labelEmail.innerHTML = userObject.email;
-  }
-}
 
-// CODE FOR CHAT PAGE
-function initChat(){
-  console.log("chat");
+    userObject.friends.forEach((friend) => {
+      var divImg = document.createElement("div");
+      divImg.className = "tooltip";
+      var img = document.createElement("img");
+      img.src = friend.photo;
+      var tooltiptext = document.createElement("span");
+      tooltiptext.className = "tooltiptext";
+      tooltiptext.innerHTML = friend.name;
+      divImg.appendChild(img);
+      divImg.appendChild(tooltiptext);
+      divFriends.appendChild(divImg);
+    });
+
+  }
 }

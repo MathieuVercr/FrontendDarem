@@ -300,6 +300,23 @@ h1{
   margin-bottom: 10px;
 }
 
+#friends{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+  div{
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+      width: 35px;
+      border-radius: 50%;
+    }
+  }
+}
+
 #profilePic{
   border-radius: 50%;
   margin-top: 20px;
@@ -369,4 +386,42 @@ h1{
     color: $mainColorPrimary;
     margin-bottom: 0;
   }
+}
+
+////////////// TOOLTIP FRIENDS ////////////////
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 120%;
+    left: 50%;
+    margin-left: -30px;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -36px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }
