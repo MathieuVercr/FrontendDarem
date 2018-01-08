@@ -241,6 +241,14 @@ h1 {
   margin-top: 20px;
   width: 150px; }
 
+#logout {
+  margin-top: 5px;
+  color: #9e2929; }
+
+#logout:hover {
+  text-decoration: underline;
+  cursor: pointer; }
+
 .createChallenge, .createChallenge p {
   display: flex;
   flex-direction: column;

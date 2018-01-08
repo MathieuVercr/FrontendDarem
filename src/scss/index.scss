@@ -323,6 +323,16 @@ h1{
   width: 150px;
 }
 
+#logout{
+  margin-top: 5px;
+  color: $mainColorPrimary;
+}
+
+#logout:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .createChallenge, .createChallenge p{
   display: flex;
   flex-direction: column;

@@ -45,7 +45,11 @@ function initIndex(){
   });
 
   fbLogin.addEventListener("click", () => {
-    authenticate();
+    if(storage.getItem("nmct.darem.user")==null){
+      authenticate();
+    }else{
+      window.location.href = "./challenge.html";
+    }
   });
 
   function authenticate() {
@@ -87,18 +91,28 @@ function loadAside(){
     var userObject = JSON.parse(userString);
     console.log(userObject);
 
-    //SHOW USER INFO ON SCREEN
+    /*** SHOW USER INFO ON SCREEN ***/
+    // Get HTML elements
     var profilepic = document.getElementById("profilePic");
     var labelFirstName = document.getElementById("firstName");
     var lableLastName = document.getElementById("lastName");
     var labelEmail = document.getElementById("email");
     var divFriends = document.getElementById("friends");
+    var divChallenges = document.getElementById("yourChallenges");
+    var empty = document.getElementById("noChallenges");
+    var logout = document.getElementById("logout");
 
+    // Show profile info
     profilePic.src = userObject.facebook.photo;
     labelFirstName.innerHTML = userObject.givenName;
     lableLastName.innerHTML = userObject.familyName;
     labelEmail.innerHTML = userObject.email;
+    logout.addEventListener("click", () => {
+      storage.removeItem("nmct.darem.user");
+      window.location.href = "./index.html";
+    });
 
+    // Show friends
     userObject.friends.forEach((friend) => {
       var divImg = document.createElement("div");
       divImg.className = "tooltip";
@@ -111,6 +125,17 @@ function loadAside(){
       divImg.appendChild(tooltiptext);
       divFriends.appendChild(divImg);
     });
+
+    // Show challenges
+    if(userObject.challenges.length > 0){
+      userObject.challenges.forEach((challenge) => {
+        var divChallenge = document.createElement("div");
+        div.className = "filler";
+        divChallenges.appendChild(divChallenge);
+      });
+    }else{
+      empty.innerHTML = "you currently have no challenges.";
+    }
 
   }
 }
