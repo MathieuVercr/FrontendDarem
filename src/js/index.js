@@ -1,7 +1,7 @@
 var storage = window.localStorage;
 
 document.addEventListener("DOMContentLoaded", (event) => {
-
+  initFacebook();
   let body = document.getElementsByTagName("body")[0];
   switch(body.id){
     case "INDEX":
@@ -45,30 +45,19 @@ function initIndex(){
   });
 
   fbLogin.addEventListener("click", () => {
-    if(storage.getItem("nmct.darem.user")==null){
-      authenticate();
-    }else{
-      window.location.href = "./challenge.html";
-    }
+    FB.login((response) => {
+      if(response.status == "connected"){
+        var accessToken = response.authResponse.accessToken;
+        storage.setItem("nmct.facebook.accessToken", accessToken);
+        createUser(accessToken); 
+      }else{
+        window.location.href = "./index.html";
+      } 
+    }, {scope: 'email, user_friends'});
   });
 
-  function authenticate() {
-    window.authenticateCallback = function(token) {
-      var xmlhttp = new XMLHttpRequest();
-      var url = "https://projecthowest.herokuapp.com/users/userprofile?authToken=" + token;
-      xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          var myArr = JSON.parse(this.responseText);
-          console.log(myArr[0]);
-          storage.setItem("nmct.darem.user", JSON.stringify(myArr[0]));
-          window.location.href = "./challenge.html";
-        }
-      };
-      xmlhttp.open("GET", url, true);
-      xmlhttp.send();
-    };
-
-    window.open('https://projecthowest.herokuapp.com/users/auth/facebook');
+  if(storage.getItem("nmct.darem.user") != null && storage.getItem("nmct.facebook.accessToken") != null){
+    window.location.href = "./challenge.html";
   }
 }
 
@@ -108,8 +97,15 @@ function loadAside(){
     lableLastName.innerHTML = userObject.familyName;
     labelEmail.innerHTML = userObject.email;
     logout.addEventListener("click", () => {
-      storage.removeItem("nmct.darem.user");
-      window.location.href = "./index.html";
+      FB.getLoginStatus(function(e){
+        if(e.authResponse){
+          storage.removeItem("nmct.darem.user");
+          storage.removeItem("nmct.facebook.accessToken");
+          window.location.href = "./index.html";
+        }else{
+          window.location.href = "./index.html";
+        }
+      });
     });
 
     // Show friends
@@ -139,3 +135,51 @@ function loadAside(){
 
   }
 }
+
+
+//INIT FACEBOOK 
+function initFacebook(){
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '398917810525601',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v2.11'
+    });
+  };
+
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+}
+
+
+  function createUser(accessToken){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        getUserData(xhr.responseText);
+      }
+    }
+    xhr.open('POST', 'https://darem.herokuapp.com/users/auth/facebook/token?access_token=' + accessToken, true);
+    xhr.send();
+  }
+
+  function getUserData(token){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        var myArr = JSON.parse(this.responseText);
+        console.log(myArr[0]);
+        storage.setItem("nmct.darem.user", JSON.stringify(myArr[0]));
+        window.location.href = "./challenge.html";
+      }
+    }
+    xhr.open('GET', 'http://projecthowest.herokuapp.com/users/userprofile?authToken=' + token, true);
+    xhr.send();
+  }
