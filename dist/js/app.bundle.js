@@ -78,7 +78,7 @@ module.exports = __webpack_require__(2);
 "use strict";
 
 
-var storage = window.localStorage;
+var storage = window.sessionStorage;
 
 document.addEventListener("DOMContentLoaded", function (event) {
   initFacebook();
@@ -100,7 +100,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 // CODE FOR INDEX PAGE
 function initIndex() {
-
   var popup = document.getElementById("signup");
   var fbLogin = document.getElementsByClassName("loginBtn--facebook")[0];
   var signups = document.getElementsByClassName("startNow");
@@ -135,7 +134,7 @@ function initIndex() {
     }, { scope: 'email, user_friends' });
   });
 
-  if (storage.getItem("nmct.darem.user") != null && storage.getItem("nmct.facebook.accessToken") != null) {
+  if (storage.getItem("nmct.darem.user") != null && storage.getItem("nmct.facebook.accessToken")) {
     window.location.href = "./challenge.html";
   }
 }
@@ -178,9 +177,11 @@ function loadAside() {
     logout.addEventListener("click", function () {
       FB.getLoginStatus(function (e) {
         if (e.authResponse) {
-          storage.removeItem("nmct.darem.user");
-          storage.removeItem("nmct.facebook.accessToken");
-          window.location.href = "./index.html";
+          FB.logout(function (response) {
+            storage.removeItem("nmct.darem.user");
+            storage.removeItem("nmct.facebook.accessToken");
+            window.location.href = "./index.html";
+          });
         } else {
           window.location.href = "./index.html";
         }
@@ -221,6 +222,7 @@ function initFacebook() {
       appId: '398917810525601',
       autoLogAppEvents: true,
       xfbml: true,
+      cookie: true,
       version: 'v2.11'
     });
   };
