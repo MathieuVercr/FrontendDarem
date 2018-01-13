@@ -52,7 +52,7 @@ function initIndex(){
       }else{
         window.location.href = "./index.html";
       } 
-    }, {scope: 'email, user_friends'});
+    }, {scope: 'public_profile, email, user_friends'});
   });
 
   if(storage.getItem("nmct.darem.user") != null && storage.getItem("nmct.facebook.accessToken") ){
@@ -125,13 +125,14 @@ function loadAside(){
     });
 
     // Show challenges
-    if(userObject.challenges.length > 0){
-      userObject.challenges.forEach((challenge) => {
+    if(userObject.acceptedChallenges.length > 0){
+      userObject.acceptedChallenges.forEach((challenge) => {
         var divChallenge = document.createElement("div");
-        div.className = "filler";
+        divChallenge.className = "filler";
         divChallenges.appendChild(divChallenge);
       });
     }else{
+      console.log(userObject);
       empty.innerHTML = "you currently have no challenges.";
     }
 
@@ -176,7 +177,7 @@ function initFacebook(){
         getUserData(xhr.responseText);
       }
     }
-    xhr.open('POST', 'https://darem.herokuapp.com/users/auth/facebook/token?access_token=' + accessToken, true);
+    xhr.open('POST', 'https://projecthowest.herokuapp.com/users/auth/facebook/token?access_token=' + accessToken, true);
     xhr.send();
   }
 
