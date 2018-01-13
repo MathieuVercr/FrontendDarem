@@ -150,8 +150,14 @@ function initFacebook(){
       version          : 'v2.11'
     });
 
+    //UPDATE ACCES TOKEN FACEBOOK
+    FB.getLoginStatus(function(response) {
+      if (response.status === 'connected') {
+        var accessToken = response.authResponse.accessToken;
+        storage.setItem("nmct.facebook.accessToken", accessToken);
+      } 
+    });
   };
-
 
   (function(d, s, id){
      var js, fjs = d.getElementsByTagName(s)[0];
