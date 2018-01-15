@@ -13,7 +13,14 @@ var initFacebook = (function(){
       if (response.status === 'connected') {
         var accessToken = response.authResponse.accessToken;
         window.sessionStorage.setItem("nmct.facebook.accessToken", accessToken);
+        getFriendsList();
       } 
+    });
+  };
+
+  var getFriendsList = function() {
+    FB.api('/me/friends', function(response) {
+      console.log(response);
     });
   };
 

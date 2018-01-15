@@ -68,7 +68,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-module.exports = __webpack_require__(5);
+module.exports = __webpack_require__(6);
 
 
 /***/ }),
@@ -187,7 +187,14 @@ var initFacebook = function () {
       if (response.status === 'connected') {
         var accessToken = response.authResponse.accessToken;
         window.sessionStorage.setItem("nmct.facebook.accessToken", accessToken);
+        getFriendsList();
       }
+    });
+  };
+
+  var getFriendsList = function getFriendsList() {
+    FB.api('/me/friends', function (response) {
+      console.log(response);
     });
   };
 
@@ -253,7 +260,7 @@ module.exports = userModule;
 "use strict";
 
 
-var _challenge = __webpack_require__(7);
+var _challenge = __webpack_require__(5);
 
 var _challenge2 = _interopRequireDefault(_challenge);
 
@@ -342,13 +349,6 @@ module.exports = sidePanel;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 6 */,
-/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -373,6 +373,12 @@ var challengeModule = function () {
 }();
 
 module.exports = challengeModule;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
