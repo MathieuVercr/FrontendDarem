@@ -1,7 +1,10 @@
+import * as facebook from './facebook/facebook';
+import user from './module/user.module';
+import sidePanel from './sidePanel';
 var storage = window.sessionStorage;
 
 document.addEventListener("DOMContentLoaded", (event) => {
-  initFacebook();
+  facebook.initFacebook;
   let body = document.getElementsByTagName("body")[0];
   switch(body.id){
     case "INDEX":
@@ -48,7 +51,7 @@ function initIndex(){
       if(response.status == "connected"){
         var accessToken = response.authResponse.accessToken;
         storage.setItem("nmct.facebook.accessToken", accessToken);
-        createUser(accessToken); 
+        user.createUser(accessToken);
       }else{
         window.location.href = "./index.html";
       } 
@@ -63,134 +66,10 @@ function initIndex(){
 
 // CODE FOR CHALLENGE PAGE
 function initChallenge(){
-  loadAside();
+  sidePanel();
 }
 
 // CODE FOR CHAT PAGE
 function initChat(){
-  loadAside();
+  sidePanel();
 }
-
-function loadAside(){
-
-  if(storage.getItem("nmct.darem.user")==null){
-    window.location.href = "./index.html";
-  }else{
-    var userString = storage.getItem("nmct.darem.user");
-    var userObject = JSON.parse(userString);
-    console.log(userObject);
-
-    /*** SHOW USER INFO ON SCREEN ***/
-    // Get HTML elements
-    var profilepic = document.getElementById("profilePic");
-    var labelFirstName = document.getElementById("firstName");
-    var lableLastName = document.getElementById("lastName");
-    var labelEmail = document.getElementById("email");
-    var divFriends = document.getElementById("friends");
-    var divChallenges = document.getElementById("yourChallenges");
-    var empty = document.getElementById("noChallenges");
-    var logout = document.getElementById("logout");
-
-    // Show profile info
-    profilePic.src = userObject.facebook.photo;
-    labelFirstName.innerHTML = userObject.givenName;
-    lableLastName.innerHTML = userObject.familyName;
-    labelEmail.innerHTML = userObject.email;
-    logout.addEventListener("click", () => {
-      FB.getLoginStatus(function(e){
-        if(e.authResponse){
-          FB.logout(function(response){
-            storage.removeItem("nmct.darem.user");
-            storage.removeItem("nmct.facebook.accessToken");
-            window.location.href = "./index.html";
-          });
-        }else{
-          window.location.href = "./index.html";
-        }
-      });
-    });
-
-    // Show friends
-    userObject.friends.forEach((friend) => {
-      var divImg = document.createElement("div");
-      divImg.className = "tooltip";
-      var img = document.createElement("img");
-      img.src = friend.photo;
-      var tooltiptext = document.createElement("span");
-      tooltiptext.className = "tooltiptext";
-      tooltiptext.innerHTML = friend.name;
-      divImg.appendChild(img);
-      divImg.appendChild(tooltiptext);
-      divFriends.appendChild(divImg);
-    });
-
-    // Show challenges
-    if(userObject.acceptedChallenges.length > 0){
-      userObject.acceptedChallenges.forEach((challenge) => {
-        var divChallenge = document.createElement("div");
-        divChallenge.className = "filler";
-        divChallenges.appendChild(divChallenge);
-      });
-    }else{
-      console.log(userObject);
-      empty.innerHTML = "you currently have no challenges.";
-    }
-
-  }
-}
-
-
-//INIT FACEBOOK 
-function initFacebook(){
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId            : '398917810525601',
-      autoLogAppEvents : true,
-      xfbml            : true,
-      cookie           : true,
-      version          : 'v2.11'
-    });
-
-    //UPDATE ACCES TOKEN FACEBOOK
-    FB.getLoginStatus(function(response) {
-      if (response.status === 'connected') {
-        var accessToken = response.authResponse.accessToken;
-        storage.setItem("nmct.facebook.accessToken", accessToken);
-      } 
-    });
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-}
-
-
-  function createUser(accessToken){
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState == XMLHttpRequest.DONE) {
-        getUserData(xhr.responseText);
-      }
-    }
-    xhr.open('POST', 'https://projecthowest.herokuapp.com/users/auth/facebook/token?access_token=' + accessToken, true);
-    xhr.send();
-  }
-
-  function getUserData(token){
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState == XMLHttpRequest.DONE) {
-        var myArr = JSON.parse(this.responseText);
-        console.log(myArr[0]);
-        storage.setItem("nmct.darem.user", JSON.stringify(myArr[0]));
-        window.location.href = "./challenge.html";
-      }
-    }
-    xhr.open('GET', 'http://projecthowest.herokuapp.com/users/userprofile?authToken=' + token, true);
-    xhr.send();
-  }
