@@ -307,15 +307,18 @@ h1{
 
   img{
     width: 20%;
+    pointer-events: none;
+    margin-left: 20px;
   }
-
 
   &__detail{
     margin: 0;
     width: 100%;
     margin-left: 10%;
+    pointer-events: none;
 
     p{
+      pointer-events: none;
       margin: 2px;
     }
   }

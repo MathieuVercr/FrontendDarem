@@ -68,7 +68,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-module.exports = __webpack_require__(4);
+module.exports = __webpack_require__(5);
 
 
 /***/ }),
@@ -86,7 +86,7 @@ var _user = __webpack_require__(3);
 
 var _user2 = _interopRequireDefault(_user);
 
-var _sidePanel = __webpack_require__(6);
+var _sidePanel = __webpack_require__(4);
 
 var _sidePanel2 = _interopRequireDefault(_sidePanel);
 
@@ -212,7 +212,7 @@ module.exports = initFacebook;
 "use strict";
 
 
-var user = function () {
+var userModule = function () {
   function createUser(accessToken) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -244,21 +244,20 @@ var user = function () {
   };
 }();
 
-module.exports = user;
+module.exports = userModule;
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 5 */,
-/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+
+var _challenge = __webpack_require__(7);
+
+var _challenge2 = _interopRequireDefault(_challenge);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var sidePanel = function sidePanel() {
 	var storage = window.sessionStorage;
@@ -319,11 +318,17 @@ var sidePanel = function sidePanel() {
 			userObject.acceptedChallenges.forEach(function (challenge) {
 				var bobTheHTMLBuilder = "";
 				var divChallenge = document.createElement("div");
+				divChallenge.setAttribute('tag', challenge._id);
 				bobTheHTMLBuilder += "<img src=\"../dist/assets/images/" + challenge.category + ".png\"></img>";
 				bobTheHTMLBuilder += "<div class=\"challenge__detail\"><p>" + challenge.name + "</p>";
 				bobTheHTMLBuilder += "<p>" + challenge.description + "</p></div>";
 				divChallenge.innerHTML = bobTheHTMLBuilder;
 				divChallenge.className = "challenge filler";
+
+				divChallenge.addEventListener('click', function (e) {
+					_challenge2.default.getChallengeData(e.target.attributes.tag.nodeValue);
+				});
+
 				divChallenges.appendChild(divChallenge);
 			});
 		} else {
@@ -334,6 +339,40 @@ var sidePanel = function sidePanel() {
 };
 
 module.exports = sidePanel;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 6 */,
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var challengeModule = function () {
+  function challengeData(challengeID) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        var myArr = JSON.parse(this.responseText);
+        console.log(myArr);
+      }
+    };
+    xhr.open('GET', 'http://projecthowest.herokuapp.com/challenge/' + challengeID, true);
+    xhr.send();
+  }
+
+  return {
+    getChallengeData: challengeData
+  };
+}();
+
+module.exports = challengeModule;
 
 /***/ })
 /******/ ]);

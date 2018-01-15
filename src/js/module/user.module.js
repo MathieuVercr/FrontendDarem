@@ -1,4 +1,4 @@
-var user = (function(){
+var userModule = (function(){
 	function createUser(accessToken){
   		var xhr = new XMLHttpRequest();
   		xhr.onreadystatechange = function() {
@@ -30,4 +30,4 @@ var user = (function(){
 	}
 })()
 
-module.exports = user;
+module.exports = userModule;

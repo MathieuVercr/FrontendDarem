@@ -228,12 +228,16 @@ h1 {
   display: flex;
   align-items: center; }
   .challenge img {
-    width: 20%; }
+    width: 20%;
+    pointer-events: none;
+    margin-left: 20px; }
   .challenge__detail {
     margin: 0;
     width: 100%;
-    margin-left: 10%; }
+    margin-left: 10%;
+    pointer-events: none; }
     .challenge__detail p {
+      pointer-events: none;
       margin: 2px; }
 
 #friends {

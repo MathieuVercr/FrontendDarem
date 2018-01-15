@@ -1,5 +1,5 @@
 import * as facebook from './facebook/facebook';
-import user from './module/user.module';
+import userModule from './module/user.module';
 import sidePanel from './sidePanel';
 var storage = window.sessionStorage;
 
@@ -51,7 +51,7 @@ function initIndex(){
       if(response.status == "connected"){
         var accessToken = response.authResponse.accessToken;
         storage.setItem("nmct.facebook.accessToken", accessToken);
-        user.createUser(accessToken);
+        userModule.createUser(accessToken);
       }else{
         window.location.href = "./index.html";
       } 

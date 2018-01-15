@@ -1,3 +1,5 @@
+import challengeModule from './module/challenge.module';
+
 var sidePanel = function(){
 	let storage = window.sessionStorage;
 
@@ -57,11 +59,17 @@ var sidePanel = function(){
 	      userObject.acceptedChallenges.forEach((challenge) => {
 	      	let bobTheHTMLBuilder = "";
 	        var divChallenge = document.createElement("div");
+	        divChallenge.setAttribute('tag', challenge._id);
 	        bobTheHTMLBuilder += `<img src="../dist/assets/images/${challenge.category}.png"></img>`;
 	        bobTheHTMLBuilder += `<div class="challenge__detail"><p>${challenge.name}</p>`;
 	        bobTheHTMLBuilder += `<p>${challenge.description}</p></div>`;
 	        divChallenge.innerHTML = bobTheHTMLBuilder;
 	        divChallenge.className = "challenge filler";
+
+	        divChallenge.addEventListener('click', function(e) {
+	        	challengeModule.getChallengeData(e.target.attributes.tag.nodeValue);
+	        });
+
 	        divChallenges.appendChild(divChallenge);
 	      });
 	    }else{
