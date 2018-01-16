@@ -172,6 +172,12 @@ function initChat() {
 "use strict";
 
 
+var _user = __webpack_require__(3);
+
+var _user2 = _interopRequireDefault(_user);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var initFacebook = function () {
   window.fbAsyncInit = function () {
     FB.init({
@@ -220,7 +226,8 @@ var initFacebook = function () {
           divImg.appendChild(tooltiptext);
           divNewFriends.appendChild(divImg);
           divImg.addEventListener('click', function (e) {
-            console.log(e.target.attributes.tag.nodeValue);
+            _user2.default.addFriend(sessionStorage.getItem('nmct.darem.accessToken'), e.target.attributes.tag.nodeValue);
+            divNewFriends.removeChild(divImg);
           });
         });
       }
@@ -266,6 +273,7 @@ var userModule = function () {
       if (xhr.readyState == XMLHttpRequest.DONE) {
         var myArr = JSON.parse(this.responseText);
         console.log(myArr[0]);
+        sessionStorage.setItem("nmct.darem.accessToken", myArr.facebook.id);
         sessionStorage.setItem("nmct.darem.user", JSON.stringify(myArr));
         window.location.href = "./challenge.html";
       }
@@ -274,9 +282,24 @@ var userModule = function () {
     xhr.send();
   }
 
+  function addFriend(userID, friendID) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        console.log(xhr.responseText);
+        getUserData(sessionStorage.getItem('nmct.darem.accessToken'));
+      }
+    };
+    xhr.open('POST', 'https://projecthowest.herokuapp.com/users/friends/add', true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    var json = JSON.stringify({ userOne: userID, userTwo: friendID });
+    xhr.send(json);
+  }
+
   return {
     createUser: createUser,
-    getUserData: getUserData
+    getUserData: getUserData,
+    addFriend: addFriend
   };
 }();
 

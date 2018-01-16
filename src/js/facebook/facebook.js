@@ -1,3 +1,5 @@
+import userModule from '../module/user.module';
+
 var initFacebook = (function(){
   window.fbAsyncInit = function() {
     FB.init({
@@ -46,7 +48,8 @@ var initFacebook = (function(){
             divImg.appendChild(tooltiptext);
             divNewFriends.appendChild(divImg);
             divImg.addEventListener('click', function(e) {
-              console.log(e.target.attributes.tag.nodeValue);
+              userModule.addFriend(sessionStorage.getItem('nmct.darem.accessToken'), e.target.attributes.tag.nodeValue)
+              divNewFriends.removeChild(divImg);
             });
         });
   }
