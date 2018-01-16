@@ -186,7 +186,7 @@ var initFacebook = function () {
     FB.getLoginStatus(function (response) {
       if (response.status === 'connected') {
         var accessToken = response.authResponse.accessToken;
-        window.sessionStorage.setItem("nmct.facebook.accessToken", accessToken);
+        sessionStorage.setItem("nmct.facebook.accessToken", accessToken);
         getFriendsList();
       }
     });
@@ -194,7 +194,36 @@ var initFacebook = function () {
 
   var getFriendsList = function getFriendsList() {
     FB.api('/me/friends', function (response) {
-      console.log(response);
+      var obj = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
+      var newFriends = [];
+      for (var i = 0; i < response.data.length; i++) {
+        if (!JSON.stringify(obj.friends).includes(response.data[i].id)) {
+          newFriends.push(response.data[i]);
+          console.log(response);
+        }
+      }
+      showInSidePanel(newFriends);
+
+      function showInSidePanel(newFriends) {
+        var divNewFriends = document.getElementById("newFriends");
+        newFriends.forEach(function (friend) {
+          var divImg = document.createElement("div");
+          divImg.className = "tooltip";
+          var img = document.createElement("img");
+          img.src = 'https://graph.facebook.com/v2.6/' + friend.id + '/picture?type=large';
+          img.className = "addFriend";
+          img.setAttribute('tag', friend.id);
+          var tooltiptext = document.createElement("span");
+          tooltiptext.className = "tooltiptext";
+          tooltiptext.innerHTML = friend.name;
+          divImg.appendChild(img);
+          divImg.appendChild(tooltiptext);
+          divNewFriends.appendChild(divImg);
+          divImg.addEventListener('click', function (e) {
+            console.log(e.target.attributes.tag.nodeValue);
+          });
+        });
+      }
     });
   };
 
