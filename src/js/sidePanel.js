@@ -1,9 +1,10 @@
 import challengeModule from './module/challenge.module';
+import Friend from './models/friend.class';
 
 var sidePanel = function(){
 	let storage = window.sessionStorage;
 
-  	if(storage.getItem("nmct.darem.user")==null){
+  	if(storage.getItem("nmct.darem.user") == null){
     	window.location.href = "./index.html";
   	}else{
     	var userString = storage.getItem("nmct.darem.user");
@@ -41,17 +42,9 @@ var sidePanel = function(){
 	    });
 
 	    // Show friends
-	    userObject.friends.forEach((friend) => {
-	      var divImg = document.createElement("div");
-	      divImg.className = "tooltip";
-	      var img = document.createElement("img");
-	      img.src = friend.photo;
-	      var tooltiptext = document.createElement("span");
-	      tooltiptext.className = "tooltiptext";
-	      tooltiptext.innerHTML = friend.name;
-	      divImg.appendChild(img);
-	      divImg.appendChild(tooltiptext);
-	      divFriends.appendChild(divImg);
+	    userObject.friends.forEach((friendItem) => {
+	    	let friend = new Friend(friendItem.name, friendItem.photo, friendItem.id);
+	    	friend.RenderAddedFriendHTML(divFriends);
 	    });
 
 	    // Show challenges
@@ -67,7 +60,9 @@ var sidePanel = function(){
 	        divChallenge.className = "challenge filler";
 
 	        divChallenge.addEventListener('click', function(e) {
-	        	challengeModule.getChallengeData(e.target.attributes.tag.nodeValue);
+	        	challengeModule.getChallengeData(e.target.attributes.tag.nodeValue).then(function(response){
+	        		console.log(response);
+	        	});
 	        });
 
 	        divChallenges.appendChild(divChallenge);

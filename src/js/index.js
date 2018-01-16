@@ -51,7 +51,13 @@ function initIndex(){
       if(response.status == "connected"){
         var accessToken = response.authResponse.accessToken;
         storage.setItem("nmct.facebook.accessToken", accessToken);
-        userModule.createUser(accessToken);
+        userModule.createUser(accessToken).then(function(response){
+          userModule.getUserData(response).then(function(response){
+            sessionStorage.setItem("nmct.darem.accessToken", response.facebook.id);
+            sessionStorage.setItem("nmct.darem.user", JSON.stringify(response));
+            window.location.href = "./challenge.html"
+          });
+        });
       }else{
         window.location.href = "./index.html";
       } 

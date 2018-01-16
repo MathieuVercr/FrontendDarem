@@ -1,42 +1,67 @@
 var userModule = (function(){
+  var data;
+  
 	function createUser(accessToken){
-  		var xhr = new XMLHttpRequest();
-  		xhr.onreadystatechange = function() {
-    		if (xhr.readyState == XMLHttpRequest.DONE) {
-      			getUserData(xhr.responseText);
-    		}
-  		}
-  	xhr.open('POST', 'https://projecthowest.herokuapp.com/users/auth/facebook/token?access_token=' + accessToken, true);
- 	xhr.send();
+    if(!accessToken) throw new Error('ACCESSTOKENTOKENNOTFOUND');
+
+    var p = new Promise((ok, nok) => {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = (err) => {
+        nok(err);
+      }
+      xmlhttp.onload = (res) => {
+        if (xmlhttp.readyState === 4) {
+          data = xmlhttp.responseText;
+          ok(data);
+        }
+      }
+    xmlhttp.open('POST', 'https://projecthowest.herokuapp.com/users/auth/facebook/token?access_token=' + accessToken, true);
+    xmlhttp.send();
+    });
+
+    return p;
 	}
 
 	function getUserData(token){
-  		var xhr = new XMLHttpRequest();
-  		xhr.onreadystatechange = function() {
-    		if (xhr.readyState == XMLHttpRequest.DONE) {
-      			var myArr = JSON.parse(this.responseText);
-      			console.log(myArr[0]);
-            sessionStorage.setItem("nmct.darem.accessToken", myArr.facebook.id);
-      			sessionStorage.setItem("nmct.darem.user", JSON.stringify(myArr));
-      			window.location.href = "./challenge.html";
-    		}
-  		}
-  	xhr.open('GET', 'http://projecthowest.herokuapp.com/users/userprofile?authToken=' + token, true);
-  	xhr.send();
+    if(!token) throw new Error('TOKENNOTFOUND');
+
+    var p = new Promise((ok, nok) => {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = (err) => {
+        nok(err);
+      }
+      xmlhttp.onload = (res) => {
+        if (xmlhttp.readyState === 4) {
+          data = JSON.parse(xmlhttp.responseText);
+          ok(data);
+        }
+      }
+    xmlhttp.open('GET', 'http://projecthowest.herokuapp.com/users/userprofile?authToken=' + token, true);
+    xmlhttp.send();
+    });
+    return p;
 	}
 
   function addFriend(userID, friendID){
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState == XMLHttpRequest.DONE) {
-        console.log(xhr.responseText);
-        getUserData(sessionStorage.getItem('nmct.darem.accessToken'));
+    if(!userID || !friendID) throw new Error('USERANDFRIENDIDNOTFOUND');
+
+    var p = new Promise((ok, nok) => {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = (err) => {
+        nok(err);
       }
-    }
-    xhr.open('POST', 'https://projecthowest.herokuapp.com/users/friends/add', true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xmlhttp.onload = (res) => {
+        if (xmlhttp.readyState === 4) {
+          data = xmlhttp.responseText;
+          ok(data);
+        }
+      }
+    xmlhttp.open('POST', 'https://projecthowest.herokuapp.com/users/friends/add', true);
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     var json = JSON.stringify({ userOne: userID, userTwo: friendID })
-    xhr.send(json);
+    xmlhttp.send(json);
+    });
+    return p;
   }
 
 	return {

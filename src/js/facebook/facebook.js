@@ -1,4 +1,5 @@
 import userModule from '../module/user.module';
+import Friend from '../models/friend.class';
 
 var initFacebook = (function(){
   window.fbAsyncInit = function() {
@@ -15,7 +16,9 @@ var initFacebook = (function(){
       if (response.status === 'connected') {
         var accessToken = response.authResponse.accessToken;
         sessionStorage.setItem("nmct.facebook.accessToken", accessToken);
-        getFriendsList();
+        if(sessionStorage.getItem('nmct.darem.user')){
+          getFriendsList();
+        }
       } 
     });
   };
@@ -34,23 +37,9 @@ var initFacebook = (function(){
 
       function showInSidePanel(newFriends){
         let divNewFriends = document.getElementById("newFriends");
-        newFriends.forEach((friend) => {
-            var divImg = document.createElement("div");
-            divImg.className = "tooltip";
-            var img = document.createElement("img");
-            img.src = `https://graph.facebook.com/v2.6/${friend.id}/picture?type=large`;
-            img.className = "addFriend";
-            img.setAttribute('tag', friend.id);
-            var tooltiptext = document.createElement("span");
-            tooltiptext.className = "tooltiptext";
-            tooltiptext.innerHTML = friend.name;
-            divImg.appendChild(img);
-            divImg.appendChild(tooltiptext);
-            divNewFriends.appendChild(divImg);
-            divImg.addEventListener('click', function(e) {
-              userModule.addFriend(sessionStorage.getItem('nmct.darem.accessToken'), e.target.attributes.tag.nodeValue)
-              divNewFriends.removeChild(divImg);
-            });
+        newFriends.forEach((friendItem) => {
+          let friend = new Friend(friendItem.name, "", friendItem.id);
+          friend.RenderNewFacebookFriendsHTML(divNewFriends);
         });
   }
   });
