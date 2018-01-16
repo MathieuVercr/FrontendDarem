@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -149,18 +149,94 @@ module.exports = userModule;
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2);
-module.exports = __webpack_require__(6);
+"use strict";
 
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _user = __webpack_require__(0);
+
+var _user2 = _interopRequireDefault(_user);
+
+var _friend = __webpack_require__(9);
+
+var friendModule = _interopRequireWildcard(_friend);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var friend = function () {
+	function friend(name, photo, id) {
+		_classCallCheck(this, friend);
+
+		this.name = name;
+		this.photo = photo;
+		this.id = id;
+	}
+
+	_createClass(friend, [{
+		key: 'RenderAddedFriendHTML',
+		value: function RenderAddedFriendHTML(divFriends) {
+			var divImg = document.createElement("div");
+			divImg.className = "tooltip";
+			var img = document.createElement("img");
+			img.src = this.photo;
+			var tooltiptext = document.createElement("span");
+			tooltiptext.className = "tooltiptext";
+			tooltiptext.innerHTML = this.name;
+			divImg.appendChild(img);
+			divImg.appendChild(tooltiptext);
+			divFriends.appendChild(divImg);
+		}
+	}, {
+		key: 'RenderNewFacebookFriendsHTML',
+		value: function RenderNewFacebookFriendsHTML(divNewFriends) {
+			var divImg = document.createElement("div");
+			divImg.className = "tooltip";
+			var img = document.createElement("img");
+			img.src = 'https://graph.facebook.com/v2.6/' + this.id + '/picture?type=large';
+			img.className = "addFriend";
+			img.setAttribute('tag', this.id);
+			var tooltiptext = document.createElement("span");
+			tooltiptext.className = "tooltiptext";
+			tooltiptext.innerHTML = this.name;
+			divImg.appendChild(img);
+			divImg.appendChild(tooltiptext);
+			divNewFriends.appendChild(divImg);
+			divImg.addEventListener('click', function (e) {
+				friendModule.UpdateFriendUI(e);
+			});
+		}
+	}]);
+
+	return friend;
+}();
+
+exports.default = friend;
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
+__webpack_require__(3);
+module.exports = __webpack_require__(7);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
-var _facebook = __webpack_require__(3);
+var _facebook = __webpack_require__(4);
 
 var facebook = _interopRequireWildcard(_facebook);
 
@@ -168,7 +244,7 @@ var _user = __webpack_require__(0);
 
 var _user2 = _interopRequireDefault(_user);
 
-var _sidePanel = __webpack_require__(4);
+var _sidePanel = __webpack_require__(5);
 
 var _sidePanel2 = _interopRequireDefault(_sidePanel);
 
@@ -254,7 +330,7 @@ function initChat() {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -264,7 +340,7 @@ var _user = __webpack_require__(0);
 
 var _user2 = _interopRequireDefault(_user);
 
-var _friend = __webpack_require__(8);
+var _friend = __webpack_require__(1);
 
 var _friend2 = _interopRequireDefault(_friend);
 
@@ -329,17 +405,17 @@ var initFacebook = function () {
 module.exports = initFacebook;
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _challenge = __webpack_require__(5);
+var _challenge = __webpack_require__(6);
 
 var _challenge2 = _interopRequireDefault(_challenge);
 
-var _friend = __webpack_require__(8);
+var _friend = __webpack_require__(1);
 
 var _friend2 = _interopRequireDefault(_friend);
 
@@ -421,7 +497,7 @@ var sidePanel = function sidePanel() {
 module.exports = sidePanel;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -459,96 +535,44 @@ var challengeModule = function () {
 module.exports = challengeModule;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 7 */,
-/* 8 */
+/* 8 */,
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
+exports.UpdateFriendUI = UpdateFriendUI;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _user = __webpack_require__(0);
-
-var _user2 = _interopRequireDefault(_user);
-
-var _friend = __webpack_require__(8);
+var _friend = __webpack_require__(1);
 
 var _friend2 = _interopRequireDefault(_friend);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var friend = function () {
-  function friend(name, photo, id) {
-    _classCallCheck(this, friend);
-
-    this.name = name;
-    this.photo = photo;
-    this.id = id;
-  }
-
-  _createClass(friend, [{
-    key: 'RenderAddedFriendHTML',
-    value: function RenderAddedFriendHTML(divFriends) {
-      var divImg = document.createElement("div");
-      divImg.className = "tooltip";
-      var img = document.createElement("img");
-      img.src = this.photo;
-      var tooltiptext = document.createElement("span");
-      tooltiptext.className = "tooltiptext";
-      tooltiptext.innerHTML = this.name;
-      divImg.appendChild(img);
-      divImg.appendChild(tooltiptext);
-      divFriends.appendChild(divImg);
-    }
-  }, {
-    key: 'RenderNewFacebookFriendsHTML',
-    value: function RenderNewFacebookFriendsHTML(divNewFriends) {
-      var divImg = document.createElement("div");
-      divImg.className = "tooltip";
-      var img = document.createElement("img");
-      img.src = 'https://graph.facebook.com/v2.6/' + this.id + '/picture?type=large';
-      img.className = "addFriend";
-      img.setAttribute('tag', this.id);
-      var tooltiptext = document.createElement("span");
-      tooltiptext.className = "tooltiptext";
-      tooltiptext.innerHTML = this.name;
-      divImg.appendChild(img);
-      divImg.appendChild(tooltiptext);
-      divNewFriends.appendChild(divImg);
-      divImg.addEventListener('click', function (e) {
-        _user2.default.addFriend(sessionStorage.getItem('nmct.darem.accessToken'), e.target.attributes.tag.nodeValue).then(function (response) {
-          divNewFriends.removeChild(divImg);
-          _user2.default.getUserData(sessionStorage.getItem("nmct.darem.accessToken")).then(function (response) {
+function UpdateFriendUI(e) {
+    userModule.addFriend(sessionStorage.getItem('nmct.darem.accessToken'), e.target.attributes.tag.nodeValue).then(function (response) {
+        divNewFriends.removeChild(divImg);
+        userModule.getUserData(sessionStorage.getItem("nmct.darem.accessToken")).then(function (response) {
             sessionStorage.setItem("nmct.darem.user", JSON.stringify(response));
             var divFriends = document.getElementById("friends");
             divFriends.innerHTML = '';
             JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends.forEach(function (friendItem) {
-              var friend = new _friend2.default(friendItem.name, friendItem.photo, friendItem.id);
-              friend.RenderAddedFriendHTML(divFriends);
+                var friend = new _friend2.default(friendItem.name, friendItem.photo, friendItem.id);
+                friend.RenderAddedFriendHTML(divFriends);
             });
-          });
         });
-      });
-    }
-  }]);
-
-  return friend;
-}();
-
-exports.default = friend;
+    });
+}
 
 /***/ })
 /******/ ]);
