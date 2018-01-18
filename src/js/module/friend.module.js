@@ -3,7 +3,7 @@ import userModule from './user.module';
 
 export function UpdateFriendUI(e, divNewFriends, divImg) {
   userModule.addFriend(sessionStorage.getItem('nmct.darem.accessToken'), e.target.attributes.tag.nodeValue).then(function(response) {
-    divNewFriends.removeChild(divImg);
+    //divNewFriends.removeChild(divImg);
     userModule.getUserData(sessionStorage.getItem("nmct.darem.accessToken")).then(function(response) {
       //sessionStorage.setItem("nmct.darem.user", JSON.stringify(response));
       //let divFriends = document.getElementById("friends");

@@ -1,5 +1,6 @@
 var io = require('socket.io-client');
 import Friend from '../models/friend.class';
+import * as facebook from './facebook/facebook';
 
 export function socket(){
 	var socket = io.connect('http://projecthowest.herokuapp.com');
@@ -26,5 +27,6 @@ export function socket(){
 			let friend = new Friend(friendItem.name, friendItem.photo, friendItem.id);
 			friend.RenderAddedFriendHTML(divFriends);
 		});
+		facebook.initFacebook;
 	}
 };
