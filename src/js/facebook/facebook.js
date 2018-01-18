@@ -19,7 +19,7 @@ var initFacebook = (function(){
         if(sessionStorage.getItem('nmct.darem.user')){
           getFriendsList();
         }
-      } 
+      }
     });
   };
 
@@ -30,7 +30,6 @@ var initFacebook = (function(){
       for(let i = 0; i < response.data.length; i++){
         if(!JSON.stringify(obj.friends).includes(response.data[i].id)){
             newFriends.push(response.data[i]);
-            console.log(response);
         }
       }
       showInSidePanel(newFriends);

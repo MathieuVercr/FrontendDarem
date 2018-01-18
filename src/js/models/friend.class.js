@@ -36,7 +36,7 @@ export default class friend{
         divImg.appendChild(tooltiptext);
         divNewFriends.appendChild(divImg);
         divImg.addEventListener('click', function(e) {
-        	friendModule.UpdateFriendUI(e);
+        	friendModule.UpdateFriendUI(e, divNewFriends, divImg);
         });
 	}
 
