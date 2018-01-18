@@ -1,6 +1,7 @@
 var io = require('socket.io-client');
 import Friend from '../models/friend.class';
-import * as facebook from './facebook/facebook';
+import * as friendModule from '../module/friend.module';
+import * as facebook from '../facebook/facebook';
 
 export function socket(){
 	var socket = io.connect('http://projecthowest.herokuapp.com');
@@ -19,14 +20,10 @@ export function socket(){
 	});
 
 	function updateUserData(data){
-		console.log(data);
+		console.log("UPDATE")
 		sessionStorage.setItem("nmct.darem.user", data);
 		let divFriends = document.getElementById("friends");
 		divFriends.innerHTML = '';
-		JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends.forEach((friendItem) => {
-			let friend = new Friend(friendItem.name, friendItem.photo, friendItem.id);
-			friend.RenderAddedFriendHTML(divFriends);
-		});
-		facebook.initFacebook;
+		friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);
 	}
 };

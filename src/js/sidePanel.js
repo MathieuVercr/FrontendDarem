@@ -1,4 +1,5 @@
 import challengeModule from './module/challenge.module';
+import * as friendModule from './module/friend.module';
 import Friend from './models/friend.class';
 import { socket } from './socket/general.socket.io';
 
@@ -45,10 +46,7 @@ var sidePanel = function() {
     });
 
     // Show friends
-    userObject.friends.forEach((friendItem) => {
-      let friend = new Friend(friendItem.name, friendItem.photo, friendItem.id);
-      friend.RenderAddedFriendHTML(divFriends);
-    });
+    friendModule.ShowAddedFriends(divFriends, userObject.friends);
 
     // Show challenges
     if (userObject.acceptedChallenges.length > 0) {
