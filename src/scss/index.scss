@@ -362,7 +362,7 @@ h1{
   cursor: pointer;
 }
 
-.createChallenge, .createChallenge p{
+.appInformation, .createChallenge, .createChallenge p{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -375,7 +375,7 @@ h1{
 
 ////////////// BODY: CHAT ////////////////
 
-.chatInterface{
+.chatInterface, .appInformation{
   display: flex;
   flex-direction: column;
   align-items: stretch;

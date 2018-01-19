@@ -7,7 +7,7 @@ import { socket } from './socket/general.socket.io';
 var sidePanel = function() {
   let storage = window.sessionStorage;
   if (storage.getItem("nmct.darem.user") == null) {
-    window.location.href = "./index.html";
+    //window.location.href = "./index.html";
   } else {
 		socket();
     var userString = storage.getItem("nmct.darem.user");

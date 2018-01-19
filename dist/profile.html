@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Challenges</title>
+    <link href="./css/index.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Convergence" rel="stylesheet">
+    <script src="./js/app.bundle.js"></script>
+    <script src="http://projecthowest.herokuapp.com/socket.io/socket.io.js"></script>
+  </head>
+  <body id="ALL">
+    <header>
+      <figure id='logo'>
+        <a href="./index.html">
+          <img src="./assets/DaremWeb.png"></img>
+        </a>
+      </figure>
+    </header>
+
+    <main class="challengePage">
+      <aside>
+        <section id="profile">
+          <img id="profilePic" src="./assets/profilepic.png" alt="Profile Picture">
+          <section id="icons">
+            <img src="./assets/victory.png" alt="Challenges">
+            <img src="./assets/mail.png" alt="Notifications" id="notifications">
+          </section>
+          <section id="info">
+            <div>
+              <label id="firstName">FirstName</label>
+              <label id="lastName">LastName</label>
+            </div>
+            <label id="email">Email Address</label>
+          </section>
+          <div id="logout">
+            Log out
+          </div>
+        </section>
+        <section id="activities">
+          <h3>Your friends</h3>
+          <div id="friends" class="filler friends"></div>
+          <h3>Add these friends</h3>
+          <div id="newFriends" class="filler friends"></div>
+          <h3>Your challenges</h3>
+          <section id=yourChallenges>
+            <div id="noChallenges"></div>
+          </section>
+        </section>
+      </aside>
+
+      <article class="appInformation" id="appInformation">
+
+      </article>
+
+    </main>
+  </body>
+</html>
