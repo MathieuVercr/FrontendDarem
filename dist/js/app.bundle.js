@@ -713,88 +713,6 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 "use strict";
 
 
-var userModule = function () {
-  var data;
-
-  function createUser(accessToken) {
-    if (!accessToken) throw new Error('ACCESSTOKENTOKENNOTFOUND');
-
-    var p = new Promise(function (ok, nok) {
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onerror = function (err) {
-        nok(err);
-      };
-      xmlhttp.onload = function (res) {
-        if (xmlhttp.readyState === 4) {
-          data = xmlhttp.responseText;
-          ok(data);
-        }
-      };
-      xmlhttp.open('POST', 'https://projecthowest.herokuapp.com/users/auth/facebook/token?access_token=' + accessToken, true);
-      xmlhttp.send();
-    });
-
-    return p;
-  }
-
-  function getUserData(token) {
-    if (!token) throw new Error('TOKENNOTFOUND');
-
-    var p = new Promise(function (ok, nok) {
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onerror = function (err) {
-        nok(err);
-      };
-      xmlhttp.onload = function (res) {
-        if (xmlhttp.readyState === 4) {
-          data = JSON.parse(xmlhttp.responseText);
-          ok(data);
-        }
-      };
-      xmlhttp.open('GET', 'http://projecthowest.herokuapp.com/users/userprofile?authToken=' + token, true);
-      xmlhttp.send();
-    });
-    return p;
-  }
-
-  function addFriend(userID, friendID) {
-    if (!userID || !friendID) throw new Error('USERANDFRIENDIDNOTFOUND');
-
-    var p = new Promise(function (ok, nok) {
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onerror = function (err) {
-        nok(err);
-      };
-      xmlhttp.onload = function (res) {
-        if (xmlhttp.readyState === 4) {
-          data = xmlhttp.responseText;
-          ok(data);
-        }
-      };
-      xmlhttp.open('POST', 'https://projecthowest.herokuapp.com/users/friends/add', true);
-      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      var json = JSON.stringify({ userOne: userID, userTwo: friendID });
-      xmlhttp.send(json);
-    });
-    return p;
-  }
-
-  return {
-    createUser: createUser,
-    getUserData: getUserData,
-    addFriend: addFriend
-  };
-}();
-
-module.exports = userModule;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -802,11 +720,11 @@ exports.UpdateFriendUI = UpdateFriendUI;
 exports.ShowAddedFriends = ShowAddedFriends;
 exports.ShowNotAddedFriends = ShowNotAddedFriends;
 
-var _friend = __webpack_require__(4);
+var _friend = __webpack_require__(6);
 
 var _friend2 = _interopRequireDefault(_friend);
 
-var _user = __webpack_require__(2);
+var _user = __webpack_require__(7);
 
 var _user2 = _interopRequireDefault(_user);
 
@@ -814,7 +732,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function UpdateFriendUI(e, divNewFriends, divImg) {
   _user2.default.addFriend(sessionStorage.getItem('nmct.darem.accessToken'), e.target.attributes.tag.nodeValue).then(function (response) {
-    divNewFriends.removeChild(divImg);
+    //divNewFriends.removeChild(divImg);
     _user2.default.getUserData(sessionStorage.getItem("nmct.darem.accessToken")).then(function (response) {
       //sessionStorage.setItem("nmct.darem.user", JSON.stringify(response));
       //let divFriends = document.getElementById("friends");
@@ -837,6 +755,7 @@ function ShowAddedFriends(divFriends, friends) {
 }
 
 function ShowNotAddedFriends(divNewFriends, friends) {
+  divNewFriends.innerHTML = "";
   friends.forEach(function (friendItem) {
     var friend = new _friend2.default(friendItem.name, friendItem.id, friendItem.id);
     divNewFriends.appendChild(friend.RenderNewFacebookFriendsHTML());
@@ -844,80 +763,7 @@ function ShowNotAddedFriends(divNewFriends, friends) {
 }
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _user = __webpack_require__(2);
-
-var _user2 = _interopRequireDefault(_user);
-
-var _friend = __webpack_require__(3);
-
-var friendModule = _interopRequireWildcard(_friend);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var friend = function () {
-  function friend(name, photo, id) {
-    _classCallCheck(this, friend);
-
-    this.name = name;
-    this.photo = photo;
-    this.id = id;
-  }
-
-  _createClass(friend, [{
-    key: 'RenderAddedFriendHTML',
-    value: function RenderAddedFriendHTML() {
-      var bobTheHTMLBuilder = "";
-      bobTheHTMLBuilder += '<div class="tooltip">';
-      bobTheHTMLBuilder += '<img src="' + this.photo + '"></img>';
-      bobTheHTMLBuilder += '<span class="tooltiptext">' + this.name + '</span>';
-      bobTheHTMLBuilder += '</div>';
-
-      return bobTheHTMLBuilder;
-    }
-  }, {
-    key: 'RenderNewFacebookFriendsHTML',
-    value: function RenderNewFacebookFriendsHTML(divNewFriends) {
-      var divImg = document.createElement("div");
-      divImg.className = "tooltip";
-      var img = document.createElement("img");
-      img.src = 'https://graph.facebook.com/v2.6/' + this.id + '/picture?type=large';
-      img.className = "addFriend";
-      img.setAttribute('tag', this.id);
-      var tooltiptext = document.createElement("span");
-      tooltiptext.className = "tooltiptext";
-      tooltiptext.innerHTML = this.name;
-      divImg.appendChild(img);
-      divImg.appendChild(tooltiptext);
-      divImg.addEventListener('click', function (e) {
-        friendModule.UpdateFriendUI(e, divNewFriends, divImg);
-      });
-      return divImg;
-    }
-  }]);
-
-  return friend;
-}();
-
-exports.default = friend;
-
-/***/ }),
-/* 5 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {
@@ -1101,7 +947,7 @@ function localstorage(){
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
-/* 6 */
+/* 4 */
 /***/ (function(module, exports) {
 
 
@@ -1113,7 +959,7 @@ module.exports = function(a, b){
 };
 
 /***/ }),
-/* 7 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {
@@ -1295,6 +1141,161 @@ function localstorage(){
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _user = __webpack_require__(7);
+
+var _user2 = _interopRequireDefault(_user);
+
+var _friend = __webpack_require__(2);
+
+var friendModule = _interopRequireWildcard(_friend);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var friend = function () {
+  function friend(name, photo, id) {
+    _classCallCheck(this, friend);
+
+    this.name = name;
+    this.photo = photo;
+    this.id = id;
+  }
+
+  _createClass(friend, [{
+    key: 'RenderAddedFriendHTML',
+    value: function RenderAddedFriendHTML() {
+      var bobTheHTMLBuilder = "";
+      bobTheHTMLBuilder += '<div class="tooltip">';
+      bobTheHTMLBuilder += '<img src="' + this.photo + '"></img>';
+      bobTheHTMLBuilder += '<span class="tooltiptext">' + this.name + '</span>';
+      bobTheHTMLBuilder += '</div>';
+
+      return bobTheHTMLBuilder;
+    }
+  }, {
+    key: 'RenderNewFacebookFriendsHTML',
+    value: function RenderNewFacebookFriendsHTML(divNewFriends) {
+      var divImg = document.createElement("div");
+      divImg.className = "tooltip";
+      var img = document.createElement("img");
+      img.src = 'https://graph.facebook.com/v2.6/' + this.id + '/picture?type=large';
+      img.className = "addFriend";
+      img.setAttribute('tag', this.id);
+      var tooltiptext = document.createElement("span");
+      tooltiptext.className = "tooltiptext";
+      tooltiptext.innerHTML = this.name;
+      divImg.appendChild(img);
+      divImg.appendChild(tooltiptext);
+      divImg.addEventListener('click', function (e) {
+        friendModule.UpdateFriendUI(e, divNewFriends, divImg);
+      });
+      return divImg;
+    }
+  }]);
+
+  return friend;
+}();
+
+exports.default = friend;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var userModule = function () {
+  var data;
+
+  function createUser(accessToken) {
+    if (!accessToken) throw new Error('ACCESSTOKENTOKENNOTFOUND');
+
+    var p = new Promise(function (ok, nok) {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = function (err) {
+        nok(err);
+      };
+      xmlhttp.onload = function (res) {
+        if (xmlhttp.readyState === 4) {
+          data = xmlhttp.responseText;
+          ok(data);
+        }
+      };
+      xmlhttp.open('POST', 'https://projecthowest.herokuapp.com/users/auth/facebook/token?access_token=' + accessToken, true);
+      xmlhttp.send();
+    });
+
+    return p;
+  }
+
+  function getUserData(token) {
+    if (!token) throw new Error('TOKENNOTFOUND');
+
+    var p = new Promise(function (ok, nok) {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = function (err) {
+        nok(err);
+      };
+      xmlhttp.onload = function (res) {
+        if (xmlhttp.readyState === 4) {
+          data = JSON.parse(xmlhttp.responseText);
+          ok(data);
+        }
+      };
+      xmlhttp.open('GET', 'http://projecthowest.herokuapp.com/users/userprofile?authToken=' + token, true);
+      xmlhttp.send();
+    });
+    return p;
+  }
+
+  function addFriend(userID, friendID) {
+    if (!userID || !friendID) throw new Error('USERANDFRIENDIDNOTFOUND');
+
+    var p = new Promise(function (ok, nok) {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = function (err) {
+        nok(err);
+      };
+      xmlhttp.onload = function (res) {
+        if (xmlhttp.readyState === 4) {
+          data = xmlhttp.responseText;
+          ok(data);
+        }
+      };
+      xmlhttp.open('POST', 'https://projecthowest.herokuapp.com/users/friends/add', true);
+      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      var json = JSON.stringify({ userOne: userID, userTwo: friendID });
+      xmlhttp.send(json);
+    });
+    return p;
+  }
+
+  return {
+    createUser: createUser,
+    getUserData: getUserData,
+    addFriend: addFriend
+  };
+}();
+
+module.exports = userModule;
 
 /***/ }),
 /* 8 */
@@ -2132,7 +2133,7 @@ exports.decode = function(qs){
 "use strict";
 
 
-var _friend = __webpack_require__(3);
+var _friend = __webpack_require__(2);
 
 var friendModule = _interopRequireWildcard(_friend);
 
@@ -2501,7 +2502,7 @@ var Emitter = __webpack_require__(26);
 var parser = __webpack_require__(8);
 var on = __webpack_require__(27);
 var bind = __webpack_require__(28);
-var debug = __webpack_require__(5)('socket.io-client:manager');
+var debug = __webpack_require__(3)('socket.io-client:manager');
 var indexOf = __webpack_require__(24);
 var Backoff = __webpack_require__(63);
 
@@ -3123,9 +3124,9 @@ function polling (opts) {
 var Transport = __webpack_require__(10);
 var parseqs = __webpack_require__(12);
 var parser = __webpack_require__(1);
-var inherit = __webpack_require__(6);
+var inherit = __webpack_require__(4);
 var yeast = __webpack_require__(23);
-var debug = __webpack_require__(7)('engine.io-client:polling');
+var debug = __webpack_require__(5)('engine.io-client:polling');
 
 /**
  * Module exports.
@@ -3533,7 +3534,7 @@ var Emitter = __webpack_require__(26);
 var toArray = __webpack_require__(62);
 var on = __webpack_require__(27);
 var bind = __webpack_require__(28);
-var debug = __webpack_require__(5)('socket.io-client:socket');
+var debug = __webpack_require__(3)('socket.io-client:socket');
 var hasBin = __webpack_require__(22);
 
 /**
@@ -4191,7 +4192,7 @@ var _facebook = __webpack_require__(13);
 
 var facebook = _interopRequireWildcard(_facebook);
 
-var _user = __webpack_require__(2);
+var _user = __webpack_require__(7);
 
 var _user2 = _interopRequireDefault(_user);
 
@@ -4292,11 +4293,11 @@ var _challenge = __webpack_require__(32);
 
 var _challenge2 = _interopRequireDefault(_challenge);
 
-var _friend = __webpack_require__(3);
+var _friend = __webpack_require__(2);
 
 var friendModule = _interopRequireWildcard(_friend);
 
-var _friend2 = __webpack_require__(4);
+var _friend2 = __webpack_require__(6);
 
 var _friend3 = _interopRequireDefault(_friend2);
 
@@ -4429,11 +4430,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.socket = socket;
 
-var _friend = __webpack_require__(4);
+var _friend = __webpack_require__(6);
 
 var _friend2 = _interopRequireDefault(_friend);
 
-var _friend3 = __webpack_require__(3);
+var _friend3 = __webpack_require__(2);
 
 var friendModule = _interopRequireWildcard(_friend3);
 
@@ -4468,7 +4469,32 @@ function socket() {
 		var divFriends = document.getElementById("friends");
 		divFriends.innerHTML = '';
 		friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);
+		facebook.initFacebook;
+		FB.getLoginStatus(function (e) {
+			if (sessionStorage.getItem('nmct.darem.user')) {
+				getFriendsList();
+			}
+		});
 	}
+
+	var getFriendsList = function getFriendsList() {
+		FB.api('/me/friends', function (response) {
+			var obj = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
+			var newFriends = [];
+			for (var i = 0; i < response.data.length; i++) {
+				if (!JSON.stringify(obj.friends).includes(response.data[i].id)) {
+					newFriends.push(response.data[i]);
+				}
+			}
+			showInSidePanel(newFriends);
+
+			function showInSidePanel(newFriends) {
+				console.log("REFRESH!");
+				var divNewFriends = document.getElementById("newFriends");
+				friendModule.ShowNotAddedFriends(divNewFriends, newFriends);
+			}
+		});
+	};
 };
 
 /***/ }),
@@ -4483,7 +4509,7 @@ function socket() {
 var url = __webpack_require__(35);
 var parser = __webpack_require__(8);
 var Manager = __webpack_require__(19);
-var debug = __webpack_require__(5)('socket.io-client');
+var debug = __webpack_require__(3)('socket.io-client');
 
 /**
  * Module exports.
@@ -4596,7 +4622,7 @@ exports.Socket = __webpack_require__(25);
  */
 
 var parseuri = __webpack_require__(14);
-var debug = __webpack_require__(5)('socket.io-client:url');
+var debug = __webpack_require__(3)('socket.io-client:url');
 
 /**
  * Module exports.
@@ -6808,7 +6834,7 @@ module.exports.parser = __webpack_require__(1);
 
 var transports = __webpack_require__(20);
 var Emitter = __webpack_require__(11);
-var debug = __webpack_require__(7)('engine.io-client:socket');
+var debug = __webpack_require__(5)('engine.io-client:socket');
 var index = __webpack_require__(24);
 var parser = __webpack_require__(1);
 var parseuri = __webpack_require__(14);
@@ -7577,8 +7603,8 @@ try {
 var XMLHttpRequest = __webpack_require__(9);
 var Polling = __webpack_require__(21);
 var Emitter = __webpack_require__(11);
-var inherit = __webpack_require__(6);
-var debug = __webpack_require__(7)('engine.io-client:polling-xhr');
+var inherit = __webpack_require__(4);
+var debug = __webpack_require__(5)('engine.io-client:polling-xhr');
 
 /**
  * Module exports.
@@ -8878,7 +8904,7 @@ function plural(ms, n, name) {
  */
 
 var Polling = __webpack_require__(21);
-var inherit = __webpack_require__(6);
+var inherit = __webpack_require__(4);
 
 /**
  * Module exports.
@@ -9117,9 +9143,9 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 var Transport = __webpack_require__(10);
 var parser = __webpack_require__(1);
 var parseqs = __webpack_require__(12);
-var inherit = __webpack_require__(6);
+var inherit = __webpack_require__(4);
 var yeast = __webpack_require__(23);
-var debug = __webpack_require__(7)('engine.io-client:websocket');
+var debug = __webpack_require__(5)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {

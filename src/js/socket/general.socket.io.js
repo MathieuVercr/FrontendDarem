@@ -25,5 +25,30 @@ export function socket(){
 		let divFriends = document.getElementById("friends");
 		divFriends.innerHTML = '';
 		friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);
+		facebook.initFacebook;
+		FB.getLoginStatus(function(e) {
+			if (sessionStorage.getItem('nmct.darem.user')) {
+				getFriendsList();
+			}
+		});
 	}
+
+	let getFriendsList = function() {
+		FB.api('/me/friends', function(response) {
+			let obj = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
+			var newFriends = [];
+			for (let i = 0; i < response.data.length; i++) {
+				if (!JSON.stringify(obj.friends).includes(response.data[i].id)) {
+					newFriends.push(response.data[i]);
+				}
+			}
+			showInSidePanel(newFriends);
+
+			function showInSidePanel(newFriends) {
+				console.log("REFRESH!");
+				let divNewFriends = document.getElementById("newFriends");
+				friendModule.ShowNotAddedFriends(divNewFriends, newFriends);
+			}
+		});
+	};
 };
