@@ -54,7 +54,7 @@ var sidePanel = function() {
         let bobTheHTMLBuilder = "";
         var divChallenge = document.createElement("div");
         divChallenge.setAttribute('tag', challenge._id);
-        bobTheHTMLBuilder += `<img src="../dist/assets/images/${challenge.category}.png"></img>`;
+        bobTheHTMLBuilder += `<img src="./assets/images/${challenge.category.toLowerCase()}.png"></img>`;
         bobTheHTMLBuilder += `<div class="challenge__detail"><p>${challenge.name}</p>`;
         bobTheHTMLBuilder += `<p>${challenge.description}</p></div>`;
         divChallenge.innerHTML = bobTheHTMLBuilder;
