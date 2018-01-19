@@ -1,6 +1,10 @@
+import * as facebook from './facebook/facebook';
+import userModule from './module/user.module';
+import sidePanel from './sidePanel';
+var storage = window.sessionStorage;
 
 document.addEventListener("DOMContentLoaded", (event) => {
-
+  facebook.initFacebook;
   let body = document.getElementsByTagName("body")[0];
   switch(body.id){
     case "INDEX":
@@ -20,15 +24,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // CODE FOR INDEX PAGE
 function initIndex(){
-
-  /*(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = 'https://projecthowest.herokuapp.com/users/auth/facebook';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));*/
-
   var popup = document.getElementById("signup");
   var fbLogin = document.getElementsByClassName("loginBtn--facebook")[0];
   var signups = document.getElementsByClassName("startNow");
@@ -52,34 +47,36 @@ function initIndex(){
   });
 
   fbLogin.addEventListener("click", () => {
-    authenticate();
+    FB.login((response) => {
+      if(response.status == "connected"){
+        var accessToken = response.authResponse.accessToken;
+        storage.setItem("nmct.facebook.accessToken", accessToken);
+        userModule.createUser(accessToken).then(function(response){
+          userModule.getUserData(response).then(function(response){
+            sessionStorage.setItem("nmct.darem.accessToken", response.facebook.id);
+            sessionStorage.setItem("nmct.darem.accessTokenDB", response.facebook.databaseid);
+            sessionStorage.setItem("nmct.darem.user", JSON.stringify(response));
+            window.location.href = "./challenge.html"
+          });
+        });
+      }else{
+        window.location.href = "./index.html";
+      }
+    }, {scope: 'public_profile, email, user_friends'});
   });
 
-  function authenticate() {
-    window.authenticateCallback = function(token) {
-      console.log(token);
-
-      var xmlhttp = new XMLHttpRequest();
-      var url = "https://projecthowest.herokuapp.com/userprofile?authToken=" + token;
-      xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          var myArr = JSON.parse(this.responseText);
-          console.log(myArr);
-        }
-      };
-      xmlhttp.open("GET", url, true);
-      xmlhttp.send();
-    };
-    window.open('https://projecthowest.herokuapp.com/users/auth/facebook');
+  if(storage.getItem("nmct.darem.user") != null && storage.getItem("nmct.facebook.accessToken") ){
+    window.location.href = "./challenge.html";
   }
+
 }
 
 // CODE FOR CHALLENGE PAGE
 function initChallenge(){
-  console.log("challenge");
+  sidePanel();
 }
 
 // CODE FOR CHAT PAGE
 function initChat(){
-  console.log("chat");
+  sidePanel();
 }
