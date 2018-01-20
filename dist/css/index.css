@@ -273,10 +273,17 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center; }
-
-.challengeFields {
-  height: 50px;
-  align-self: stretch; }
+  .createChallenge .form, .createChallenge p .form {
+    width: 80%; }
+    .createChallenge .form h2, .createChallenge p .form h2 {
+      text-align: center; }
+    .createChallenge .form label, .createChallenge p .form label {
+      display: flex;
+      justify-content: center; }
+    .createChallenge .form-element, .createChallenge p .form-element {
+      display: flex;
+      margin-left: auto;
+      margin-right: auto; }
 
 .chatInterface {
   display: flex;

@@ -4200,6 +4200,10 @@ var _sidePanel = __webpack_require__(31);
 
 var _sidePanel2 = _interopRequireDefault(_sidePanel);
 
+var _createChallenge = __webpack_require__(67);
+
+var _createChallenge2 = _interopRequireDefault(_createChallenge);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -4208,6 +4212,7 @@ var storage = window.sessionStorage;
 
 document.addEventListener("DOMContentLoaded", function (event) {
   facebook.initFacebook;
+
   var body = document.getElementsByTagName("body")[0];
   switch (body.id) {
     case "INDEX":
@@ -4275,6 +4280,7 @@ function initIndex() {
 // CODE FOR CHALLENGE PAGE
 function initChallenge() {
   (0, _sidePanel2.default)();
+  (0, _createChallenge2.default)();
 }
 
 // CODE FOR CHAT PAGE
@@ -4365,6 +4371,17 @@ var sidePanel = function sidePanel() {
 
         divChallenge.addEventListener('click', function (e) {
           _challenge2.default.getChallengeData(e.target.attributes.tag.nodeValue).then(function (response) {
+            var bobTheHTMLBuilder = "";
+            bobTheHTMLBuilder += '<h2>' + response.name + '</h2>';
+            bobTheHTMLBuilder += '<p>' + response.description + '</p>';
+            bobTheHTMLBuilder += '<div>';
+            console.log(response.acceptedUsers.length);
+            for (var i = 0; i < response.acceptedUsers.length; i++) {
+              bobTheHTMLBuilder += '<img src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
+            }
+            bobTheHTMLBuilder += '</div>';
+            var detail = document.getElementById("challenge");
+            detail.innerHTML = bobTheHTMLBuilder;
             console.log(response);
           });
         });
@@ -4411,8 +4428,29 @@ var challengeModule = function () {
     return p;
   }
 
+  function addChallenge(challenge) {
+    var p = new Promise(function (ok, nok) {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = function (err) {
+        nok(err);
+      };
+      xmlhttp.onload = function (res) {
+        if (xmlhttp.readyState === 4) {
+          data = xmlhttp.responseText;
+          ok(data);
+        }
+      };
+      xmlhttp.open('POST', 'https://projecthowest.herokuapp.com/challenge/add', true);
+      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      var json = JSON.stringify(challenge);
+      xmlhttp.send(json);
+    });
+    return p;
+  }
+
   return {
-    getChallengeData: challengeData
+    getChallengeData: challengeData,
+    addChallenge: addChallenge
   };
 }();
 
@@ -9583,6 +9621,165 @@ Backoff.prototype.setJitter = function(jitter){
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 65 */,
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _challenge = __webpack_require__(32);
+
+var _challenge2 = _interopRequireDefault(_challenge);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var challenge = function () {
+  function challenge(name, description, category, creatorId, isCompleted, users, endDate) {
+    _classCallCheck(this, challenge);
+
+    this.name = name;
+    this.description = description;
+    this.category = category;
+    this.creatorId = creatorId;
+    this.isCompleted = isCompleted;
+    this.users = users;
+    this.endDate = endDate;
+  }
+
+  _createClass(challenge, [{
+    key: 'sendPost',
+    value: function sendPost() {
+      _challenge2.default.addChallenge(this).then(function (response) {
+        return console.log(response);
+      });
+    }
+  }]);
+
+  return challenge;
+}();
+
+exports.default = challenge;
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _challenge = __webpack_require__(32);
+
+var _challenge2 = _interopRequireDefault(_challenge);
+
+var _validation = __webpack_require__(68);
+
+var validate = _interopRequireWildcard(_validation);
+
+var _challenge3 = __webpack_require__(66);
+
+var _challenge4 = _interopRequireDefault(_challenge3);
+
+var _generalSocket = __webpack_require__(33);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createChallenge = function createChallenge() {
+  //INPUT fields
+  var creatorId = sessionStorage.getItem("nmct.darem.accessToken");
+  var name = document.getElementById('name');
+  var description = document.getElementById('description');
+  var endDate = document.getElementById('enddate');
+  var submit = document.getElementById('submit');
+
+  name.addEventListener('input', function (evt) {
+    var bool = validate.checkName(this);
+    color(this, bool);
+  });
+
+  description.addEventListener('input', function (evt) {
+    var bool = validate.checkDescription(this);
+    color(this, bool);
+  });
+
+  endDate.addEventListener('input', function (evt) {
+    var bool = validate.checkDate(this);
+    color(this, bool);
+  });
+
+  submit.addEventListener('click', function (evt) {
+    if (!validate.enable(name, description, endDate)) {
+      var challenge = new _challenge4.default(name.value, description.value, "Running", creatorId, "false", ["5a4f9c135ac2cf00147c1efc"], "5678765678");
+      challenge.sendPost();
+    }
+  });
+
+  function color(e, result) {
+    if (result === true) {
+      e.style.borderColor = "green";
+    } else {
+      e.style.borderColor = "red";
+    }
+    submit.disabled = validate.enable(name, description, endDate);
+  }
+};
+
+module.exports = createChallenge;
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.checkName = checkName;
+exports.checkDescription = checkDescription;
+exports.checkDate = checkDate;
+exports.enable = enable;
+function checkName(e) {
+  var result = /^[a-zA-Z0-9_ ]*$/.test(e.value);
+  if (e.value.length < 5) return false;
+  return result;
+}
+
+function checkDescription(e) {
+  var result = /^[a-zA-Z0-9_ .?-]*$/.test(e.value);
+  if (e.value.length < 10) return false;
+  return result;
+}
+
+function checkDate(e) {
+  if (e.value === "") return false;
+  if (Date.parse(e.value) - Date.parse(new Date()) <= 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function enable(name, description, endDate) {
+  if (checkName(name) && checkDescription(description) && checkDate(endDate)) {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 /***/ })
 /******/ ]);

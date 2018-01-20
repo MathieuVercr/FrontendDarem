@@ -62,6 +62,17 @@ var sidePanel = function() {
 
         divChallenge.addEventListener('click', function(e) {
           challengeModule.getChallengeData(e.target.attributes.tag.nodeValue).then(function(response) {
+            let bobTheHTMLBuilder = "";
+            bobTheHTMLBuilder += `<h2>${response.name}</h2>`;
+            bobTheHTMLBuilder += `<p>${response.description}</p>`;
+            bobTheHTMLBuilder += `<div>`;
+            console.log(response.acceptedUsers.length);
+            for(let i = 0; i < response.acceptedUsers.length; i++){
+              bobTheHTMLBuilder += `<img src="https://graph.facebook.com/v2.6/${response.acceptedUsers[i].facebook.id}/picture?type=large"></img>`
+            }
+            bobTheHTMLBuilder += `</div>`;
+            let detail = document.getElementById("challenge");
+            detail.innerHTML = bobTheHTMLBuilder;
             console.log(response);
           });
         });

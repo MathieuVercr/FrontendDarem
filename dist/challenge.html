@@ -53,23 +53,17 @@
         </section>
       </aside>
 
-      <article class="createChallenge">
-        <h2>Create your challenges</h2>
-        <form class="createChallenge" action="#" method="post">
-          <p>
-          <label for="Name">Challenge Name</label>
-          <input type="text" name="Name" class="challengeFields"/>
-          </p>
-          <p>
-          <label for="Description">Challenge Description</label>
-          <input type="text" name="Description"  class="challengeFields"/>
-          </p>
-          <p>
-          <label for="Category">Pick a category</label>
-          <label for="addFriends">Add Friends</label>
-          </p>
-          <input type="submit" name="submit" value="Submit">
-        </form>
+      <article class="createChallenge" id="challenge">
+        <div class="form">
+          <h2>Create challenge</h2>
+          <label for="name">Name: </label><br />
+          <input type="text" name="name" id="name" class="form__textinput form-element" /><br />
+          <label for="description">Description: </label><br />
+          <input type="description" name="description" id="description" class="form__textinput form-element" /><br />
+          <label for="endDate">When does the challenge end?: </label><br />
+          <input type="date" name="endDate" id="enddate" class="form__dateinput form-element" /><br />
+          <button type="submit" name="submit" id="submit" class="form__button form-element">Create challenge</button><br />
+        </div>
       </article>
 
     </main>
