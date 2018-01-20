@@ -33,6 +33,9 @@ export default class friend {
     divImg.appendChild(tooltiptext);
     divImg.addEventListener('click', function(e) {
       friendModule.UpdateFriendUI(e, divNewFriends, divImg);
+      var notifications = document.getElementById("notification");
+      notifications.setAttribute('id', 'showNotification');
+      setTimeout(function(){ notifications.setAttribute('id', 'notification') }, 10000);
     });
 		return divImg;
   }

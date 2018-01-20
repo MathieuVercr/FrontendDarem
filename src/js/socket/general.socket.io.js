@@ -11,9 +11,9 @@ export function socket(){
 		socket.emit('room', sessionStorage.getItem('nmct.darem.accessToken'));
   });
 
-  socket.on('room joined', function(data) {
-    console.log(data);
-  });
+	socket.on('room joined', function(data) {
+		console.log(data);
+	});
 
 	socket.on('new friend', function(data){
 		updateUserData(data);
@@ -21,6 +21,7 @@ export function socket(){
 
 	function updateUserData(data){
 		console.log("UPDATE")
+		console.log(data);
 		sessionStorage.setItem("nmct.darem.user", data);
 		let divFriends = document.getElementById("friends");
 		divFriends.innerHTML = '';
@@ -31,6 +32,7 @@ export function socket(){
 				getFriendsList();
 			}
 		});
+
 	}
 
 	let getFriendsList = function() {

@@ -1205,6 +1205,11 @@ var friend = function () {
       divImg.appendChild(tooltiptext);
       divImg.addEventListener('click', function (e) {
         friendModule.UpdateFriendUI(e, divNewFriends, divImg);
+        var notifications = document.getElementById("notification");
+        notifications.setAttribute('id', 'showNotification');
+        setTimeout(function () {
+          notifications.setAttribute('id', 'notification');
+        }, 10000);
       });
       return divImg;
     }
@@ -4483,6 +4488,7 @@ function socket() {
 
 	function updateUserData(data) {
 		console.log("UPDATE");
+		console.log(data);
 		sessionStorage.setItem("nmct.darem.user", data);
 		var divFriends = document.getElementById("friends");
 		divFriends.innerHTML = '';

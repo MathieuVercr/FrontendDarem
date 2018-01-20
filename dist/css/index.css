@@ -218,6 +218,24 @@ h1 {
     flex-direction: column;
     align-items: center; }
 
+#showNotification {
+  opacity: 1;
+  background-color: green;
+  -webkit-transition: opacity 1s ease-in;
+  -moz-transition: opacity 1s ease-in;
+  -ms-transition: opacity 1s ease-in;
+  -o-transition: opacity 1s ease-in;
+  transition: opacity 1s ease-in; }
+
+#notification {
+  opacity: 0;
+  background-color: green;
+  -webkit-transition: opacity 1s ease-out;
+  -moz-transition: opacity 1s ease-out;
+  -ms-transition: opacity 1s ease-out;
+  -o-transition: opacity 1s ease-out;
+  transition: opacity 1s ease-out; }
+
 .filler {
   height: auto;
   background-color: #e0e0e0;
