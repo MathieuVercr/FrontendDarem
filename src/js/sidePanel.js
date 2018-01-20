@@ -61,7 +61,26 @@ var sidePanel = function() {
         divChallenge.className = "challenge filler";
 
         divChallenge.addEventListener('click', function(e) {
+
           challengeModule.getChallengeData(e.target.attributes.tag.nodeValue).then(function(response) {
+            var date = new Date(parseInt(response.endDate));
+            console.log(date);
+            var bobTheHTMLBuilder = "";
+            bobTheHTMLBuilder += '<img id="detailCategory" src="./assets/images/' + response.category.toLowerCase() + '.png"></img>';
+            bobTheHTMLBuilder += '<div class="challengeDetail">';
+            bobTheHTMLBuilder += '<h2>' + response.name.toUpperCase() + '</h2>';
+            bobTheHTMLBuilder += '<p><strong>Here are your rules </strong>' + response.description + '</p>';
+            bobTheHTMLBuilder += '<p><strong>You need to finish before </strong>' + date.getDay() + '/' + (date.getMonth()+1) + '/' + date.getFullYear() + '</p>';
+            bobTheHTMLBuilder += '</div>';
+            bobTheHTMLBuilder += '<div class="friendsDetail">';
+            console.log(response.acceptedUsers.length);
+            for (var i = 0; i < response.acceptedUsers.length; i++) {
+              bobTheHTMLBuilder += '<img src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
+            }
+            bobTheHTMLBuilder += '</div>';
+            bobTheHTMLBuilder += '<button type="submit" id="btnChat">Go and talk about the challenge</button>'
+            var detail = document.getElementById("createChallenge");
+            detail.innerHTML = bobTheHTMLBuilder;
             console.log(response);
           });
         });

@@ -25,6 +25,5 @@ var challengeModule = (function(){
 	return {
 		getChallengeData: challengeData
 	}
-})()
-
+})();
 module.exports = challengeModule;
