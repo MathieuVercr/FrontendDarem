@@ -42,9 +42,15 @@ var challengeModule = (function() {
     return p;
   }
 
+  function getCategories(){
+    var categories = ["Baseball", "Basketball", "Bodybuilding", "Boxing", "Cycling", "Dancing", "Football", "Golf", "Running", "Swimming", "Tennis", "Volleyball", "Walking"];
+    return categories;
+  }
+
   return {
     getChallengeData: challengeData,
-    addChallenge: addChallenge
+    addChallenge: addChallenge,
+    getCategories: getCategories
   }
 })()
 

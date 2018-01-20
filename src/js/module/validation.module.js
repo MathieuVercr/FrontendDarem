@@ -12,15 +12,25 @@ export function checkDescription(e){
 
 export function checkDate(e){
   if(e.value === "") return false;
-  if(Date.parse(e.value)-Date.parse(new Date()) <= 0){
+  if(Date.parse(e.value)-Date.parse(new Date()) <= -86400000){
     return false;
   }else{
     return true;
   }
 }
 
-export function enable(name, description, endDate){
-  if(checkName(name) && checkDescription(description) && checkDate(endDate)){
+export function checkFriends(e){
+  if(e.value.length > 0) return true;
+  return false;
+}
+
+export function checkCategory(e){
+  if(e.value) return true;
+  return false;
+}
+
+export function enable(name, description, endDate, friends, category){
+  if(checkName(name) && checkDescription(description) && checkDate(endDate) && checkFriends(friends) && checkCategory(category)){
     return false;
   }else {
     return true;

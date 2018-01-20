@@ -282,8 +282,19 @@ h1 {
       justify-content: center; }
     .createChallenge .form-element, .createChallenge p .form-element {
       display: flex;
+      width: 50%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
       margin-left: auto;
       margin-right: auto; }
+    .createChallenge .form__button, .createChallenge p .form__button {
+      justify-content: center;
+      background: #a52a2a;
+      opacity: 0.7;
+      color: #ffffff; }
 
 .chatInterface {
   display: flex;

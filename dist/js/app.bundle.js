@@ -4448,9 +4448,15 @@ var challengeModule = function () {
     return p;
   }
 
+  function getCategories() {
+    var categories = ["Baseball", "Basketball", "Bodybuilding", "Boxing", "Cycling", "Dancing", "Football", "Golf", "Running", "Swimming", "Tennis", "Volleyball", "Walking"];
+    return categories;
+  }
+
   return {
     getChallengeData: challengeData,
-    addChallenge: addChallenge
+    addChallenge: addChallenge,
+    getCategories: getCategories
   };
 }();
 
@@ -9703,36 +9709,106 @@ var createChallenge = function createChallenge() {
   var description = document.getElementById('description');
   var endDate = document.getElementById('enddate');
   var submit = document.getElementById('submit');
+  var allFriends = JSON.parse(sessionStorage.getItem('nmct.darem.user')).friends;
+  var friends = document.getElementById('addFriendToChallenge');
+  var category = document.getElementById('addCategoryToChallenge');
+  var selFriends = [];
+  endDate.setAttribute("min", new Date().toISOString().split('T')[0]);
 
-  name.addEventListener('input', function (evt) {
+  //2 lijsten opvullen met data
+  fillListFriends();
+  fillListCategories();
+
+  name.addEventListener('input', function () {
     var bool = validate.checkName(this);
     color(this, bool);
   });
 
-  description.addEventListener('input', function (evt) {
+  description.addEventListener('input', function () {
     var bool = validate.checkDescription(this);
     color(this, bool);
   });
 
-  endDate.addEventListener('input', function (evt) {
+  endDate.addEventListener('input', function () {
     var bool = validate.checkDate(this);
     color(this, bool);
   });
 
+  friends.addEventListener("change", function () {
+    var bool = validate.checkFriends(this);
+    color(this, bool);
+  });
+
+  category.addEventListener('change', function () {
+    var bool = validate.checkCategory(this);
+    color(this, bool);
+  });
+
   submit.addEventListener('click', function (evt) {
-    if (!validate.enable(name, description, endDate)) {
-      var challenge = new _challenge4.default(name.value, description.value, "Running", creatorId, "false", ["5a4f9c135ac2cf00147c1efc"], "5678765678");
+    for (var i = 0; i < friends.options.length; i++) {
+      if (friends.options[i].selected == true) {
+        selFriends.push(friends.options[i].value);
+      }
+    }
+
+    if (!validate.enable(name, description, endDate, friends, category)) {
+      var challenge = new _challenge4.default(name.value, description.value, category.value, creatorId, "false", selFriends, Date.parse(endDate.value));
       challenge.sendPost();
     }
   });
 
   function color(e, result) {
     if (result === true) {
-      e.style.borderColor = "green";
+      e.style.border = "2px solid green";
     } else {
-      e.style.borderColor = "red";
+      e.style.border = "2px solid red";
     }
-    submit.disabled = validate.enable(name, description, endDate);
+    submit.disabled = validate.enable(name, description, endDate, friends, category);
+    if (!submit.disabled) {
+      submit.style.opacity = 1;
+    } else {
+      submit.style.opacity = 0.6;
+    }
+  }
+
+  function fillListFriends() {
+    var choiceArray = [];
+    for (var friend in allFriends) {
+      var object = {
+        value: allFriends[friend].databaseid,
+        label: allFriends[friend].name
+      };
+      choiceArray.push(object);
+    }
+
+    var friendslist = new Choices('#addFriendToChallenge', {
+      removeItemButton: true,
+      choices: choiceArray,
+      classNames: {
+        listItems: 'choices__list--multiple',
+        itemSelectable: 'choices__item--selectable'
+      }
+    });
+  }
+
+  function fillListCategories() {
+    var categories = _challenge2.default.getCategories();
+    var choiceArray = [];
+    for (var _category in categories) {
+      var object = {
+        value: categories[_category],
+        label: categories[_category]
+      };
+      choiceArray.push(object);
+    }
+
+    var categoriesList = new Choices('#addCategoryToChallenge', {
+      removeItemButton: true,
+      choices: choiceArray,
+      classNames: {
+        itemSelectable: 'choices__item--selectable'
+      }
+    });
   }
 };
 
@@ -9751,6 +9827,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.checkName = checkName;
 exports.checkDescription = checkDescription;
 exports.checkDate = checkDate;
+exports.checkFriends = checkFriends;
+exports.checkCategory = checkCategory;
 exports.enable = enable;
 function checkName(e) {
   var result = /^[a-zA-Z0-9_ ]*$/.test(e.value);
@@ -9766,15 +9844,25 @@ function checkDescription(e) {
 
 function checkDate(e) {
   if (e.value === "") return false;
-  if (Date.parse(e.value) - Date.parse(new Date()) <= 0) {
+  if (Date.parse(e.value) - Date.parse(new Date()) <= -86400000) {
     return false;
   } else {
     return true;
   }
 }
 
-function enable(name, description, endDate) {
-  if (checkName(name) && checkDescription(description) && checkDate(endDate)) {
+function checkFriends(e) {
+  if (e.value.length > 0) return true;
+  return false;
+}
+
+function checkCategory(e) {
+  if (e.value) return true;
+  return false;
+}
+
+function enable(name, description, endDate, friends, category) {
+  if (checkName(name) && checkDescription(description) && checkDate(endDate) && checkFriends(friends) && checkCategory(category)) {
     return false;
   } else {
     return true;
