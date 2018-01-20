@@ -362,16 +362,49 @@ h1{
   cursor: pointer;
 }
 
-.createChallenge, .createChallenge p{
+.createChallenge, .createChallenge p, .createChallenge h2{
   display: flex;
   flex-direction: column;
   align-items: center;
+  img{
+    width: 10%;
+  }
+  #btnChat{
+    background-color: $mainColorPrimary;
+    color: white;
+    font-size: 16px;
+    margin-top: 50px;
+    height: 60px;
+    width: 200px;
+    &:hover{
+      box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+  }
 }
 
 .challengeFields{
   height: 50px;
   align-self: stretch;
 }
+
+////////////// BODY: CHALLENGE DETAIL ////////////////
+
+.challengeDetail{
+  width: 25%;
+}
+.friendsDetail{
+  text-align: center;
+  img{
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    border: solid 5px $mainColorPrimary;
+    margin-left: 5px;
+    
+    
+  } 
+}
+
 
 ////////////// BODY: CHAT ////////////////
 

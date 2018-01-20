@@ -74,6 +74,8 @@ function initIndex(){
 // CODE FOR CHALLENGE PAGE
 function initChallenge(){
   sidePanel();
+
+  
 }
 
 // CODE FOR CHAT PAGE

@@ -269,14 +269,37 @@ h1 {
   text-decoration: underline;
   cursor: pointer; }
 
-.createChallenge, .createChallenge p {
+.createChallenge, .createChallenge p, .createChallenge h2 {
   display: flex;
   flex-direction: column;
   align-items: center; }
+  .createChallenge img, .createChallenge p img, .createChallenge h2 img {
+    width: 10%; }
+  .createChallenge #btnChat, .createChallenge p #btnChat, .createChallenge h2 #btnChat {
+    background-color: #9e2929;
+    color: white;
+    font-size: 16px;
+    margin-top: 50px;
+    height: 60px;
+    width: 200px; }
+    .createChallenge #btnChat:hover, .createChallenge p #btnChat:hover, .createChallenge h2 #btnChat:hover {
+      box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19); }
 
 .challengeFields {
   height: 50px;
   align-self: stretch; }
+
+.challengeDetail {
+  width: 25%; }
+
+.friendsDetail {
+  text-align: center; }
+  .friendsDetail img {
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    border: solid 5px #9e2929;
+    margin-left: 5px; }
 
 .chatInterface {
   display: flex;
