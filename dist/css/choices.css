@@ -160,11 +160,11 @@
 }
 
 .choices__list--multiple {
-  display: inline;
+  display: flex;
+  flex-flow: wrap;
 }
 
 .choices__list--multiple .choices__item {
-  display: inline-block;
   vertical-align: middle;
   border-radius: 20px;
   padding: 4px 10px;
@@ -276,6 +276,7 @@
 
 .choices__item--selectable {
   cursor: pointer;
+  display: flex;
 }
 
 .choices__item--disabled {

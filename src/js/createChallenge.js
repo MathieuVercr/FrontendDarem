@@ -56,9 +56,10 @@ let createChallenge = function() {
       }
     }
 
+    console.log(selFriends);
     if (!validate.enable(name, description, endDate, friends, category)) {
       let challenge = new Challenge(name.value, description.value, category.value, creatorId, "false", selFriends, Date.parse(endDate.value));
-      challenge.sendPost();
+      challenge.sendPost(name, description, endDate, friends, category);
     }
   });
 
@@ -82,7 +83,7 @@ let createChallenge = function() {
     for (let friend in allFriends) {
       let object = {
         value: allFriends[friend].databaseid,
-        label: allFriends[friend].name
+        label: `<img src=https://graph.facebook.com/v2.6/${allFriends[friend].id}/picture?type=large class=image_list--selected />` + `<p style="margin-bottom: auto;margin-top: auto;">${allFriends[friend].name}</p>`
       }
       choiceArray.push(object);
     }
