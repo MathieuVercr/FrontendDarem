@@ -2307,7 +2307,7 @@ function socket() {
 
 	function updateUserData(data) {
 		console.log("UPDATE");
-		sessionStorage.setItem("nmct.darem.user", data);
+		sessionStorage.setItem("nmct.darem.user", data.userOne);
 		var divFriends = document.getElementById("friends");
 		divFriends.innerHTML = '';
 		friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);
@@ -9705,15 +9705,19 @@ var createChallenge = function createChallenge() {
 
   function color(e, result) {
     if (result === true) {
-      e.style.border = "2px solid green";
+      e.classList.remove('invalid');
+      e.classList.add('valid');
     } else {
-      e.style.border = "2px solid red";
+      e.classList.remove('valid');
+      e.classList.add('invalid');
     }
     submit.disabled = validate.enable(name, description, endDate, friends, category);
     if (!submit.disabled) {
-      submit.style.opacity = 1;
+      submit.classList.remove('submit-invalid');
+      submit.classList.add('submit-valid');
     } else {
-      submit.style.opacity = 0.6;
+      submit.classList.remove('submit-valid');
+      submit.classList.add('submit-invalid');
     }
   }
 
@@ -9857,9 +9861,7 @@ var challenge = function () {
       _challenge2.default.addChallenge(this).then(function (ok, nok) {
         if (nok) console.log(nok);
         name.value = "";
-        name.style.border = "1px solid #ccc";
         description.value = "";
-        description.style.border = "1px solid #ccc";
         endDate.value = _this.formatDate(new Date());
         friends.innerHTML = "";
         category.value = "";

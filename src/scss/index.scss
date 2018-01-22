@@ -361,6 +361,7 @@ h1 {
 
   .form {
     width: 80%;
+    margin: auto;
 
     h2 {
       text-align: center;
@@ -390,11 +391,30 @@ h1 {
     &__button {
       justify-content: center;
       background: #a52a2a;
-      opacity: 0.7;
       color: #ffffff;
     }
   }
 }
+
+
+///chat form input
+.valid{
+  border: 2px solid green !important;
+}
+
+.invalid{
+  border: 2px solid red !important;
+}
+
+.submit-valid{
+  opacity: 1;
+}
+
+.submit-invalid{
+  opacity: 0.6;
+}
+
+
 ////////////// BODY: CHAT ////////////////
 .chatInterface {
   display: flex;
@@ -449,6 +469,7 @@ h1 {
     margin-bottom: 0;
   }
 }
+
 ////////////// TOOLTIP FRIENDS ////////////////
 .tooltip {
   position: relative;

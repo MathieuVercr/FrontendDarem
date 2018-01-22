@@ -66,15 +66,19 @@ let createChallenge = function() {
 
   function color(e, result) {
     if (result === true) {
-      e.style.border = "2px solid green";
+      e.classList.remove('invalid');
+      e.classList.add('valid');
     } else {
-      e.style.border = "2px solid red";
+      e.classList.remove('valid');
+      e.classList.add('invalid');
     }
     submit.disabled = validate.enable(name, description, endDate, friends, category);
     if (!submit.disabled) {
-      submit.style.opacity = 1;
+      submit.classList.remove('submit-invalid');
+      submit.classList.add('submit-valid');
     } else {
-      submit.style.opacity = 0.6;
+      submit.classList.remove('submit-valid');
+      submit.classList.add('submit-invalid');
     }
   }
 
