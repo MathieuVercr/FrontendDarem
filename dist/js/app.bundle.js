@@ -4332,8 +4332,14 @@ exports.initDetails = initDetails;
 exports.initChat = initChat;
 exports.initNotifications = initNotifications;
 
+var _createChallenge = __webpack_require__(65);
+
+var _createChallenge2 = _interopRequireDefault(_createChallenge);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var pages = {
-  createPage: "<h2>Create your challenges</h2><form class='createChallenge' action='#' method='post'><p><label for='Name'>Challenge Name</label><input type='text' name='Name' class='challengeFields'/></p><p><label for='Description'>Challenge Description</label><input type='text' name='Description'  class='challengeFields'/></p><p><label for='Category'>Pick a category</label><label for='addFriends'>Add Friends</label></p><input type='submit' name='submit' value='Submit'></form>",
+  createPage: '<section class="createChallenge" id="challenge"><div class="form"><h2>Create challenge</h2><label for="name">Name: </label><br /><input type="text" name="name" id="name" class="form__textinput form-element" /><br /><label for="description">Description: </label><br /><textarea name="description" id="description" class="form__textinput form-element"></textarea><br /><label for="endDate">When does the challenge end? </label><br /><input type="date" name="endDate" id="enddate" class="form__dateinput form-element" /><br /><label for="category">Add some friends:</label><br /><select name="friends" id="addFriendToChallenge" placeholder="Add friends" multiple></select><label for="category">Choose a category:</label><br /><select name="category" id="addCategoryToChallenge" placeholder="Choose a category"></select><button type="submit" name="submit" id="submit" class="form__button form-element submit-invalid" disabled>Create challenge</button><br /></div></section>',
   chatPage: "<h2>Chat with your friends</h2><section><div class='chatSpace'>chat</div><div class='chatbar'><input type='text' placeholder='Type here...'><button>Send</button></div></section>",
   detailPage: "<h2>Details</h2>",
   notificationPage: "<h2>Notifications</h2>"
@@ -4342,6 +4348,10 @@ var pages = {
 function initCreate() {
   var article = document.querySelector("#appInformation");
   article.innerHTML = pages.createPage;
+
+  //SHOW CHALLENGE DETAILS
+  (0, _createChallenge2.default)();
+  //...
 }
 
 function initDetails(challenge) {
@@ -4349,9 +4359,6 @@ function initDetails(challenge) {
   article.innerHTML = pages.detailPage;
 
   //GET HTML CONTROLS
-  //...
-
-  //SHOW CHALLENGE DETAILS
   //...
 }
 
@@ -4475,7 +4482,6 @@ function initIndex() {
 // CODE FOR CHALLENGE PAGE
 function initProfile() {
   (0, _sidePanel2.default)();
-
   articleContent.initCreate();
   notifications.addEventListener('click', function () {
     articleContent.initNotifications();
@@ -4531,6 +4537,7 @@ var sidePanel = function sidePanel() {
     var divChallenges = document.getElementById("yourChallenges");
     var empty = document.getElementById("noChallenges");
     var logout = document.getElementById("logout");
+    var showChallengePage = document.getElementById('showChallengePage');
 
     // Show profile info
     profilePic.src = userObject.facebook.photo;
@@ -4554,6 +4561,11 @@ var sidePanel = function sidePanel() {
 
     // Show friends
     friendModule.ShowAddedFriends(divFriends, userObject.friends);
+
+    // Show challenge page
+    showChallengePage.addEventListener('click', function () {
+      articleContent.initCreate();
+    });
 
     // Show challenges
     if (userObject.acceptedChallenges.length > 0) {

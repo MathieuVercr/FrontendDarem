@@ -229,6 +229,14 @@ h1 {
     flex-direction: column;
     align-items: center; }
 
+#showChallengePage {
+  font-size: 70%;
+  color: #9e2929; }
+
+#showChallengePage:hover {
+  cursor: pointer;
+  text-decoration: underline; }
+
 .filler {
   height: auto;
   background-color: #e0e0e0;
@@ -282,9 +290,7 @@ h1 {
 
 .createChallenge,
 .createChallenge p {
-  display: flex;
-  flex-direction: column;
-  align-items: center; }
+  width: 100%; }
   .createChallenge .form,
   .createChallenge p .form {
     width: 80%;

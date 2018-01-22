@@ -77,7 +77,6 @@ function initIndex(){
 // CODE FOR CHALLENGE PAGE
 function initProfile(){
   sidePanel();
-
   articleContent.initCreate();
   notifications.addEventListener('click', function(){
     articleContent.initNotifications();

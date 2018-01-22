@@ -4,9 +4,11 @@
     <meta charset="utf-8">
     <title>Challenges</title>
     <link href="./css/index.css" rel="stylesheet" />
+    <link href="./css/choices.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Convergence" rel="stylesheet">
     <script src="./js/app.bundle.js"></script>
     <script src="http://projecthowest.herokuapp.com/socket.io/socket.io.js"></script>
+    <script src="./js/choices.min.js" defer></script>
   </head>
   <body id="ALL">
     <header>
@@ -41,7 +43,7 @@
           <div id="friends" class="filler friends"></div>
           <h3>Add these friends</h3>
           <div id="newFriends" class="filler friends"></div>
-          <h3>Your challenges</h3>
+          <h3>Your challenges  <a id="showChallengePage">Create a challenge!!!</a></h3>
           <section id=yourChallenges>
             <div id="noChallenges"></div>
           </section>

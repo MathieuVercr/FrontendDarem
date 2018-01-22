@@ -1,9 +1,7 @@
 import challengeModule from './module/challenge.module';
 import * as validate from './module/validation.module';
 import Challenge from './models/challenge.class';
-import {
-  socket
-} from './socket/general.socket.io';
+import {socket} from './socket/general.socket.io';
 
 
 let createChallenge = function() {
