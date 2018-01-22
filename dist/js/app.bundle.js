@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 32);
+/******/ 	return __webpack_require__(__webpack_require__.s = 33);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -98,15 +98,15 @@ module.exports = g;
  * Module dependencies.
  */
 
-var keys = __webpack_require__(51);
+var keys = __webpack_require__(52);
 var hasBinary = __webpack_require__(24);
-var sliceBuffer = __webpack_require__(52);
-var after = __webpack_require__(53);
-var utf8 = __webpack_require__(54);
+var sliceBuffer = __webpack_require__(53);
+var after = __webpack_require__(54);
+var utf8 = __webpack_require__(55);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(55);
+  base64encoder = __webpack_require__(56);
 }
 
 /**
@@ -164,7 +164,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(56);
+var Blob = __webpack_require__(57);
 
 /**
  * Encodes a packet.
@@ -773,7 +773,7 @@ function ShowNotAddedFriends(divNewFriends, friends) {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(37);
+exports = module.exports = __webpack_require__(38);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -969,7 +969,7 @@ module.exports = function(a, b){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(57);
+exports = module.exports = __webpack_require__(58);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -1376,10 +1376,10 @@ module.exports = challengeModule;
  * Module dependencies.
  */
 
-var debug = __webpack_require__(39)('socket.io-parser');
-var json = __webpack_require__(42);
-var Emitter = __webpack_require__(44);
-var binary = __webpack_require__(45);
+var debug = __webpack_require__(40)('socket.io-parser');
+var json = __webpack_require__(43);
+var Emitter = __webpack_require__(45);
+var binary = __webpack_require__(46);
 var isBuf = __webpack_require__(20);
 
 /**
@@ -1783,7 +1783,7 @@ function error(data){
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(49);
+var hasCORS = __webpack_require__(50);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -2293,7 +2293,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var io = __webpack_require__(35);
+var io = __webpack_require__(36);
 function socket() {
 	var socket = io.connect('http://projecthowest.herokuapp.com');
 	socket.on('connect', function () {
@@ -2645,7 +2645,7 @@ function isBuf(obj) {
  * Module dependencies.
  */
 
-var eio = __webpack_require__(46);
+var eio = __webpack_require__(47);
 var Socket = __webpack_require__(27);
 var Emitter = __webpack_require__(28);
 var parser = __webpack_require__(9);
@@ -2653,7 +2653,7 @@ var on = __webpack_require__(29);
 var bind = __webpack_require__(30);
 var debug = __webpack_require__(3)('socket.io-client:manager');
 var indexOf = __webpack_require__(26);
-var Backoff = __webpack_require__(64);
+var Backoff = __webpack_require__(65);
 
 /**
  * IE6+ hasOwnProperty
@@ -3211,9 +3211,9 @@ Manager.prototype.onreconnect = function () {
  */
 
 var XMLHttpRequest = __webpack_require__(10);
-var XHR = __webpack_require__(50);
-var JSONP = __webpack_require__(59);
-var websocket = __webpack_require__(60);
+var XHR = __webpack_require__(51);
+var JSONP = __webpack_require__(60);
+var websocket = __webpack_require__(61);
 
 /**
  * Export transports.
@@ -3680,7 +3680,7 @@ module.exports = function(arr, obj){
 
 var parser = __webpack_require__(9);
 var Emitter = __webpack_require__(28);
-var toArray = __webpack_require__(63);
+var toArray = __webpack_require__(64);
 var on = __webpack_require__(29);
 var bind = __webpack_require__(30);
 var debug = __webpack_require__(3)('socket.io-client:socket');
@@ -4337,7 +4337,7 @@ exports.initDetails = initDetails;
 exports.initChat = initChat;
 exports.initNotifications = initNotifications;
 
-var _createChallenge = __webpack_require__(65);
+var _createChallenge = __webpack_require__(32);
 
 var _createChallenge2 = _interopRequireDefault(_createChallenge);
 
@@ -4346,7 +4346,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var pages = {
   createPage: '<section class="createChallenge" id="challenge"><div class="form"><h2>Create challenge</h2><label for="name">Name: </label><br /><input type="text" name="name" id="name" class="form__textinput form-element" /><br /><label for="description">Description: </label><br /><textarea name="description" id="description" class="form__textinput form-element"></textarea><br /><label for="endDate">When does the challenge end? </label><br /><input type="date" name="endDate" id="enddate" class="form__dateinput form-element" /><br /><label for="category">Add some friends:</label><br /><select name="friends" id="addFriendToChallenge" placeholder="Add friends" multiple></select><label for="category">Choose a category:</label><br /><select name="category" id="addCategoryToChallenge" placeholder="Choose a category"></select><button type="submit" name="submit" id="submit" class="form__button form-element submit-invalid" disabled>Create challenge</button><br /></div></section>',
   chatPage: "<h2>Chat with your friends</h2><section><div class='chatSpace'>chat</div><div class='chatbar'><input type='text' placeholder='Type here...'><button>Send</button></div></section>",
-  detailPage: "<h2>Details</h2>",
+  detailPage: '<section class="showDetail" id="showDetail"></section>',
   notificationPage: "<h2>Notifications</h2>"
 };
 
@@ -4359,12 +4359,27 @@ function initCreate() {
   //...
 }
 
-function initDetails(challenge) {
+function initDetails(response) {
   var article = document.querySelector("#appInformation");
   article.innerHTML = pages.detailPage;
 
-  //GET HTML CONTROLS
-  //...
+  var date = new Date(parseInt(response.endDate));
+  var bobTheHTMLBuilder = "";
+  bobTheHTMLBuilder += '<img id="detailCategory" src="./assets/images/' + response.category.toLowerCase() + '.png"></img>';
+  bobTheHTMLBuilder += '<div class="challengeDetail">';
+  bobTheHTMLBuilder += '<h2>' + response.name.toUpperCase() + '</h2>';
+  bobTheHTMLBuilder += '<p><strong>Here are your rules </strong>' + response.description + '</p>';
+  bobTheHTMLBuilder += '<p><strong>You need to finish before </strong>' + date.getDay() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + '</p>';
+  bobTheHTMLBuilder += '</div>';
+  bobTheHTMLBuilder += '<div class="friendsDetail">';
+  console.log(response.acceptedUsers.length);
+  for (var i = 0; i < response.acceptedUsers.length; i++) {
+    bobTheHTMLBuilder += '<img src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
+  }
+  bobTheHTMLBuilder += '</div>';
+  bobTheHTMLBuilder += '<button type="submit" id="btnChat">Go and talk about the challenge</button>';
+  var detail = document.getElementById("showDetail");
+  detail.innerHTML = bobTheHTMLBuilder;
 }
 
 function initChat() {
@@ -4381,12 +4396,154 @@ function initNotifications() {
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(33);
+"use strict";
+
+
+var _challenge = __webpack_require__(8);
+
+var _challenge2 = _interopRequireDefault(_challenge);
+
+var _validation = __webpack_require__(66);
+
+var validate = _interopRequireWildcard(_validation);
+
+var _challenge3 = __webpack_require__(67);
+
+var _challenge4 = _interopRequireDefault(_challenge3);
+
+var _generalSocket = __webpack_require__(15);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createChallenge = function createChallenge() {
+  //INPUT fields
+  var creatorId = sessionStorage.getItem("nmct.darem.accessToken");
+  var name = document.getElementById('name');
+  var description = document.getElementById('description');
+  var endDate = document.getElementById('enddate');
+  var submit = document.getElementById('submit');
+  var allFriends = JSON.parse(sessionStorage.getItem('nmct.darem.user')).friends;
+  var friends = document.getElementById('addFriendToChallenge');
+  var category = document.getElementById('addCategoryToChallenge');
+  var selFriends = [];
+  endDate.setAttribute("min", new Date().toISOString().split('T')[0]);
+
+  //2 lijsten opvullen met data
+  fillListFriends();
+  fillListCategories();
+
+  name.addEventListener('input', function () {
+    var bool = validate.checkName(this);
+    color(this, bool);
+  });
+
+  description.addEventListener('input', function () {
+    var bool = validate.checkDescription(this);
+    color(this, bool);
+  });
+
+  endDate.addEventListener('input', function () {
+    var bool = validate.checkDate(this);
+    color(this, bool);
+  });
+
+  friends.addEventListener("change", function () {
+    var bool = validate.checkFriends(this);
+    color(this, bool);
+  });
+
+  category.addEventListener('change', function () {
+    var bool = validate.checkCategory(this);
+    color(this, bool);
+  });
+
+  submit.addEventListener('click', function (evt) {
+    for (var i = 0; i < friends.options.length; i++) {
+      if (friends.options[i].selected == true) {
+        selFriends.push(friends.options[i].value);
+      }
+    }
+
+    console.log(selFriends);
+    if (!validate.enable(name, description, endDate, friends, category)) {
+      var challenge = new _challenge4.default(name.value, description.value, category.value, creatorId, "false", selFriends, Date.parse(endDate.value));
+      challenge.sendPost(name, description, endDate, friends, category);
+    }
+  });
+
+  function color(e, result) {
+    if (result === true) {
+      e.classList.remove('invalid');
+      e.classList.add('valid');
+    } else {
+      e.classList.remove('valid');
+      e.classList.add('invalid');
+    }
+    submit.disabled = validate.enable(name, description, endDate, friends, category);
+    if (!submit.disabled) {
+      submit.classList.remove('submit-invalid');
+      submit.classList.add('submit-valid');
+    } else {
+      submit.classList.remove('submit-valid');
+      submit.classList.add('submit-invalid');
+    }
+  }
+
+  function fillListFriends() {
+    var choiceArray = [];
+    for (var friend in allFriends) {
+      var object = {
+        value: allFriends[friend].databaseid,
+        label: '<img src=https://graph.facebook.com/v2.6/' + allFriends[friend].id + '/picture?type=large class=image_list--selected />' + ('<p style="margin-bottom: auto;margin-top: auto;">' + allFriends[friend].name + '</p>')
+      };
+      choiceArray.push(object);
+    }
+
+    var friendslist = new Choices('#addFriendToChallenge', {
+      removeItemButton: true,
+      choices: choiceArray,
+      classNames: {
+        listItems: 'choices__list--multiple',
+        itemSelectable: 'choices__item--selectable'
+      }
+    });
+  }
+
+  function fillListCategories() {
+    var categories = _challenge2.default.getCategories();
+    var choiceArray = [];
+    for (var _category in categories) {
+      var object = {
+        value: categories[_category],
+        label: categories[_category]
+      };
+      choiceArray.push(object);
+    }
+
+    var categoriesList = new Choices('#addCategoryToChallenge', {
+      removeItemButton: true,
+      choices: choiceArray,
+      classNames: {
+        itemSelectable: 'choices__item--selectable'
+      }
+    });
+  }
+};
+
+module.exports = createChallenge;
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(34);
 module.exports = __webpack_require__(68);
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4400,7 +4557,7 @@ var _user = __webpack_require__(7);
 
 var _user2 = _interopRequireDefault(_user);
 
-var _sidePanel = __webpack_require__(34);
+var _sidePanel = __webpack_require__(35);
 
 var _sidePanel2 = _interopRequireDefault(_sidePanel);
 
@@ -4408,7 +4565,7 @@ var _showArticle = __webpack_require__(31);
 
 var articleContent = _interopRequireWildcard(_showArticle);
 
-var _createChallenge = __webpack_require__(65);
+var _createChallenge = __webpack_require__(32);
 
 var _createChallenge2 = _interopRequireDefault(_createChallenge);
 
@@ -4494,7 +4651,7 @@ function initProfile() {
 }
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4563,134 +4720,6 @@ var sidePanel = function sidePanel() {
         }
       });
     });
-<<<<<<< HEAD
-
-    // Show friends
-    friendModule.ShowAddedFriends(divFriends, userObject.friends);
-
-    // Show challenges
-    if (userObject.acceptedChallenges.length > 0) {
-      userObject.acceptedChallenges.forEach(function (challenge) {
-        var bobTheHTMLBuilder = "";
-        var divChallenge = document.createElement("div");
-        divChallenge.setAttribute('tag', challenge._id);
-        bobTheHTMLBuilder += '<img src="./assets/images/' + challenge.category.toLowerCase() + '.png"></img>';
-        bobTheHTMLBuilder += '<div class="challenge__detail"><p>' + challenge.name + '</p>';
-        bobTheHTMLBuilder += '<p>' + challenge.description + '</p></div>';
-        divChallenge.innerHTML = bobTheHTMLBuilder;
-        divChallenge.className = "challenge filler";
-
-        divChallenge.addEventListener('click', function (e) {
-
-          _challenge2.default.getChallengeData(e.target.attributes.tag.nodeValue).then(function (response) {
-            var date = new Date(parseInt(response.endDate));
-            console.log(date);
-            var bobTheHTMLBuilder = "";
-            bobTheHTMLBuilder += '<img id="detailCategory" src="./assets/images/' + response.category.toLowerCase() + '.png"></img>';
-            bobTheHTMLBuilder += '<div class="challengeDetail">';
-            bobTheHTMLBuilder += '<h2>' + response.name.toUpperCase() + '</h2>';
-            bobTheHTMLBuilder += '<p><strong>Here are your rules </strong>' + response.description + '</p>';
-            bobTheHTMLBuilder += '<p><strong>You need to finish before </strong>' + date.getDay() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + '</p>';
-            bobTheHTMLBuilder += '</div>';
-            bobTheHTMLBuilder += '<div class="friendsDetail">';
-            console.log(response.acceptedUsers.length);
-            for (var i = 0; i < response.acceptedUsers.length; i++) {
-              bobTheHTMLBuilder += '<img src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
-            }
-            bobTheHTMLBuilder += '</div>';
-            bobTheHTMLBuilder += '<button type="submit" id="btnChat">Go and talk about the challenge</button>';
-            var detail = document.getElementById("createChallenge");
-            detail.innerHTML = bobTheHTMLBuilder;
-            console.log(response);
-          });
-        });
-
-        divChallenges.appendChild(divChallenge);
-      });
-    } else {
-      console.log(userObject);
-      empty.innerHTML = "you currently have no challenges.";
-    }
-  }
-};
-
-module.exports = sidePanel;
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var challengeModule = function () {
-  var data;
-
-  function challengeData(challengeID) {
-    if (!challengeID) throw new Error('IDNOTFOUND');
-
-    var p = new Promise(function (ok, nok) {
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onerror = function (err) {
-        nok(err);
-      };
-      xmlhttp.onload = function (res) {
-        if (xmlhttp.readyState === 4) {
-          data = JSON.parse(xmlhttp.responseText);
-          ok(data);
-        }
-      };
-      xmlhttp.open('GET', 'http://projecthowest.herokuapp.com/challenge/' + challengeID, true);
-      xmlhttp.send();
-    });
-
-    return p;
-  }
-
-  return {
-    getChallengeData: challengeData
-  };
-}();
-module.exports = challengeModule;
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.socket = socket;
-
-var _friend = __webpack_require__(6);
-
-var _friend2 = _interopRequireDefault(_friend);
-
-var _friend3 = __webpack_require__(2);
-
-var friendModule = _interopRequireWildcard(_friend3);
-
-var _facebook = __webpack_require__(13);
-
-var facebook = _interopRequireWildcard(_facebook);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var io = __webpack_require__(34);
-function socket() {
-	var socket = io.connect('http://projecthowest.herokuapp.com');
-	socket.on('connect', function () {
-		//registreer op je eigen room -> andere kunnen u een notificatie sturen
-		socket.emit('room', sessionStorage.getItem('nmct.darem.accessTokenDB'));
-		socket.emit('room', sessionStorage.getItem('nmct.darem.accessToken'));
-	});
-=======
->>>>>>> one-page
 
     // Show friends
     friendModule.ShowAddedFriends(divFriends, userObject.friends);
@@ -4700,22 +4729,6 @@ function socket() {
       articleContent.initCreate();
     });
 
-<<<<<<< HEAD
-	function updateUserData(data) {
-		console.log("UPDATE");
-		console.log(data);
-		sessionStorage.setItem("nmct.darem.user", data);
-		var divFriends = document.getElementById("friends");
-		divFriends.innerHTML = '';
-		friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);
-		facebook.initFacebook;
-		FB.getLoginStatus(function (e) {
-			if (sessionStorage.getItem('nmct.darem.user')) {
-				getFriendsList();
-			}
-		});
-	}
-=======
     // Show challenges
     if (userObject.acceptedChallenges.length > 0) {
       userObject.acceptedChallenges.forEach(function (challenge) {
@@ -4727,22 +4740,9 @@ function socket() {
         bobTheHTMLBuilder += '<p>' + challenge.description + '</p></div>';
         divChallenge.innerHTML = bobTheHTMLBuilder;
         divChallenge.className = "challenge filler";
->>>>>>> one-page
 
         divChallenge.addEventListener('click', function (e) {
           _challenge2.default.getChallengeData(e.target.attributes.tag.nodeValue).then(function (response) {
-            var bobTheHTMLBuilder = "";
-            bobTheHTMLBuilder += '<h2>' + response.name + '</h2>';
-            bobTheHTMLBuilder += '<p>' + response.description + '</p>';
-            bobTheHTMLBuilder += '<div>';
-            console.log(response.acceptedUsers.length);
-            for (var i = 0; i < response.acceptedUsers.length; i++) {
-              bobTheHTMLBuilder += '<img src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
-            }
-            bobTheHTMLBuilder += '</div>';
-            var detail = document.getElementById("challenge");
-            detail.innerHTML = bobTheHTMLBuilder;
-            console.log(response);
             articleContent.initDetails(response);
           });
         });
@@ -4759,7 +4759,7 @@ function socket() {
 module.exports = sidePanel;
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4767,7 +4767,7 @@ module.exports = sidePanel;
  * Module dependencies.
  */
 
-var url = __webpack_require__(36);
+var url = __webpack_require__(37);
 var parser = __webpack_require__(9);
 var Manager = __webpack_require__(21);
 var debug = __webpack_require__(3)('socket.io-client');
@@ -4874,7 +4874,7 @@ exports.Socket = __webpack_require__(27);
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -4956,7 +4956,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4972,7 +4972,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(38);
+exports.humanize = __webpack_require__(39);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -5162,7 +5162,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 /**
@@ -5317,7 +5317,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -5327,7 +5327,7 @@ function plural(ms, n, name) {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(40);
+exports = module.exports = __webpack_require__(41);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -5491,7 +5491,7 @@ function localstorage(){
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -5507,7 +5507,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(41);
+exports.humanize = __webpack_require__(42);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -5694,7 +5694,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports) {
 
 /**
@@ -5825,14 +5825,14 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = "function" === "function" && __webpack_require__(43);
+  var isLoader = "function" === "function" && __webpack_require__(44);
 
   // A set of types used to distinguish objects from primitives.
   var objectTypes = {
@@ -6735,7 +6735,7 @@ function plural(ms, n, name) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -6744,7 +6744,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports) {
 
 
@@ -6914,7 +6914,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -7062,19 +7062,19 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-module.exports = __webpack_require__(47);
-
-
-/***/ }),
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 module.exports = __webpack_require__(48);
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+module.exports = __webpack_require__(49);
 
 /**
  * Exports parser
@@ -7086,7 +7086,7 @@ module.exports.parser = __webpack_require__(1);
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -7099,7 +7099,7 @@ var debug = __webpack_require__(5)('engine.io-client:socket');
 var index = __webpack_require__(26);
 var parser = __webpack_require__(1);
 var parseuri = __webpack_require__(16);
-var parsejson = __webpack_require__(62);
+var parsejson = __webpack_require__(63);
 var parseqs = __webpack_require__(13);
 
 /**
@@ -7831,7 +7831,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports) {
 
 
@@ -7854,7 +7854,7 @@ try {
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -8285,7 +8285,7 @@ function unloadHandler () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports) {
 
 
@@ -8310,7 +8310,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports) {
 
 /**
@@ -8345,7 +8345,7 @@ module.exports = function(arraybuffer, start, end) {
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports) {
 
 module.exports = after
@@ -8379,7 +8379,7 @@ function noop() {}
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/wtf8 v1.0.0 by @mathias */
@@ -8619,7 +8619,7 @@ function noop() {}
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports) {
 
 /*
@@ -8692,7 +8692,7 @@ function noop() {}
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -8795,7 +8795,7 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8811,7 +8811,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(58);
+exports.humanize = __webpack_require__(59);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -9001,7 +9001,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports) {
 
 /**
@@ -9156,7 +9156,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -9394,7 +9394,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -9411,7 +9411,7 @@ var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(61);
+    NodeWebSocket = __webpack_require__(62);
   } catch (e) { }
 }
 
@@ -9686,13 +9686,13 @@ WS.prototype.check = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -9730,7 +9730,7 @@ module.exports = function parsejson(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -9749,7 +9749,7 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports) {
 
 
@@ -9838,148 +9838,6 @@ Backoff.prototype.setJitter = function(jitter){
 };
 
 
-
-/***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _challenge = __webpack_require__(8);
-
-var _challenge2 = _interopRequireDefault(_challenge);
-
-var _validation = __webpack_require__(66);
-
-var validate = _interopRequireWildcard(_validation);
-
-var _challenge3 = __webpack_require__(67);
-
-var _challenge4 = _interopRequireDefault(_challenge3);
-
-var _generalSocket = __webpack_require__(15);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var createChallenge = function createChallenge() {
-  //INPUT fields
-  var creatorId = sessionStorage.getItem("nmct.darem.accessToken");
-  var name = document.getElementById('name');
-  var description = document.getElementById('description');
-  var endDate = document.getElementById('enddate');
-  var submit = document.getElementById('submit');
-  var allFriends = JSON.parse(sessionStorage.getItem('nmct.darem.user')).friends;
-  var friends = document.getElementById('addFriendToChallenge');
-  var category = document.getElementById('addCategoryToChallenge');
-  var selFriends = [];
-  endDate.setAttribute("min", new Date().toISOString().split('T')[0]);
-
-  //2 lijsten opvullen met data
-  fillListFriends();
-  fillListCategories();
-
-  name.addEventListener('input', function () {
-    var bool = validate.checkName(this);
-    color(this, bool);
-  });
-
-  description.addEventListener('input', function () {
-    var bool = validate.checkDescription(this);
-    color(this, bool);
-  });
-
-  endDate.addEventListener('input', function () {
-    var bool = validate.checkDate(this);
-    color(this, bool);
-  });
-
-  friends.addEventListener("change", function () {
-    var bool = validate.checkFriends(this);
-    color(this, bool);
-  });
-
-  category.addEventListener('change', function () {
-    var bool = validate.checkCategory(this);
-    color(this, bool);
-  });
-
-  submit.addEventListener('click', function (evt) {
-    for (var i = 0; i < friends.options.length; i++) {
-      if (friends.options[i].selected == true) {
-        selFriends.push(friends.options[i].value);
-      }
-    }
-
-    console.log(selFriends);
-    if (!validate.enable(name, description, endDate, friends, category)) {
-      var challenge = new _challenge4.default(name.value, description.value, category.value, creatorId, "false", selFriends, Date.parse(endDate.value));
-      challenge.sendPost(name, description, endDate, friends, category);
-    }
-  });
-
-  function color(e, result) {
-    if (result === true) {
-      e.classList.remove('invalid');
-      e.classList.add('valid');
-    } else {
-      e.classList.remove('valid');
-      e.classList.add('invalid');
-    }
-    submit.disabled = validate.enable(name, description, endDate, friends, category);
-    if (!submit.disabled) {
-      submit.classList.remove('submit-invalid');
-      submit.classList.add('submit-valid');
-    } else {
-      submit.classList.remove('submit-valid');
-      submit.classList.add('submit-invalid');
-    }
-  }
-
-  function fillListFriends() {
-    var choiceArray = [];
-    for (var friend in allFriends) {
-      var object = {
-        value: allFriends[friend].databaseid,
-        label: '<img src=https://graph.facebook.com/v2.6/' + allFriends[friend].id + '/picture?type=large class=image_list--selected />' + ('<p style="margin-bottom: auto;margin-top: auto;">' + allFriends[friend].name + '</p>')
-      };
-      choiceArray.push(object);
-    }
-
-    var friendslist = new Choices('#addFriendToChallenge', {
-      removeItemButton: true,
-      choices: choiceArray,
-      classNames: {
-        listItems: 'choices__list--multiple',
-        itemSelectable: 'choices__item--selectable'
-      }
-    });
-  }
-
-  function fillListCategories() {
-    var categories = _challenge2.default.getCategories();
-    var choiceArray = [];
-    for (var _category in categories) {
-      var object = {
-        value: categories[_category],
-        label: categories[_category]
-      };
-      choiceArray.push(object);
-    }
-
-    var categoriesList = new Choices('#addCategoryToChallenge', {
-      removeItemButton: true,
-      choices: choiceArray,
-      classNames: {
-        itemSelectable: 'choices__item--selectable'
-      }
-    });
-  }
-};
-
-module.exports = createChallenge;
 
 /***/ }),
 /* 66 */

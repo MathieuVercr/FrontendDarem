@@ -2,7 +2,7 @@ import createChallenge from './createChallenge';
 let pages = {
   createPage: '<section class="createChallenge" id="challenge"><div class="form"><h2>Create challenge</h2><label for="name">Name: </label><br /><input type="text" name="name" id="name" class="form__textinput form-element" /><br /><label for="description">Description: </label><br /><textarea name="description" id="description" class="form__textinput form-element"></textarea><br /><label for="endDate">When does the challenge end? </label><br /><input type="date" name="endDate" id="enddate" class="form__dateinput form-element" /><br /><label for="category">Add some friends:</label><br /><select name="friends" id="addFriendToChallenge" placeholder="Add friends" multiple></select><label for="category">Choose a category:</label><br /><select name="category" id="addCategoryToChallenge" placeholder="Choose a category"></select><button type="submit" name="submit" id="submit" class="form__button form-element submit-invalid" disabled>Create challenge</button><br /></div></section>',
   chatPage: "<h2>Chat with your friends</h2><section><div class='chatSpace'>chat</div><div class='chatbar'><input type='text' placeholder='Type here...'><button>Send</button></div></section>",
-  detailPage: "<h2>Details</h2>",
+  detailPage: '<section class="showDetail" id="showDetail"></section>',
   notificationPage: "<h2>Notifications</h2>"
 };
 
@@ -15,12 +15,27 @@ export function initCreate(){
   //...
 }
 
-export function initDetails(challenge){
+export function initDetails(response){
   let article = document.querySelector("#appInformation");
   article.innerHTML = pages.detailPage;
 
-  //GET HTML CONTROLS
-  //...
+  var date = new Date(parseInt(response.endDate));
+  var bobTheHTMLBuilder = "";
+  bobTheHTMLBuilder += '<img id="detailCategory" src="./assets/images/' + response.category.toLowerCase() + '.png"></img>';
+  bobTheHTMLBuilder += '<div class="challengeDetail">';
+  bobTheHTMLBuilder += '<h2>' + response.name.toUpperCase() + '</h2>';
+  bobTheHTMLBuilder += '<p><strong>Here are your rules </strong>' + response.description + '</p>';
+  bobTheHTMLBuilder += '<p><strong>You need to finish before </strong>' + date.getDay() + '/' + (date.getMonth()+1) + '/' + date.getFullYear() + '</p>';
+  bobTheHTMLBuilder += '</div>';
+  bobTheHTMLBuilder += '<div class="friendsDetail">';
+  console.log(response.acceptedUsers.length);
+  for (var i = 0; i < response.acceptedUsers.length; i++) {
+    bobTheHTMLBuilder += '<img src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
+  }
+  bobTheHTMLBuilder += '</div>';
+  bobTheHTMLBuilder += '<button type="submit" id="btnChat">Go and talk about the challenge</button>'
+  var detail = document.getElementById("showDetail");
+  detail.innerHTML = bobTheHTMLBuilder;
 }
 
 export function initChat(){
