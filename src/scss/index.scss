@@ -27,6 +27,12 @@ body{
   margin: 0;
 }
 
+.appInformation{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 ////////////// HEADER ////////////////
 
 header{
@@ -362,7 +368,7 @@ h1{
   cursor: pointer;
 }
 
-.appInformation, .createChallenge, .createChallenge p{
+.createChallenge, .createChallenge p{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -375,7 +381,7 @@ h1{
 
 ////////////// BODY: CHAT ////////////////
 
-.chatInterface, .appInformation{
+.chatInterface{
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -425,6 +431,77 @@ h1{
     color: $mainColorPrimary;
     margin-bottom: 0;
   }
+}
+
+////////////// BODY: NOTIFICATIONS ////////////////
+
+#allNotificiations{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+  height: 100%;
+}
+
+
+.notificiation{
+  width: 400px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: $backgroundColorAccent;
+
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.notifyImage{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img{
+    max-width: 100%;
+    border-radius: 50%;
+  }
+}
+
+.notifyInfo{
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+
+}
+
+#notifyText{
+  flex: 1;
+}
+
+#notifiyReply{
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  div{
+    margin-left: 10px;
+    font-size: 80%;
+  }
+}
+
+.reply:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#accept{
+  color: green;
+}
+#decline{
+  color: $mainColorPrimary;
 }
 
 ////////////// TOOLTIP FRIENDS ////////////////

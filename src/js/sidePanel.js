@@ -2,6 +2,7 @@ import challengeModule from './module/challenge.module';
 import * as friendModule from './module/friend.module';
 import Friend from './models/friend.class';
 import { socket } from './socket/general.socket.io';
+import * as articleContent from './showArticle';
 
 
 var sidePanel = function() {
@@ -63,6 +64,7 @@ var sidePanel = function() {
         divChallenge.addEventListener('click', function(e) {
           challengeModule.getChallengeData(e.target.attributes.tag.nodeValue).then(function(response) {
             console.log(response);
+            articleContent.initDetails(response);
           });
         });
 
