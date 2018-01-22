@@ -1,20 +1,23 @@
+
 import * as facebook from './facebook/facebook';
 import userModule from './module/user.module';
 import sidePanel from './sidePanel';
+import * as articleContent from './showArticle';
+import createChallenge from './createChallenge';
 var storage = window.sessionStorage;
 
 document.addEventListener("DOMContentLoaded", (event) => {
+  console.log("init");
   facebook.initFacebook;
+
   let body = document.getElementsByTagName("body")[0];
   switch(body.id){
     case "INDEX":
       initIndex();
       break;
-    case "CHALLENGE":
-      initChallenge();
-      break;
-    case "CHAT":
-      initChat();
+    case "ALL":
+      console.log("check");
+      initProfile();
       break;
     default:
       break;
@@ -56,7 +59,7 @@ function initIndex(){
             sessionStorage.setItem("nmct.darem.accessToken", response.facebook.id);
             sessionStorage.setItem("nmct.darem.accessTokenDB", response.facebook.databaseid);
             sessionStorage.setItem("nmct.darem.user", JSON.stringify(response));
-            window.location.href = "./challenge.html"
+            window.location.href = "./profile.html"
           });
         });
       }else{
@@ -66,19 +69,18 @@ function initIndex(){
   });
 
   if(storage.getItem("nmct.darem.user") != null && storage.getItem("nmct.facebook.accessToken") ){
-    window.location.href = "./challenge.html";
+    window.location.href = "./profile.html";
   }
 
 }
 
 // CODE FOR CHALLENGE PAGE
-function initChallenge(){
+function initProfile(){
   sidePanel();
+  articleContent.initCreate();
+  notifications.addEventListener('click', function(){
+    articleContent.initNotifications();
+  });
 
-  
-}
 
-// CODE FOR CHAT PAGE
-function initChat(){
-  sidePanel();
 }

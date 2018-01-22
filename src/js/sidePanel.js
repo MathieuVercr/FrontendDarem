@@ -2,28 +2,30 @@ import challengeModule from './module/challenge.module';
 import * as friendModule from './module/friend.module';
 import Friend from './models/friend.class';
 import { socket } from './socket/general.socket.io';
+import * as articleContent from './showArticle';
 
 
-var sidePanel = function() {
+let sidePanel = function() {
   let storage = window.sessionStorage;
   if (storage.getItem("nmct.darem.user") == null) {
-    window.location.href = "./index.html";
+    //window.location.href = "./index.html";
   } else {
 		socket();
-    var userString = storage.getItem("nmct.darem.user");
-    var userObject = JSON.parse(userString);
+    let userString = storage.getItem("nmct.darem.user");
+    let userObject = JSON.parse(userString);
     console.log(userObject);
 
     /*** SHOW USER INFO ON SCREEN ***/
     // Get HTML elements
-    var profilepic = document.getElementById("profilePic");
-    var labelFirstName = document.getElementById("firstName");
-    var lableLastName = document.getElementById("lastName");
-    var labelEmail = document.getElementById("email");
-    var divFriends = document.getElementById("friends");
-    var divChallenges = document.getElementById("yourChallenges");
-    var empty = document.getElementById("noChallenges");
-    var logout = document.getElementById("logout");
+    let profilepic = document.getElementById("profilePic");
+    let labelFirstName = document.getElementById("firstName");
+    let lableLastName = document.getElementById("lastName");
+    let labelEmail = document.getElementById("email");
+    let divFriends = document.getElementById("friends");
+    let divChallenges = document.getElementById("yourChallenges");
+    let empty = document.getElementById("noChallenges");
+    let logout = document.getElementById("logout");
+    let showChallengePage = document.getElementById('showChallengePage');
 
     // Show profile info
     profilePic.src = userObject.facebook.photo;
@@ -48,11 +50,16 @@ var sidePanel = function() {
     // Show friends
     friendModule.ShowAddedFriends(divFriends, userObject.friends);
 
+    // Show challenge page
+    showChallengePage.addEventListener('click', () => {
+      articleContent.initCreate();
+    })
+
     // Show challenges
     if (userObject.acceptedChallenges.length > 0) {
       userObject.acceptedChallenges.forEach((challenge) => {
         let bobTheHTMLBuilder = "";
-        var divChallenge = document.createElement("div");
+        let divChallenge = document.createElement("div");
         divChallenge.setAttribute('tag', challenge._id);
         bobTheHTMLBuilder += `<img src="./assets/images/${challenge.category.toLowerCase()}.png"></img>`;
         bobTheHTMLBuilder += `<div class="challenge__detail"><p>${challenge.name}</p>`;
@@ -82,6 +89,7 @@ var sidePanel = function() {
             var detail = document.getElementById("createChallenge");
             detail.innerHTML = bobTheHTMLBuilder;
             console.log(response);
+            articleContent.initDetails(response);
           });
         });
 
