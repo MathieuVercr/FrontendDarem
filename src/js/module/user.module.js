@@ -1,6 +1,6 @@
 var userModule = (function(){
   var data;
-  
+
 	function createUser(accessToken){
     if(!accessToken) throw new Error('ACCESSTOKENTOKENNOTFOUND');
 

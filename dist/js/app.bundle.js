@@ -944,7 +944,7 @@ function localstorage(){
   } catch (e) {}
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
 /* 4 */
@@ -1140,7 +1140,7 @@ function localstorage(){
   } catch (e) {}
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
 /* 6 */
@@ -1299,6 +1299,71 @@ module.exports = userModule;
 
 /***/ }),
 /* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var challengeModule = function () {
+  var data;
+
+  function challengeData(challengeID) {
+    if (!challengeID) throw new Error('IDNOTFOUND');
+
+    var p = new Promise(function (ok, nok) {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = function (err) {
+        nok(err);
+      };
+      xmlhttp.onload = function (res) {
+        if (xmlhttp.readyState === 4) {
+          data = JSON.parse(xmlhttp.responseText);
+          ok(data);
+        }
+      };
+      xmlhttp.open('GET', 'http://projecthowest.herokuapp.com/challenge/' + challengeID, true);
+      xmlhttp.send();
+    });
+
+    return p;
+  }
+
+  function addChallenge(challenge) {
+    var p = new Promise(function (ok, nok) {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = function (err) {
+        nok(err);
+      };
+      xmlhttp.onload = function (res) {
+        if (xmlhttp.readyState === 4) {
+          data = xmlhttp.responseText;
+          ok(data);
+        }
+      };
+      xmlhttp.open('POST', 'https://projecthowest.herokuapp.com/challenge/add', true);
+      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      var json = JSON.stringify(challenge);
+      xmlhttp.send(json);
+    });
+    return p;
+  }
+
+  function getCategories() {
+    var categories = ["Baseball", "Basketball", "Bodybuilding", "Boxing", "Cycling", "Dancing", "Football", "Golf", "Running", "Swimming", "Tennis", "Volleyball", "Walking"];
+    return categories;
+  }
+
+  return {
+    getChallengeData: challengeData,
+    addChallenge: addChallenge,
+    getCategories: getCategories
+  };
+}();
+
+module.exports = challengeModule;
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1638,7 +1703,7 @@ function tryParse(p, str) {
   } catch(e){
     return error();
   }
-  return p; 
+  return p;
 };
 
 /**
@@ -1708,7 +1773,7 @@ function error(data){
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
@@ -1752,7 +1817,7 @@ module.exports = function (opts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -1760,7 +1825,7 @@ module.exports = function (opts) {
  */
 
 var parser = __webpack_require__(1);
-var Emitter = __webpack_require__(11);
+var Emitter = __webpack_require__(12);
 
 /**
  * Module exports.
@@ -1915,7 +1980,7 @@ Transport.prototype.onClose = function () {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2084,7 +2149,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 /**
@@ -2127,7 +2192,7 @@ exports.decode = function(qs){
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2196,7 +2261,86 @@ var initFacebook = function () {
 module.exports = initFacebook;
 
 /***/ }),
-/* 14 */
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.socket = socket;
+
+var _friend = __webpack_require__(6);
+
+var _friend2 = _interopRequireDefault(_friend);
+
+var _friend3 = __webpack_require__(2);
+
+var friendModule = _interopRequireWildcard(_friend3);
+
+var _facebook = __webpack_require__(14);
+
+var facebook = _interopRequireWildcard(_facebook);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var io = __webpack_require__(34);
+function socket() {
+	var socket = io.connect('http://projecthowest.herokuapp.com');
+	socket.on('connect', function () {
+		//registreer op je eigen room -> andere kunnen u een notificatie sturen
+		socket.emit('room', sessionStorage.getItem('nmct.darem.accessTokenDB'));
+		socket.emit('room', sessionStorage.getItem('nmct.darem.accessToken'));
+	});
+
+	socket.on('room joined', function (data) {
+		console.log(data);
+	});
+
+	socket.on('new friend', function (data) {
+		updateUserData(data);
+	});
+
+	function updateUserData(data) {
+		console.log("UPDATE");
+		sessionStorage.setItem("nmct.darem.user", data.userOne);
+		var divFriends = document.getElementById("friends");
+		divFriends.innerHTML = '';
+		friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);
+		facebook.initFacebook;
+		FB.getLoginStatus(function (e) {
+			if (sessionStorage.getItem('nmct.darem.user')) {
+				getFriendsList();
+			}
+		});
+	}
+
+	var getFriendsList = function getFriendsList() {
+		FB.api('/me/friends', function (response) {
+			var obj = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
+			var newFriends = [];
+			for (var i = 0; i < response.data.length; i++) {
+				if (!JSON.stringify(obj.friends).includes(response.data[i].id)) {
+					newFriends.push(response.data[i]);
+				}
+			}
+			showInSidePanel(newFriends);
+
+			function showInSidePanel(newFriends) {
+				console.log("REFRESH!");
+				var divNewFriends = document.getElementById("newFriends");
+				friendModule.ShowNotAddedFriends(divNewFriends, newFriends);
+			}
+		});
+	};
+};
+
+/***/ }),
+/* 16 */
 /***/ (function(module, exports) {
 
 /**
@@ -2241,7 +2385,7 @@ module.exports = function parseuri(str) {
 
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -2431,7 +2575,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -2459,7 +2603,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -2468,7 +2612,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -2488,7 +2632,7 @@ function isBuf(obj) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3054,7 +3198,7 @@ Manager.prototype.onreconnect = function () {
 
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -3114,18 +3258,18 @@ function polling (opts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var Transport = __webpack_require__(10);
-var parseqs = __webpack_require__(12);
+var Transport = __webpack_require__(11);
+var parseqs = __webpack_require__(13);
 var parser = __webpack_require__(1);
 var inherit = __webpack_require__(4);
-var yeast = __webpack_require__(23);
+var yeast = __webpack_require__(25);
 var debug = __webpack_require__(5)('engine.io-client:polling');
 
 /**
@@ -3139,7 +3283,7 @@ module.exports = Polling;
  */
 
 var hasXHR2 = (function () {
-  var XMLHttpRequest = __webpack_require__(9);
+  var XMLHttpRequest = __webpack_require__(10);
   var xhr = new XMLHttpRequest({ xdomain: false });
   return null != xhr.responseType;
 })();
@@ -3365,7 +3509,7 @@ Polling.prototype.uri = function () {
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -3373,7 +3517,7 @@ Polling.prototype.uri = function () {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(17);
+var isArray = __webpack_require__(19);
 
 /**
  * Module exports.
@@ -3431,7 +3575,7 @@ function hasBinary(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3506,7 +3650,7 @@ module.exports = yeast;
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports) {
 
 
@@ -3521,7 +3665,7 @@ module.exports = function(arr, obj){
 };
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3535,7 +3679,7 @@ var toArray = __webpack_require__(63);
 var on = __webpack_require__(27);
 var bind = __webpack_require__(28);
 var debug = __webpack_require__(3)('socket.io-client:socket');
-var hasBin = __webpack_require__(22);
+var hasBin = __webpack_require__(24);
 
 /**
  * Module exports.
@@ -3946,7 +4090,7 @@ Socket.prototype.compress = function (compress) {
 
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4115,7 +4259,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports) {
 
 
@@ -4145,7 +4289,7 @@ function on (obj, ev, fn) {
 
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports) {
 
 /**
@@ -4174,7 +4318,7 @@ module.exports = function(obj, fn){
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4222,7 +4366,7 @@ function initNotifications() {
 }
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(31);
@@ -4236,7 +4380,7 @@ module.exports = __webpack_require__(65);
 "use strict";
 
 
-var _facebook = __webpack_require__(13);
+var _facebook = __webpack_require__(14);
 
 var facebook = _interopRequireWildcard(_facebook);
 
@@ -4261,6 +4405,7 @@ var storage = window.sessionStorage;
 document.addEventListener("DOMContentLoaded", function (event) {
   console.log("init");
   facebook.initFacebook;
+
   var body = document.getElementsByTagName("body")[0];
   switch (body.id) {
     case "INDEX":
@@ -4326,6 +4471,8 @@ function initIndex() {
 // CODE FOR CHALLENGE PAGE
 function initProfile() {
   (0, _sidePanel2.default)();
+  (0, _createChallenge2.default)();
+}
 
   /*
     articleContent.initCreate();
@@ -4336,7 +4483,7 @@ function initProfile() {
 }
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4414,7 +4561,7 @@ var sidePanel = function sidePanel() {
         var bobTheHTMLBuilder = "";
         var divChallenge = document.createElement("div");
         divChallenge.setAttribute('tag', challenge._id);
-        bobTheHTMLBuilder += '<img src="../dist/assets/images/' + challenge.category + '.png"></img>';
+        bobTheHTMLBuilder += '<img src="./assets/images/' + challenge.category.toLowerCase() + '.png"></img>';
         bobTheHTMLBuilder += '<div class="challenge__detail"><p>' + challenge.name + '</p>';
         bobTheHTMLBuilder += '<p>' + challenge.description + '</p></div>';
         divChallenge.innerHTML = bobTheHTMLBuilder;
@@ -4422,6 +4569,17 @@ var sidePanel = function sidePanel() {
 
         divChallenge.addEventListener('click', function (e) {
           _challenge2.default.getChallengeData(e.target.attributes.tag.nodeValue).then(function (response) {
+            var bobTheHTMLBuilder = "";
+            bobTheHTMLBuilder += '<h2>' + response.name + '</h2>';
+            bobTheHTMLBuilder += '<p>' + response.description + '</p>';
+            bobTheHTMLBuilder += '<div>';
+            console.log(response.acceptedUsers.length);
+            for (var i = 0; i < response.acceptedUsers.length; i++) {
+              bobTheHTMLBuilder += '<img src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
+            }
+            bobTheHTMLBuilder += '</div>';
+            var detail = document.getElementById("challenge");
+            detail.innerHTML = bobTheHTMLBuilder;
             console.log(response);
             articleContent.initDetails(response);
           });
@@ -4666,8 +4824,8 @@ exports.connect = lookup;
  * @api public
  */
 
-exports.Manager = __webpack_require__(19);
-exports.Socket = __webpack_require__(25);
+exports.Manager = __webpack_require__(21);
+exports.Socket = __webpack_require__(27);
 
 
 /***/ }),
@@ -4679,7 +4837,7 @@ exports.Socket = __webpack_require__(25);
  * Module dependencies.
  */
 
-var parseuri = __webpack_require__(14);
+var parseuri = __webpack_require__(16);
 var debug = __webpack_require__(3)('socket.io-client:url');
 
 /**
@@ -6529,7 +6687,7 @@ function plural(ms, n, name) {
   }
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)(module), __webpack_require__(0)))
 
 /***/ }),
 /* 43 */
@@ -6720,8 +6878,8 @@ Emitter.prototype.hasListeners = function(event){
  * Module requirements
  */
 
-var isArray = __webpack_require__(17);
-var isBuf = __webpack_require__(18);
+var isArray = __webpack_require__(19);
+var isBuf = __webpack_require__(20);
 
 /**
  * Replaces every Buffer | ArrayBuffer in packet with a numbered placeholder.
@@ -6890,10 +7048,10 @@ module.exports.parser = __webpack_require__(1);
  * Module dependencies.
  */
 
-var transports = __webpack_require__(20);
-var Emitter = __webpack_require__(11);
+var transports = __webpack_require__(22);
+var Emitter = __webpack_require__(12);
 var debug = __webpack_require__(5)('engine.io-client:socket');
-var index = __webpack_require__(24);
+var index = __webpack_require__(26);
 var parser = __webpack_require__(1);
 var parseuri = __webpack_require__(14);
 var parsejson = __webpack_require__(62);
@@ -7029,8 +7187,8 @@ Socket.protocol = parser.protocol; // this is an int
  */
 
 Socket.Socket = Socket;
-Socket.Transport = __webpack_require__(10);
-Socket.transports = __webpack_require__(20);
+Socket.Transport = __webpack_require__(11);
+Socket.transports = __webpack_require__(22);
 Socket.parser = __webpack_require__(1);
 
 /**
@@ -7658,9 +7816,9 @@ try {
  * Module requirements.
  */
 
-var XMLHttpRequest = __webpack_require__(9);
-var Polling = __webpack_require__(21);
-var Emitter = __webpack_require__(11);
+var XMLHttpRequest = __webpack_require__(10);
+var Polling = __webpack_require__(23);
+var Emitter = __webpack_require__(12);
 var inherit = __webpack_require__(4);
 var debug = __webpack_require__(5)('engine.io-client:polling-xhr');
 
@@ -8413,7 +8571,7 @@ function noop() {}
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)(module), __webpack_require__(0)))
 
 /***/ }),
 /* 55 */
@@ -8961,7 +9119,7 @@ function plural(ms, n, name) {
  * Module requirements.
  */
 
-var Polling = __webpack_require__(21);
+var Polling = __webpack_require__(23);
 var inherit = __webpack_require__(4);
 
 /**
@@ -9198,11 +9356,11 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
  * Module dependencies.
  */
 
-var Transport = __webpack_require__(10);
+var Transport = __webpack_require__(11);
 var parser = __webpack_require__(1);
-var parseqs = __webpack_require__(12);
+var parseqs = __webpack_require__(13);
 var inherit = __webpack_require__(4);
-var yeast = __webpack_require__(23);
+var yeast = __webpack_require__(25);
 var debug = __webpack_require__(5)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
@@ -9637,7 +9795,272 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _challenge = __webpack_require__(8);
+
+var _challenge2 = _interopRequireDefault(_challenge);
+
+var _validation = __webpack_require__(65);
+
+var validate = _interopRequireWildcard(_validation);
+
+var _challenge3 = __webpack_require__(66);
+
+var _challenge4 = _interopRequireDefault(_challenge3);
+
+var _generalSocket = __webpack_require__(15);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createChallenge = function createChallenge() {
+  //INPUT fields
+  var creatorId = sessionStorage.getItem("nmct.darem.accessToken");
+  var name = document.getElementById('name');
+  var description = document.getElementById('description');
+  var endDate = document.getElementById('enddate');
+  var submit = document.getElementById('submit');
+  var allFriends = JSON.parse(sessionStorage.getItem('nmct.darem.user')).friends;
+  var friends = document.getElementById('addFriendToChallenge');
+  var category = document.getElementById('addCategoryToChallenge');
+  var selFriends = [];
+  endDate.setAttribute("min", new Date().toISOString().split('T')[0]);
+
+  //2 lijsten opvullen met data
+  fillListFriends();
+  fillListCategories();
+
+  name.addEventListener('input', function () {
+    var bool = validate.checkName(this);
+    color(this, bool);
+  });
+
+  description.addEventListener('input', function () {
+    var bool = validate.checkDescription(this);
+    color(this, bool);
+  });
+
+  endDate.addEventListener('input', function () {
+    var bool = validate.checkDate(this);
+    color(this, bool);
+  });
+
+  friends.addEventListener("change", function () {
+    var bool = validate.checkFriends(this);
+    color(this, bool);
+  });
+
+  category.addEventListener('change', function () {
+    var bool = validate.checkCategory(this);
+    color(this, bool);
+  });
+
+  submit.addEventListener('click', function (evt) {
+    for (var i = 0; i < friends.options.length; i++) {
+      if (friends.options[i].selected == true) {
+        selFriends.push(friends.options[i].value);
+      }
+    }
+
+    console.log(selFriends);
+    if (!validate.enable(name, description, endDate, friends, category)) {
+      var challenge = new _challenge4.default(name.value, description.value, category.value, creatorId, "false", selFriends, Date.parse(endDate.value));
+      challenge.sendPost(name, description, endDate, friends, category);
+    }
+  });
+
+  function color(e, result) {
+    if (result === true) {
+      e.classList.remove('invalid');
+      e.classList.add('valid');
+    } else {
+      e.classList.remove('valid');
+      e.classList.add('invalid');
+    }
+    submit.disabled = validate.enable(name, description, endDate, friends, category);
+    if (!submit.disabled) {
+      submit.classList.remove('submit-invalid');
+      submit.classList.add('submit-valid');
+    } else {
+      submit.classList.remove('submit-valid');
+      submit.classList.add('submit-invalid');
+    }
+  }
+
+  function fillListFriends() {
+    var choiceArray = [];
+    for (var friend in allFriends) {
+      var object = {
+        value: allFriends[friend].databaseid,
+        label: '<img src=https://graph.facebook.com/v2.6/' + allFriends[friend].id + '/picture?type=large class=image_list--selected />' + ('<p style="margin-bottom: auto;margin-top: auto;">' + allFriends[friend].name + '</p>')
+      };
+      choiceArray.push(object);
+    }
+
+    var friendslist = new Choices('#addFriendToChallenge', {
+      removeItemButton: true,
+      choices: choiceArray,
+      classNames: {
+        listItems: 'choices__list--multiple',
+        itemSelectable: 'choices__item--selectable'
+      }
+    });
+  }
+
+  function fillListCategories() {
+    var categories = _challenge2.default.getCategories();
+    var choiceArray = [];
+    for (var _category in categories) {
+      var object = {
+        value: categories[_category],
+        label: categories[_category]
+      };
+      choiceArray.push(object);
+    }
+
+    var categoriesList = new Choices('#addCategoryToChallenge', {
+      removeItemButton: true,
+      choices: choiceArray,
+      classNames: {
+        itemSelectable: 'choices__item--selectable'
+      }
+    });
+  }
+};
+
+module.exports = createChallenge;
+
+/***/ }),
 /* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.checkName = checkName;
+exports.checkDescription = checkDescription;
+exports.checkDate = checkDate;
+exports.checkFriends = checkFriends;
+exports.checkCategory = checkCategory;
+exports.enable = enable;
+function checkName(e) {
+  var result = /^[a-zA-Z0-9_ ]*$/.test(e.value);
+  if (e.value.length < 5) return false;
+  return result;
+}
+
+function checkDescription(e) {
+  var result = /^[a-zA-Z0-9_ .?-]*$/.test(e.value);
+  if (e.value.length < 10) return false;
+  return result;
+}
+
+function checkDate(e) {
+  if (e.value === "") return false;
+  if (Date.parse(e.value) - Date.parse(new Date()) <= -86400000) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function checkFriends(e) {
+  if (e.value.length > 0) return true;
+  return false;
+}
+
+function checkCategory(e) {
+  if (e.value) return true;
+  return false;
+}
+
+function enable(name, description, endDate, friends, category) {
+  if (checkName(name) && checkDescription(description) && checkDate(endDate) && checkFriends(friends) && checkCategory(category)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _challenge = __webpack_require__(8);
+
+var _challenge2 = _interopRequireDefault(_challenge);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var challenge = function () {
+  function challenge(name, description, category, creatorId, isCompleted, users, endDate) {
+    _classCallCheck(this, challenge);
+
+    this.name = name;
+    this.description = description;
+    this.category = category;
+    this.creatorId = creatorId;
+    this.isCompleted = isCompleted;
+    this.users = users;
+    this.endDate = endDate;
+  }
+
+  _createClass(challenge, [{
+    key: "sendPost",
+    value: function sendPost(name, description, endDate, friends, category) {
+      var _this = this;
+
+      _challenge2.default.addChallenge(this).then(function (ok, nok) {
+        if (nok) console.log(nok);
+        name.value = "";
+        description.value = "";
+        endDate.value = _this.formatDate(new Date());
+        friends.innerHTML = "";
+        category.value = "";
+      });
+    }
+  }, {
+    key: "formatDate",
+    value: function formatDate(date) {
+      var d = new Date(date);
+      var month = '' + (d.getMonth() + 1);
+      var day = '' + d.getDate();
+      var year = d.getFullYear();
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return [year, month, day].join('-');S
+    }
+  }]);
+
+  return challenge;
+}();
+
+exports.default = challenge;
+
+/***/ }),
+/* 67 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -21,7 +21,7 @@ export function socket(){
 
 	function updateUserData(data){
 		console.log("UPDATE")
-		sessionStorage.setItem("nmct.darem.user", data);
+		sessionStorage.setItem("nmct.darem.user", data.userOne);
 		let divFriends = document.getElementById("friends");
 		divFriends.innerHTML = '';
 		friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);

@@ -1,31 +1,29 @@
 ////////////// GENERAL ////////////////
-
 $mainColorPrimary: #9e2929;
 $mainColorlSecondary: #922828;
-
 $backgroundColorPrimary: #fefefe;
 $backgroundColorSecondary: #f8f8f8;
 $backgroundColorAccent: #e0e0e0;
 
-*{
+* {
   font-family: 'Convergence', sans-serif;
 }
 
-html{
+html {
   min-height: 100%;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-body{
+body {
   background-color: $backgroundColorPrimary;
   display: flex;
   flex-direction: column;
   flex: 1;
-
   margin: 0;
 }
+<<<<<<< HEAD
 
 .appInformation{
   display: flex;
@@ -33,34 +31,32 @@ body{
   align-items: center;
 }
 
+=======
+>>>>>>> feature-detail
 ////////////// HEADER ////////////////
-
-header{
+header {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-
-  padding: 10px;
-  padding-bottom: 0;
+  padding: 10px 10px 0;
   //border-bottom: solid $backgroundColorAccent 3px;
   background-color: $mainColorPrimary;
 
-  figure{
+  figure {
     flex-grow: 1;
-    margin: 0;
-    margin-bottom: 10px;
+    margin: 0 0 10px;
   }
-  nav{
+
+  nav {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-self: flex-end;
     flex-grow: 2;
-
     width: 500px;
 
-    a{
+    a {
       text-decoration: none;
       font-weight: bold;
       margin-right: 50px;
@@ -68,29 +64,26 @@ header{
       padding: 10px;
       color: $backgroundColorPrimary;
     }
-    a:last-child{
+
+    a:last-child {
       margin-right: 30px;
     }
   }
-
 }
 
-#highlight{
+#highlight {
   background-color: $backgroundColorPrimary;
   color: $mainColorPrimary;
 }
 
-
-.startNow{
+.startNow {
   text-decoration: none;
   font-weight: bold;
   font-size: large;
-  margin-right: 0
+  margin-right: 0;
 }
-
 ////////////// BODY: POPUP ////////////////
-
-.popup{
+.popup {
   display: none;
   position: fixed;
   z-index: 1;
@@ -103,30 +96,31 @@ header{
   background-color: rgba(0,0,0,0.4);
 }
 
-.popup-content{
+.popup-content {
   background-color: $backgroundColorPrimary;
   border: solid $backgroundColorAccent 3px;
   margin: 10% auto;
   width: 50%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  span{
+  span {
     align-self: flex-end;
   }
-  img{
+
+  img {
     width: 65px;
   }
-  form{
+
+  form {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 }
 
-.close{
+.close {
   color: $backgroundColorAccent;
   background-color: $backgroundColorPrimary;
   padding: 0 10px;
@@ -135,14 +129,14 @@ header{
   font-style: bold;
 }
 
-.close:hover,
-.close:focus {
-    color: $mainColorPrimary;
-    text-decoration: none;
-    cursor: pointer;
+.close:focus,
+.close:hover {
+  color: $mainColorPrimary;
+  text-decoration: none;
+  cursor: pointer;
 }
-
 ////////////// FACEBOOK LOGIN ////////////////
+
 .loginBtn {
   box-sizing: border-box;
   position: relative;
@@ -157,6 +151,7 @@ header{
   font-size: 16px;
   color: #FFF;
 }
+
 .loginBtn:before {
   content: "";
   box-sizing: border-box;
@@ -166,78 +161,81 @@ header{
   width: 34px;
   height: 100%;
 }
+
 .loginBtn:focus {
   outline: none;
 }
+
 .loginBtn:active {
   box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
 }
+
 .loginBtn--facebook {
   background-color: #3B55A0;
   /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
   text-shadow: 0 -1px 0 #354C8C;
 }
+
 .loginBtn--facebook:before {
   border-right: #364e92 1px solid;
   background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') 6px 6px no-repeat;
 }
-.loginBtn--facebook:hover,
-.loginBtn--facebook:focus {
+
+.loginBtn--facebook:focus,
+.loginBtn--facebook:hover {
   background-color: #4864B1;
   cursor: pointer;
 }
-
 ////////////// BODY: INDEX ////////////////
-
-.indexPage{
+.indexPage {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   padding-top: 5px;
 }
 
-.bodyitem, .bodyitem-reverse{
+.bodyitem,
+.bodyitem-reverse {
   display: flex;
   flex-direction: row;
   align-items: center;
-
   background-color: $backgroundColorPrimary;
   margin: 0 5px;
   //max-height: 500px;
-
-  section{
+  section {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    div{
+    div {
       text-align: center;
     }
   }
 
-  div{
+  div {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    img{
+
+    img {
       max-width: 100%;
       max-height: 100%;
     }
   }
 }
 
-.bodyitem-reverse{
+.bodyitem-reverse {
   flex-direction: row-reverse;
 }
 
-h1{
-  color: $mainColorPrimary
+h1 {
+  color: $mainColorPrimary;
 }
 
-#startNow{
+#startNow {
   margin: 20px 10px;
   padding: 10px;
   background-color: $mainColorPrimary;
@@ -245,188 +243,237 @@ h1{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#startNow:hover,
-#startNow:active{
+#startNow:active,
+#startNow:hover {
   box-shadow: none;
 }
-
 ////////////// BODY: CHALLENGE ////////////////
-
-
-.challengePage, .chatPage{
+.challengePage,
+.chatPage {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-
   flex: 1;
 
-  aside{
+  aside {
     width: 400px;
     border-right: solid $backgroundColorAccent 3px;
     background-color: $backgroundColorSecondary;
-
-
     display: flex;
     flex-direction: column;
     align-items: stretch;
     padding: 0 10px;
-
   }
-  article{
+
+  article {
     flex-grow: 1;
   }
 }
 
-#profile{
+#profile {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  #icons{
+  #icons {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
     align-self: stretch;
 
-    img{
+    img {
       width: 50px;
     }
   }
-  #info{
+
+  #info {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 }
 
-.filler{
+.filler {
   height: auto;
   background-color: #e0e0e0;
   margin-bottom: 10px;
   padding: 8px;
 }
 
-.challenge{
+.challenge {
   display: flex;
   align-items: center;
 
-  img{
+  img {
     width: 20%;
     pointer-events: none;
     margin-left: 20px;
   }
 
-  &__detail{
+  &__detail {
     margin: 0;
     width: 100%;
     margin-left: 10%;
     pointer-events: none;
 
-    p{
+    p {
       pointer-events: none;
       margin: 2px;
     }
   }
 }
 
-.friends{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.friends {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-  div{
+  div {
     margin-left: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    img{
+
+    img {
       width: 35px;
       border-radius: 50%;
     }
 
-    .addFriend:hover{
+    .addFriend:hover {
       opacity: 0.7;
       cursor: pointer;
     }
   }
 }
 
-#profilePic{
+#profilePic {
   border-radius: 50%;
   margin-top: 20px;
   width: 150px;
 }
 
-#logout{
+#logout {
   margin-top: 5px;
   color: $mainColorPrimary;
 }
 
-#logout:hover{
+#logout:hover {
   text-decoration: underline;
   cursor: pointer;
 }
 
-.createChallenge, .createChallenge p{
+.createChallenge,
+.createChallenge p {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .form {
+    width: 80%;
+    margin: auto;
+
+    h2 {
+      text-align: center;
+    }
+
+    label {
+      display: flex;
+      justify-content: center;
+    }
+
+    &-element {
+      display: flex;
+      width: 50%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    &__textinput {}
+
+    &__dateinput {}
+
+    &__button {
+      justify-content: center;
+      background: #a52a2a;
+      color: #ffffff;
+    }
+  }
 }
 
-.challengeFields{
-  height: 50px;
-  align-self: stretch;
+
+///chat form input
+.valid{
+  border: 2px solid green !important;
 }
+
+.invalid{
+  border: 2px solid red !important;
+}
+
+.submit-valid{
+  opacity: 1;
+}
+
+.submit-invalid{
+  opacity: 0.6;
+}
+
 
 ////////////// BODY: CHAT ////////////////
-
-.chatInterface{
+.chatInterface {
   display: flex;
   flex-direction: column;
   align-items: stretch;
 
-  h2{
+  h2 {
     align-self: center;
   }
 
-  section{
+  section {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
   }
 }
 
-.chatSpace{
+.chatSpace {
   flex-grow: 1;
 }
 
-.chatbar{
+.chatbar {
   height: 40px;
   background-color: $backgroundColorAccent;
-
   display: flex;
   justify-content: space-around;
   align-items: stretch;
 
-  input{
+  input {
     flex: 1;
     padding-left: 5px;
     margin: 3px 0;
   }
-  button{
+
+  button {
     padding: 0 25px;
     margin: 3px;
   }
-  button:active{
+
+  button:active {
     background-color: $mainColorPrimary;
     color: $backgroundColorSecondary;
   }
-  input, button{
-    font-size: 12pt;
-      border: none;
-      outline: none;
 
+  button,
+  input {
+    font-size: 12pt;
+    border: none;
+    outline: none;
     background-color: $backgroundColorSecondary;
     color: $mainColorPrimary;
     margin-bottom: 0;
@@ -505,39 +552,79 @@ h1{
 }
 
 ////////////// TOOLTIP FRIENDS ////////////////
-
 .tooltip {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    font-size: 12px;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    top: 120%;
-    left: 50%;
-    margin-left: -30px;
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 120%;
+  left: 50%;
+  margin-left: -30px;
 }
 
 .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -36px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent transparent black transparent;
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -36px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
 }
 
 .tooltip:hover .tooltiptext {
-    visibility: visible;
+  visibility: visible;
+}
+////////////////// DATEPICKER ////////////////////
+/* Removes the clear button from date inputs */
+input[type="date"]::-webkit-clear-button {
+  display: none;
+}
+/* Removes the spin button */
+
+input[type="date"]::-webkit-inner-spin-button {
+  display: none;
+}
+/* Always display the drop down caret */
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: #2c3e50;
+}
+/* A few custom styles for date inputs */
+
+input[type="date"] {
+  -webkit-appearance: none;
+  font-family: "Helvetica", arial, sans-serif;
+  font-size: 18px;
+  background: #f9f9f9;
+}
+
+focus,
+input[type="date"] {
+  color: #95a5a6;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}
+
+.image_list--selected {
+  width: 20px;
+  height: 20px;
+  border-radius: 12px;
+  align-items: center;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 5px;
 }

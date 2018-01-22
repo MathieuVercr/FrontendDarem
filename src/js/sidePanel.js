@@ -55,7 +55,7 @@ var sidePanel = function() {
         let bobTheHTMLBuilder = "";
         var divChallenge = document.createElement("div");
         divChallenge.setAttribute('tag', challenge._id);
-        bobTheHTMLBuilder += `<img src="../dist/assets/images/${challenge.category}.png"></img>`;
+        bobTheHTMLBuilder += `<img src="./assets/images/${challenge.category.toLowerCase()}.png"></img>`;
         bobTheHTMLBuilder += `<div class="challenge__detail"><p>${challenge.name}</p>`;
         bobTheHTMLBuilder += `<p>${challenge.description}</p></div>`;
         divChallenge.innerHTML = bobTheHTMLBuilder;
@@ -63,6 +63,17 @@ var sidePanel = function() {
 
         divChallenge.addEventListener('click', function(e) {
           challengeModule.getChallengeData(e.target.attributes.tag.nodeValue).then(function(response) {
+            let bobTheHTMLBuilder = "";
+            bobTheHTMLBuilder += `<h2>${response.name}</h2>`;
+            bobTheHTMLBuilder += `<p>${response.description}</p>`;
+            bobTheHTMLBuilder += `<div>`;
+            console.log(response.acceptedUsers.length);
+            for(let i = 0; i < response.acceptedUsers.length; i++){
+              bobTheHTMLBuilder += `<img src="https://graph.facebook.com/v2.6/${response.acceptedUsers[i].facebook.id}/picture?type=large"></img>`
+            }
+            bobTheHTMLBuilder += `</div>`;
+            let detail = document.getElementById("challenge");
+            detail.innerHTML = bobTheHTMLBuilder;
             console.log(response);
             articleContent.initDetails(response);
           });

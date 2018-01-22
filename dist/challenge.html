@@ -1,77 +1,80 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Challenges</title>
-    <link href="./css/index.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Convergence" rel="stylesheet">
-    <script src="./js/app.bundle.js"></script>
-    <script src="http://projecthowest.herokuapp.com/socket.io/socket.io.js"></script>
-  </head>
-  <body id="CHALLENGE">
-    <header>
-      <figure id='logo'>
-        <a href="./index.html">
+
+<head>
+  <meta charset="utf-8">
+  <title>Challenges</title>
+  <link href="./css/index.css" rel="stylesheet" />
+  <link href="./css/choices.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Convergence" rel="stylesheet">
+  <script src="./js/app.bundle.js" defer></script>
+  <script src="http://projecthowest.herokuapp.com/socket.io/socket.io.js"></script>
+  <script src="./js/choices.min.js" defer></script>
+</head>
+
+<body id="CHALLENGE">
+  <header>
+    <figure id='logo'>
+      <a href="./index.html">
           <img src="./assets/DaremWeb.png"></img>
         </a>
-      </figure>
-      <nav>
-        <a href="./challenge.html" id="highlight">Challenge</a>
-        <a href="./chat.html">Chat</a>
-        <a href="#">Share</a>
-      </nav>
-    </header>
-    <main class="challengePage">
+    </figure>
+    <nav>
+      <a href="./challenge.html" id="highlight">Challenge</a>
+      <a href="./chat.html">Chat</a>
+      <a href="#">Share</a>
+    </nav>
+  </header>
+  <main class="challengePage">
 
-      <aside>
-        <section id="profile">
-          <img id="profilePic" src="./assets/profilepic.png" alt="Profile Picture">
-          <section id="icons">
-            <img src="./assets/victory.png" alt="Challenges">
-            <img src="./assets/mail.png" alt="Notifications">
-          </section>
-          <section id="info">
-            <div>
-              <label id="firstName">FirstName</label>
-              <label id="lastName">LastName</label>
-            </div>
-            <label id="email">Email Address</label>
-          </section>
-          <div id="logout">
-            Log out
+    <aside>
+      <section id="profile">
+        <img id="profilePic" src="./assets/profilepic.png" alt="Profile Picture">
+        <section id="icons">
+          <img src="./assets/victory.png" alt="Challenges">
+          <img src="./assets/mail.png" alt="Notifications">
+        </section>
+        <section id="info">
+          <div>
+            <label id="firstName">FirstName</label>
+            <label id="lastName">LastName</label>
           </div>
+          <label id="email">Email Address</label>
         </section>
-        <section id="activities">
-          <h3>Your friends</h3>
-          <div id="friends" class="filler friends"></div>
-          <h3>Add these friends</h3>
-          <div id="newFriends" class="filler friends"></div>
-          <h3>Your challenges</h3>
-          <section id=yourChallenges>
-            <div id="noChallenges"></div>
-          </section>
+        <div id="logout">
+          Log out
+        </div>
+      </section>
+      <section id="activities">
+        <h3>Your friends</h3>
+        <div id="friends" class="filler friends"></div>
+        <h3>Add these friends</h3>
+        <div id="newFriends" class="filler friends"></div>
+        <h3>Your challenges</h3>
+        <section id=yourChallenges>
+          <div id="noChallenges"></div>
         </section>
-      </aside>
+      </section>
+    </aside>
 
-      <article class="createChallenge">
-        <h2>Create your challenges</h2>
-        <form class="createChallenge" action="#" method="post">
-          <p>
-          <label for="Name">Challenge Name</label>
-          <input type="text" name="Name" class="challengeFields"/>
-          </p>
-          <p>
-          <label for="Description">Challenge Description</label>
-          <input type="text" name="Description"  class="challengeFields"/>
-          </p>
-          <p>
-          <label for="Category">Pick a category</label>
-          <label for="addFriends">Add Friends</label>
-          </p>
-          <input type="submit" name="submit" value="Submit">
-        </form>
-      </article>
+    <article class="createChallenge" id="challenge">
+      <div class="form">
+        <h2>Create challenge</h2>
+        <label for="name">Name: </label><br />
+        <input type="text" name="name" id="name" class="form__textinput form-element" /><br />
+        <label for="description">Description: </label><br />
+        <textarea name="description" id="description" class="form__textinput form-element"></textarea><br />
+        <label for="endDate">When does the challenge end? </label><br />
+        <input type="date" name="endDate" id="enddate" class="form__dateinput form-element" /><br />
+        <label for="category">Add some friends:</label><br />
+        <select name="friends" id="addFriendToChallenge" placeholder="Add friends" multiple></select>
+        <label for="category">Choose a category:</label><br />
+        <select name="category" id="addCategoryToChallenge" placeholder="Choose a category"></select>
+        <button type="submit" name="submit" id="submit" class="form__button form-element" disabled>Create challenge</button><br />
+      </div>
+    </article>
 
-    </main>
-  </body>
+  </main>
+</body>
+
 </html>

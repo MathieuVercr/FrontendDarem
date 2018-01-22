@@ -3,12 +3,13 @@ import * as facebook from './facebook/facebook';
 import userModule from './module/user.module';
 import sidePanel from './sidePanel';
 import * as articleContent from './showArticle';
-
+import createChallenge from './createChallenge';
 var storage = window.sessionStorage;
 
 document.addEventListener("DOMContentLoaded", (event) => {
   console.log("init");
   facebook.initFacebook;
+
   let body = document.getElementsByTagName("body")[0];
   switch(body.id){
     case "INDEX":
@@ -76,12 +77,12 @@ function initIndex(){
 // CODE FOR CHALLENGE PAGE
 function initProfile(){
   sidePanel();
+  createChallenge();
 
-/*
   articleContent.initCreate();
   notifications.addEventListener('click', function(){
     articleContent.initNotifications();
   });
-*/
+
 
 }

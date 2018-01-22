@@ -24,13 +24,11 @@ header {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
-  padding-bottom: 0;
+  padding: 10px 10px 0;
   background-color: #9e2929; }
   header figure {
     flex-grow: 1;
-    margin: 0;
-    margin-bottom: 10px; }
+    margin: 0 0 10px; }
   header nav {
     display: flex;
     flex-direction: row;
@@ -95,8 +93,8 @@ header {
   font-size: 20pt;
   font-style: bold; }
 
-.close:hover,
-.close:focus {
+.close:focus,
+.close:hover {
   color: #9e2929;
   text-decoration: none;
   cursor: pointer; }
@@ -139,8 +137,8 @@ header {
   border-right: #364e92 1px solid;
   background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png") 6px 6px no-repeat; }
 
-.loginBtn--facebook:hover,
-.loginBtn--facebook:focus {
+.loginBtn--facebook:focus,
+.loginBtn--facebook:hover {
   background-color: #4864B1;
   cursor: pointer; }
 
@@ -150,26 +148,31 @@ header {
   justify-content: flex-start;
   padding-top: 5px; }
 
-.bodyitem, .bodyitem-reverse {
+.bodyitem,
+.bodyitem-reverse {
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: #fefefe;
   margin: 0 5px; }
-  .bodyitem section, .bodyitem-reverse section {
+  .bodyitem section,
+  .bodyitem-reverse section {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center; }
-    .bodyitem section div, .bodyitem-reverse section div {
+    .bodyitem section div,
+    .bodyitem-reverse section div {
       text-align: center; }
-  .bodyitem div, .bodyitem-reverse div {
+  .bodyitem div,
+  .bodyitem-reverse div {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center; }
-    .bodyitem div img, .bodyitem-reverse div img {
+    .bodyitem div img,
+    .bodyitem-reverse div img {
       max-width: 100%;
       max-height: 100%; }
 
@@ -186,16 +189,18 @@ h1 {
   color: #f8f8f8;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
 
-#startNow:hover,
-#startNow:active {
+#startNow:active,
+#startNow:hover {
   box-shadow: none; }
 
-.challengePage, .chatPage {
+.challengePage,
+.chatPage {
   display: flex;
   flex-direction: row;
   align-items: stretch;
   flex: 1; }
-  .challengePage aside, .chatPage aside {
+  .challengePage aside,
+  .chatPage aside {
     width: 400px;
     border-right: solid #e0e0e0 3px;
     background-color: #f8f8f8;
@@ -203,7 +208,8 @@ h1 {
     flex-direction: column;
     align-items: stretch;
     padding: 0 10px; }
-  .challengePage article, .chatPage article {
+  .challengePage article,
+  .chatPage article {
     flex-grow: 1; }
 
 #profile {
@@ -274,14 +280,50 @@ h1 {
   text-decoration: underline;
   cursor: pointer; }
 
-.createChallenge, .createChallenge p {
+.createChallenge,
+.createChallenge p {
   display: flex;
   flex-direction: column;
   align-items: center; }
+  .createChallenge .form,
+  .createChallenge p .form {
+    width: 80%;
+    margin: auto; }
+    .createChallenge .form h2,
+    .createChallenge p .form h2 {
+      text-align: center; }
+    .createChallenge .form label,
+    .createChallenge p .form label {
+      display: flex;
+      justify-content: center; }
+    .createChallenge .form-element,
+    .createChallenge p .form-element {
+      display: flex;
+      width: 50%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-left: auto;
+      margin-right: auto; }
+    .createChallenge .form__button,
+    .createChallenge p .form__button {
+      justify-content: center;
+      background: #a52a2a;
+      color: #ffffff; }
 
-.challengeFields {
-  height: 50px;
-  align-self: stretch; }
+.valid {
+  border: 2px solid green !important; }
+
+.invalid {
+  border: 2px solid red !important; }
+
+.submit-valid {
+  opacity: 1; }
+
+.submit-invalid {
+  opacity: 0.6; }
 
 .chatInterface {
   display: flex;
@@ -313,7 +355,8 @@ h1 {
   .chatbar button:active {
     background-color: #9e2929;
     color: #f8f8f8; }
-  .chatbar input, .chatbar button {
+  .chatbar button,
+  .chatbar input {
     font-size: 12pt;
     border: none;
     outline: none;
@@ -406,3 +449,38 @@ h1 {
 
 .tooltip:hover .tooltiptext {
   visibility: visible; }
+
+/* Removes the clear button from date inputs */
+input[type="date"]::-webkit-clear-button {
+  display: none; }
+
+/* Removes the spin button */
+input[type="date"]::-webkit-inner-spin-button {
+  display: none; }
+
+/* Always display the drop down caret */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: #2c3e50; }
+
+/* A few custom styles for date inputs */
+input[type="date"] {
+  -webkit-appearance: none;
+  font-family: "Helvetica", arial, sans-serif;
+  font-size: 18px;
+  background: #f9f9f9; }
+
+focus,
+input[type="date"] {
+  color: #95a5a6;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none; }
+
+.image_list--selected {
+  width: 20px;
+  height: 20px;
+  border-radius: 12px;
+  align-items: center;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 5px; }
