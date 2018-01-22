@@ -19,6 +19,10 @@ export function socket(){
 		updateUserData(data);
 	});
 
+	socket.on('new challenge', function(data){
+		console.log("You have been invited");
+	});
+
 	function updateUserData(data){
 		console.log("UPDATE")
 		sessionStorage.setItem("nmct.darem.user", data.userOne);

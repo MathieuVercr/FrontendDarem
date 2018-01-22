@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "css-loader": "^0.28.7",
+    "momentum": "^4.0.0",
     "passport-facebook": "^2.1.1",
     "sass-loader": "^6.0.6"
   },

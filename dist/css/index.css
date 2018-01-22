@@ -212,6 +212,10 @@ h1 {
   .chatPage article {
     flex-grow: 1; }
 
+#yourChallenges {
+  height: 292px;
+  overflow-y: scroll; }
+
 #profile {
   display: flex;
   flex-direction: column;
@@ -308,7 +312,8 @@ h1 {
 
 .createChallenge,
 .createChallenge p {
-  width: 100%; }
+  width: 100%;
+  margin: auto; }
   .createChallenge .form,
   .createChallenge p .form {
     width: 80%;
@@ -520,3 +525,17 @@ input[type="date"] {
   margin-top: auto;
   margin-bottom: auto;
   margin-right: 5px; }
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background-color: #F5F5F5; }
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5; }
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #7c7e82; }
