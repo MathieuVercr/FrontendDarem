@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 30);
+/******/ 	return __webpack_require__(__webpack_require__.s = 32);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -99,7 +99,7 @@ module.exports = g;
  */
 
 var keys = __webpack_require__(51);
-var hasBinary = __webpack_require__(22);
+var hasBinary = __webpack_require__(24);
 var sliceBuffer = __webpack_require__(52);
 var after = __webpack_require__(53);
 var utf8 = __webpack_require__(54);
@@ -1375,7 +1375,7 @@ var debug = __webpack_require__(39)('socket.io-parser');
 var json = __webpack_require__(42);
 var Emitter = __webpack_require__(44);
 var binary = __webpack_require__(45);
-var isBuf = __webpack_require__(18);
+var isBuf = __webpack_require__(20);
 
 /**
  * Protocol version.
@@ -1703,7 +1703,7 @@ function tryParse(p, str) {
   } catch(e){
     return error();
   }
-  return p;
+  return p; 
 };
 
 /**
@@ -2288,7 +2288,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var io = __webpack_require__(34);
+var io = __webpack_require__(35);
 function socket() {
 	var socket = io.connect('http://projecthowest.herokuapp.com');
 	socket.on('connect', function () {
@@ -2641,13 +2641,13 @@ function isBuf(obj) {
  */
 
 var eio = __webpack_require__(46);
-var Socket = __webpack_require__(25);
-var Emitter = __webpack_require__(26);
-var parser = __webpack_require__(8);
-var on = __webpack_require__(27);
-var bind = __webpack_require__(28);
+var Socket = __webpack_require__(27);
+var Emitter = __webpack_require__(28);
+var parser = __webpack_require__(9);
+var on = __webpack_require__(29);
+var bind = __webpack_require__(30);
 var debug = __webpack_require__(3)('socket.io-client:manager');
-var indexOf = __webpack_require__(24);
+var indexOf = __webpack_require__(26);
 var Backoff = __webpack_require__(64);
 
 /**
@@ -3205,7 +3205,7 @@ Manager.prototype.onreconnect = function () {
  * Module dependencies
  */
 
-var XMLHttpRequest = __webpack_require__(9);
+var XMLHttpRequest = __webpack_require__(10);
 var XHR = __webpack_require__(50);
 var JSONP = __webpack_require__(59);
 var websocket = __webpack_require__(60);
@@ -3673,11 +3673,11 @@ module.exports = function(arr, obj){
  * Module dependencies.
  */
 
-var parser = __webpack_require__(8);
-var Emitter = __webpack_require__(26);
+var parser = __webpack_require__(9);
+var Emitter = __webpack_require__(28);
 var toArray = __webpack_require__(63);
-var on = __webpack_require__(27);
-var bind = __webpack_require__(28);
+var on = __webpack_require__(29);
+var bind = __webpack_require__(30);
 var debug = __webpack_require__(3)('socket.io-client:socket');
 var hasBin = __webpack_require__(24);
 
@@ -4369,12 +4369,12 @@ function initNotifications() {
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(31);
-module.exports = __webpack_require__(65);
+__webpack_require__(33);
+module.exports = __webpack_require__(68);
 
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4388,13 +4388,17 @@ var _user = __webpack_require__(7);
 
 var _user2 = _interopRequireDefault(_user);
 
-var _sidePanel = __webpack_require__(32);
+var _sidePanel = __webpack_require__(34);
 
 var _sidePanel2 = _interopRequireDefault(_sidePanel);
 
-var _showArticle = __webpack_require__(29);
+var _showArticle = __webpack_require__(31);
 
 var articleContent = _interopRequireWildcard(_showArticle);
+
+var _createChallenge = __webpack_require__(65);
+
+var _createChallenge2 = _interopRequireDefault(_createChallenge);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4471,25 +4475,21 @@ function initIndex() {
 // CODE FOR CHALLENGE PAGE
 function initProfile() {
   (0, _sidePanel2.default)();
-  (0, _createChallenge2.default)();
-}
 
-  /*
-    articleContent.initCreate();
-    notifications.addEventListener('click', function(){
-      articleContent.initNotifications();
-    });
-  */
+  articleContent.initCreate();
+  notifications.addEventListener('click', function () {
+    articleContent.initNotifications();
+  });
 }
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _challenge = __webpack_require__(33);
+var _challenge = __webpack_require__(8);
 
 var _challenge2 = _interopRequireDefault(_challenge);
 
@@ -4501,9 +4501,9 @@ var _friend2 = __webpack_require__(6);
 
 var _friend3 = _interopRequireDefault(_friend2);
 
-var _generalSocket = __webpack_require__(34);
+var _generalSocket = __webpack_require__(15);
 
-var _showArticle = __webpack_require__(29);
+var _showArticle = __webpack_require__(31);
 
 var articleContent = _interopRequireWildcard(_showArticle);
 
@@ -4597,123 +4597,6 @@ var sidePanel = function sidePanel() {
 module.exports = sidePanel;
 
 /***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var challengeModule = function () {
-  var data;
-
-  function challengeData(challengeID) {
-    if (!challengeID) throw new Error('IDNOTFOUND');
-
-    var p = new Promise(function (ok, nok) {
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onerror = function (err) {
-        nok(err);
-      };
-      xmlhttp.onload = function (res) {
-        if (xmlhttp.readyState === 4) {
-          data = JSON.parse(xmlhttp.responseText);
-          ok(data);
-        }
-      };
-      xmlhttp.open('GET', 'http://projecthowest.herokuapp.com/challenge/' + challengeID, true);
-      xmlhttp.send();
-    });
-
-    return p;
-  }
-
-  return {
-    getChallengeData: challengeData
-  };
-}();
-
-module.exports = challengeModule;
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.socket = socket;
-
-var _friend = __webpack_require__(6);
-
-var _friend2 = _interopRequireDefault(_friend);
-
-var _friend3 = __webpack_require__(2);
-
-var friendModule = _interopRequireWildcard(_friend3);
-
-var _facebook = __webpack_require__(13);
-
-var facebook = _interopRequireWildcard(_facebook);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var io = __webpack_require__(35);
-function socket() {
-	var socket = io.connect('http://projecthowest.herokuapp.com');
-	socket.on('connect', function () {
-		//registreer op je eigen room -> andere kunnen u een notificatie sturen
-		socket.emit('room', sessionStorage.getItem('nmct.darem.accessTokenDB'));
-		socket.emit('room', sessionStorage.getItem('nmct.darem.accessToken'));
-	});
-
-	socket.on('room joined', function (data) {
-		console.log(data);
-	});
-
-	socket.on('new friend', function (data) {
-		updateUserData(data);
-	});
-
-	function updateUserData(data) {
-		console.log("UPDATE");
-		sessionStorage.setItem("nmct.darem.user", data);
-		var divFriends = document.getElementById("friends");
-		divFriends.innerHTML = '';
-		friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);
-		facebook.initFacebook;
-		FB.getLoginStatus(function (e) {
-			if (sessionStorage.getItem('nmct.darem.user')) {
-				getFriendsList();
-			}
-		});
-	}
-
-	var getFriendsList = function getFriendsList() {
-		FB.api('/me/friends', function (response) {
-			var obj = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
-			var newFriends = [];
-			for (var i = 0; i < response.data.length; i++) {
-				if (!JSON.stringify(obj.friends).includes(response.data[i].id)) {
-					newFriends.push(response.data[i]);
-				}
-			}
-			showInSidePanel(newFriends);
-
-			function showInSidePanel(newFriends) {
-				console.log("REFRESH!");
-				var divNewFriends = document.getElementById("newFriends");
-				friendModule.ShowNotAddedFriends(divNewFriends, newFriends);
-			}
-		});
-	};
-};
-
-/***/ }),
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4723,8 +4606,8 @@ function socket() {
  */
 
 var url = __webpack_require__(36);
-var parser = __webpack_require__(8);
-var Manager = __webpack_require__(19);
+var parser = __webpack_require__(9);
+var Manager = __webpack_require__(21);
 var debug = __webpack_require__(3)('socket.io-client');
 
 /**
@@ -7053,9 +6936,9 @@ var Emitter = __webpack_require__(12);
 var debug = __webpack_require__(5)('engine.io-client:socket');
 var index = __webpack_require__(26);
 var parser = __webpack_require__(1);
-var parseuri = __webpack_require__(14);
+var parseuri = __webpack_require__(16);
 var parsejson = __webpack_require__(62);
-var parseqs = __webpack_require__(12);
+var parseqs = __webpack_require__(13);
 
 /**
  * Module exports.
@@ -9795,7 +9678,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9805,11 +9688,11 @@ var _challenge = __webpack_require__(8);
 
 var _challenge2 = _interopRequireDefault(_challenge);
 
-var _validation = __webpack_require__(65);
+var _validation = __webpack_require__(66);
 
 var validate = _interopRequireWildcard(_validation);
 
-var _challenge3 = __webpack_require__(66);
+var _challenge3 = __webpack_require__(67);
 
 var _challenge4 = _interopRequireDefault(_challenge3);
 
@@ -9937,7 +9820,7 @@ var createChallenge = function createChallenge() {
 module.exports = createChallenge;
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9992,7 +9875,7 @@ function enable(name, description, endDate, friends, category) {
 }
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10050,7 +9933,7 @@ var challenge = function () {
       if (month.length < 2) month = '0' + month;
       if (day.length < 2) day = '0' + day;
 
-      return [year, month, day].join('-');S
+      return [year, month, day].join('-');
     }
   }]);
 
@@ -10060,7 +9943,7 @@ var challenge = function () {
 exports.default = challenge;
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
