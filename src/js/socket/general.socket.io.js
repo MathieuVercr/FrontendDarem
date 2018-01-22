@@ -2,6 +2,7 @@ var io = require('socket.io-client');
 import Friend from '../models/friend.class';
 import * as friendModule from '../module/friend.module';
 import * as facebook from '../facebook/facebook';
+import Notification from '../models/notification.class';
 
 export function socket(){
 	var socket = io.connect('http://projecthowest.herokuapp.com');
@@ -17,10 +18,19 @@ export function socket(){
 
 	socket.on('new friend', function(data){
 		updateUserData(data);
+		if(data.msg != "no notification"){
+			createNotification(data.msg);
+		}
 	});
-
+	socket.on('new challenge', function(data){
+		if(data.msg != "no notification"){
+			createChallengeNotification(data.msg, data.name);
+		}
+	})
 	function updateUserData(data){
-		console.log("UPDATE")
+		console.log("UPDATE");
+		console.log(data.msg);
+
 		sessionStorage.setItem("nmct.darem.user", data.userOne);
 		let divFriends = document.getElementById("friends");
 		divFriends.innerHTML = '';
@@ -31,7 +41,16 @@ export function socket(){
 				getFriendsList();
 			}
 		});
-
+		
+	}
+	function createNotification(name){
+		let notif = new Notification(name, "has added you as a friend");
+		notif.RenderNotification();
+	}
+	function createChallengeNotification(name, challenge){
+		console.log(name);
+		let notif = new Notification(name, "has invited you to " + challenge);
+		notif.RenderNotification();
 	}
 
 	let getFriendsList = function() {

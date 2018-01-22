@@ -1205,11 +1205,6 @@ var friend = function () {
       divImg.appendChild(tooltiptext);
       divImg.addEventListener('click', function (e) {
         friendModule.UpdateFriendUI(e, divNewFriends, divImg);
-        var notifications = document.getElementById("notification");
-        notifications.setAttribute('id', 'showNotification');
-        setTimeout(function () {
-          notifications.setAttribute('id', 'notification');
-        }, 10000);
       });
       return divImg;
     }
@@ -2289,6 +2284,10 @@ var _facebook = __webpack_require__(14);
 
 var facebook = _interopRequireWildcard(_facebook);
 
+var _notification = __webpack_require__(70);
+
+var _notification2 = _interopRequireDefault(_notification);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -2308,10 +2307,19 @@ function socket() {
 
 	socket.on('new friend', function (data) {
 		updateUserData(data);
+		if (data.msg != "no notification") {
+			createNotification(data.msg);
+		}
 	});
-
+	socket.on('new challenge', function (data) {
+		if (data.msg != "no notification") {
+			createChallengeNotification(data.msg, data.name);
+		}
+	});
 	function updateUserData(data) {
 		console.log("UPDATE");
+		console.log(data.msg);
+
 		sessionStorage.setItem("nmct.darem.user", data.userOne);
 		var divFriends = document.getElementById("friends");
 		divFriends.innerHTML = '';
@@ -2322,6 +2330,15 @@ function socket() {
 				getFriendsList();
 			}
 		});
+	}
+	function createNotification(name) {
+		var notif = new _notification2.default(name, "has added you as a friend");
+		notif.RenderNotification();
+	}
+	function createChallengeNotification(name, challenge) {
+		console.log(name);
+		var notif = new _notification2.default(name, "has invited you to " + challenge);
+		notif.RenderNotification();
 	}
 
 	var getFriendsList = function getFriendsList() {
@@ -9967,6 +9984,56 @@ exports.default = challenge;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 69 */,
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var notification = function () {
+    function notification(name, text) {
+        _classCallCheck(this, notification);
+
+        this.name = name;
+        this.text = text;
+    }
+
+    _createClass(notification, [{
+        key: 'RenderNotification',
+        value: function RenderNotification() {
+            var notifSection = document.createElement("section");
+            notifSection.setAttribute('id', 'notification');
+            var body = document.getElementById("ALL");
+            body.appendChild(notifSection);
+            var bobTheHTMLBuilder = "";
+            bobTheHTMLBuilder += "<div>";
+            bobTheHTMLBuilder += this.name + " " + this.text;
+            bobTheHTMLBuilder += "</div>";
+
+            notifSection.innerHTML = bobTheHTMLBuilder;
+            notifSection.setAttribute('id', 'showNotification');
+
+            setTimeout(function () {
+                notifSection.remove();
+            }, 5000);
+        }
+    }]);
+
+    return notification;
+}();
+
+exports.default = notification;
 
 /***/ })
 /******/ ]);
