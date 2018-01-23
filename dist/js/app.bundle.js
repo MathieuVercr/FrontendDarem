@@ -4371,9 +4371,7 @@ function initCreate() {
   var article = document.querySelector("#appInformation");
   article.innerHTML = pages.createPage;
 
-  //SHOW CHALLENGE DETAILS
   (0, _createChallenge2.default)();
-  //...
 }
 
 function initDetails(response) {
@@ -4381,12 +4379,16 @@ function initDetails(response) {
   article.innerHTML = pages.detailPage;
 
   var date = new Date(parseInt(response.endDate));
+  var month = date.getUTCMonth() + 1;
+  var day = date.getUTCDate();
+  var year = date.getUTCFullYear();
+
   var bobTheHTMLBuilder = "";
   bobTheHTMLBuilder += '<img id="detailCategory" src="./assets/images/' + response.category.toLowerCase() + '.png"></img>';
   bobTheHTMLBuilder += '<div class="challengeDetail">';
   bobTheHTMLBuilder += '<h2>' + response.name.toUpperCase() + '</h2>';
   bobTheHTMLBuilder += '<p><strong>Here are your rules </strong>' + response.description + '</p>';
-  bobTheHTMLBuilder += '<p><strong>You need to finish before </strong>' + date.getDay() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + '</p>';
+  bobTheHTMLBuilder += '<p><strong>You need to finish before </strong>' + day + '/' + month + '/' + year + '</p>';
   bobTheHTMLBuilder += '</div>';
   bobTheHTMLBuilder += '<div class="friendsDetail">';
   console.log(response.acceptedUsers.length);
