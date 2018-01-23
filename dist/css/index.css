@@ -225,9 +225,24 @@ h1 {
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-    align-self: stretch; }
+    align-self: stretch;
+    text-align: center; }
     #profile #icons img {
       width: 50px; }
+  #profile .showMark {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    border: 2px solid #9e2929;
+    width: 20px;
+    height: 20px;
+    background-color: #FF6B6B;
+    position: absolute;
+    top: 255px;
+    left: 300px;
+    color: white; }
+  #profile .noMark {
+    opacity: 0; }
   #profile #info {
     display: flex;
     flex-direction: column;

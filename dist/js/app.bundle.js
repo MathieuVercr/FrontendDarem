@@ -2288,6 +2288,14 @@ var _notification = __webpack_require__(36);
 
 var _notification2 = _interopRequireDefault(_notification);
 
+var _invites = __webpack_require__(71);
+
+var inviteModule = _interopRequireWildcard(_invites);
+
+var _challenge = __webpack_require__(68);
+
+var _challenge2 = _interopRequireDefault(_challenge);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -2312,15 +2320,32 @@ function socket() {
 		}
 	});
 	socket.on('new challenge', function (data) {
+		updateChallengeData(data);
 		if (data.msg != "no notification") {
 			createChallengeNotification(data.msg, data.name);
 		}
 	});
+	function updateChallengeData(data) {
+		var mark = document.getElementById("mark");
+		var divChallenges = document.getElementById("yourChallenges");
+		sessionStorage.setItem("nmct.darem.user", data.user);
+		divChallenges.innerHTML = "";
+		inviteModule.updateInvites(mark, JSON.parse(sessionStorage.getItem("nmct.darem.user")).challenges);
+		ShowChallenges(divChallenges, JSON.parse(sessionStorage.getItem("nmct.darem.user")).acceptedChallenges);
+	}
+	function ShowChallenges(divChallenges, challenges) {
+		var bobTheHTMLBuilder = "";
+		console.log(challenges);
+		challenges.forEach(function (challenge) {
+			var acceptedChallenge = new _challenge2.default(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
+			divChallenges.appendChild(acceptedChallenge.RenderChallenges());
+		});
+	}
 	function updateUserData(data) {
 		console.log("UPDATE");
 		console.log(data.msg);
 
-		sessionStorage.setItem("nmct.darem.user", data.userOne);
+		sessionStorage.setItem("nmct.darem.user", data.user);
 		var divFriends = document.getElementById("friends");
 		divFriends.innerHTML = '';
 		friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);
@@ -4693,6 +4718,14 @@ var _showArticle = __webpack_require__(31);
 
 var articleContent = _interopRequireWildcard(_showArticle);
 
+var _challenge3 = __webpack_require__(68);
+
+var _challenge4 = _interopRequireDefault(_challenge3);
+
+var _invites = __webpack_require__(71);
+
+var inviteModule = _interopRequireWildcard(_invites);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -4718,7 +4751,7 @@ var sidePanel = function sidePanel() {
     var empty = document.getElementById("noChallenges");
     var logout = document.getElementById("logout");
     var showChallengePage = document.getElementById('showChallengePage');
-
+    var mark = document.getElementById("mark");
     // Show profile info
     profilePic.src = userObject.facebook.photo;
     labelFirstName.innerHTML = userObject.givenName;
@@ -4771,6 +4804,10 @@ var sidePanel = function sidePanel() {
       console.log(userObject);
       empty.innerHTML = "you currently have no challenges.";
     }
+
+    //show invites
+    var invites = userObject.challenges;
+    inviteModule.updateInvites(mark, invites);
   }
 };
 
@@ -10022,6 +10059,26 @@ var challenge = function () {
 
       return [year, month, day].join('-');
     }
+  }, {
+    key: "RenderChallenges",
+    value: function RenderChallenges() {
+      var bobTheHTMLBuilder = "";
+      var divChallenge = document.createElement("div");
+      divChallenge.setAttribute('tag', this.creatorId);
+      bobTheHTMLBuilder += "<img src=\"./assets/images/" + this.category.toLowerCase() + ".png\"></img>";
+      bobTheHTMLBuilder += "<div class=\"challenge__detail\"><p>" + this.name + "</p>";
+      bobTheHTMLBuilder += "<p>" + this.description + "</p></div>";
+      divChallenge.innerHTML = bobTheHTMLBuilder;
+      divChallenge.className = "challenge filler";
+
+      divChallenge.addEventListener('click', function (e) {
+        _challenge2.default.getChallengeData(e.target.attributes.tag.nodeValue).then(function (response) {
+          articleContent.initDetails(response);
+        });
+      });
+
+      return divChallenge;
+    }
   }]);
 
   return challenge;
@@ -10034,6 +10091,30 @@ exports.default = challenge;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 70 */,
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var invitesModule = function () {
+
+    function updateInvites(mark, challenges) {
+        if (challenges.length > 0) {
+            mark.setAttribute('class', 'showMark');
+            mark.innerHTML = challenges.length;
+        } else {
+            mark.setAttribute('class', 'noMark');
+        }
+    }
+    return {
+        updateInvites: updateInvites
+    };
+}();
+module.exports = invitesModule;
 
 /***/ })
 /******/ ]);
