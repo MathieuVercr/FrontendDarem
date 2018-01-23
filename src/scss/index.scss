@@ -4,6 +4,7 @@ $mainColorlSecondary: #922828;
 $backgroundColorPrimary: #fefefe;
 $backgroundColorSecondary: #f8f8f8;
 $backgroundColorAccent: #e0e0e0;
+$acceptColor: #54a93d;
 
 * {
   font-family: 'Convergence', sans-serif;
@@ -424,7 +425,7 @@ h1 {
       width: 50%;
       padding: 12px 20px;
       margin: 8px 0;
-      border: 1px solid #ccc;
+      border: 1px solid $mainColorlSecondary;
       border-radius: 4px;
       box-sizing: border-box;
       margin-left: auto;
@@ -463,44 +464,100 @@ h1 {
 
 ////////////// BODY: CHALLENGE DETAIL ////////////////
 
-.challengeDetail{
-  width: 25%;
-}
-.friendsDetail{
-  text-align: center;
-  img{
-    width: 30%;
-    height: 30%;
-    border-radius: 50%;
-    border: solid 5px $mainColorPrimary;
-    margin-left: 5px;
-
-
-  }
+#detailAndChat{
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
 }
 
+#showDetail{
 
-////////////// BODY: CHAT ////////////////
-
-////////////// BODY: CHAT ////////////////
-.chatInterface {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
+  align-self: center;
+  height: 100%;
+  flex: 2;
 
-  h2 {
-    align-self: center;
-  }
-
-  section {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
+  div, button{
+    width: 380px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
+
+.chatInterface{
+  flex: 1;
+  border-left: solid $backgroundColorAccent 3px;
+
+  section{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+#detailImage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+
+  img{
+    margin: 10px;
+    width: 150px;
+  }
+}
+
+.challengeDetail{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p{
+    margin-top: 8px;
+  }
+}
+
+.friendsDetail{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  margin-top: 8px;
+  margin-bottom: 50px;
+
+  img{
+    width: 80px;
+    height: 80px;
+    margin: 0 10px;
+    border-radius: 50%;
+    border: solid 3px $acceptColor;
+  }
+}
+
+#chatButton{
+  justify-content: center;
+  background: #a52a2a;
+  color: #ffffff;
+  padding: 12px 20px;
+  border: 1px solid $mainColorlSecondary;
+  border-radius: 4px;
+
+  &:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+}
+
+
+////////////// BODY: CHAT ////////////////
 
 .chatSpace {
   flex-grow: 1;
+  background-color: $backgroundColorSecondary;
 }
 
 .chatbar {
