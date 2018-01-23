@@ -26,7 +26,13 @@ export function socket(){
 		if(data.msg != "no notification"){
 			createChallengeNotification(data.msg, data.name);
 		}
-	})
+	});
+	socket.on('update', function(data){
+		let userObject = JSON.parse(data.user);
+		console.log(userObject);
+		//sessionStorage.setItem("nmct.darem.user", userObject);
+	});
+
 	function updateUserData(data){
 		console.log("UPDATE");
 		console.log(data.msg);
@@ -41,7 +47,7 @@ export function socket(){
 				getFriendsList();
 			}
 		});
-		
+
 	}
 	function createNotification(name){
 		let notif = new Notification(name, "has added you as a friend");

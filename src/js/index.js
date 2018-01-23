@@ -79,7 +79,7 @@ function initProfile(){
   sidePanel();
   articleContent.initCreate();
   notifications.addEventListener('click', function(){
-    articleContent.initNotifications();
+    articleContent.initInvite();
   });
 
 

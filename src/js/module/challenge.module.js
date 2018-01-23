@@ -47,10 +47,31 @@ var challengeModule = (function() {
     return categories;
   }
 
+  function acceptChallenge(acceptedChallenge){
+    var p = new Promise((ok, nok) => {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = (err) => {
+        nok(err);
+      }
+      xmlhttp.onload = (res) => {
+        if (xmlhttp.readyState === 4) {
+          data = xmlhttp.responseText;
+          ok(data);
+        }
+      }
+      xmlhttp.open('POST', 'https://projecthowest.herokuapp.com/users/challenge/response', true);
+      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      var json = JSON.stringify(acceptedChallenge);
+      xmlhttp.send(json);
+    });
+    return p;
+  }
+
   return {
     getChallengeData: challengeData,
     addChallenge: addChallenge,
-    getCategories: getCategories
+    getCategories: getCategories,
+    acceptChallenge: acceptChallenge
   }
 })()
 
