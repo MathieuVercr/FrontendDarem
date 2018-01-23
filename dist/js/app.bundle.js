@@ -98,15 +98,15 @@ module.exports = g;
  * Module dependencies.
  */
 
-var keys = __webpack_require__(52);
+var keys = __webpack_require__(53);
 var hasBinary = __webpack_require__(24);
-var sliceBuffer = __webpack_require__(53);
-var after = __webpack_require__(54);
-var utf8 = __webpack_require__(55);
+var sliceBuffer = __webpack_require__(54);
+var after = __webpack_require__(55);
+var utf8 = __webpack_require__(56);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(56);
+  base64encoder = __webpack_require__(57);
 }
 
 /**
@@ -164,7 +164,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(57);
+var Blob = __webpack_require__(58);
 
 /**
  * Encodes a packet.
@@ -773,7 +773,7 @@ function ShowNotAddedFriends(divNewFriends, friends) {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(38);
+exports = module.exports = __webpack_require__(39);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -969,7 +969,7 @@ module.exports = function(a, b){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(58);
+exports = module.exports = __webpack_require__(59);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -1371,10 +1371,10 @@ module.exports = challengeModule;
  * Module dependencies.
  */
 
-var debug = __webpack_require__(40)('socket.io-parser');
-var json = __webpack_require__(43);
-var Emitter = __webpack_require__(45);
-var binary = __webpack_require__(46);
+var debug = __webpack_require__(41)('socket.io-parser');
+var json = __webpack_require__(44);
+var Emitter = __webpack_require__(46);
+var binary = __webpack_require__(47);
 var isBuf = __webpack_require__(20);
 
 /**
@@ -1778,7 +1778,7 @@ function error(data){
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(50);
+var hasCORS = __webpack_require__(51);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -2284,7 +2284,7 @@ var _facebook = __webpack_require__(14);
 
 var facebook = _interopRequireWildcard(_facebook);
 
-var _notification = __webpack_require__(70);
+var _notification = __webpack_require__(36);
 
 var _notification2 = _interopRequireDefault(_notification);
 
@@ -2292,7 +2292,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var io = __webpack_require__(36);
+var io = __webpack_require__(37);
 function socket() {
 	var socket = io.connect('http://projecthowest.herokuapp.com');
 	socket.on('connect', function () {
@@ -2662,7 +2662,7 @@ function isBuf(obj) {
  * Module dependencies.
  */
 
-var eio = __webpack_require__(47);
+var eio = __webpack_require__(48);
 var Socket = __webpack_require__(27);
 var Emitter = __webpack_require__(28);
 var parser = __webpack_require__(9);
@@ -2670,7 +2670,7 @@ var on = __webpack_require__(29);
 var bind = __webpack_require__(30);
 var debug = __webpack_require__(3)('socket.io-client:manager');
 var indexOf = __webpack_require__(26);
-var Backoff = __webpack_require__(65);
+var Backoff = __webpack_require__(66);
 
 /**
  * IE6+ hasOwnProperty
@@ -3228,9 +3228,9 @@ Manager.prototype.onreconnect = function () {
  */
 
 var XMLHttpRequest = __webpack_require__(10);
-var XHR = __webpack_require__(51);
-var JSONP = __webpack_require__(60);
-var websocket = __webpack_require__(61);
+var XHR = __webpack_require__(52);
+var JSONP = __webpack_require__(61);
+var websocket = __webpack_require__(62);
 
 /**
  * Export transports.
@@ -3697,7 +3697,7 @@ module.exports = function(arr, obj){
 
 var parser = __webpack_require__(9);
 var Emitter = __webpack_require__(28);
-var toArray = __webpack_require__(64);
+var toArray = __webpack_require__(65);
 var on = __webpack_require__(29);
 var bind = __webpack_require__(30);
 var debug = __webpack_require__(3)('socket.io-client:socket');
@@ -4363,7 +4363,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var pages = {
   createPage: '<section class="createChallenge" id="challenge"><div class="form"><h2>Create challenge</h2><label for="name">Name: </label><br /><input type="text" name="name" id="name" class="form__textinput form-element" /><br /><label for="description">Description: </label><br /><textarea name="description" id="description" class="form__textinput form-element"></textarea><br /><label for="endDate">When does the challenge end? </label><br /><input type="date" name="endDate" id="enddate" class="form__dateinput form-element" /><br /><label for="category">Add some friends:</label><br /><select name="friends" id="addFriendToChallenge" placeholder="Add friends" multiple></select><label for="category">Choose a category:</label><br /><select name="category" id="addCategoryToChallenge" placeholder="Choose a category"></select><button type="submit" name="submit" id="submit" class="form__button form-element submit-invalid" disabled>Create challenge</button><br /></div></section>',
   chatPage: "<h2>Chat with your friends</h2><section><div class='chatSpace'>chat</div><div class='chatbar'><input type='text' placeholder='Type here...'><button>Send</button></div></section>",
-  detailPage: '<section class="showDetail" id="showDetail"></section>',
+  detailPage: '<section id="detailAndChat"><section class="showDetail" id="showDetail"></section><section class="chatInterface"><section><div class="chatSpace">chat</div><div class="chatbar"><input type="text" placeholder="Type here..."><button>Send</button></div></section></section></section>',
   notificationPage: "<h2>Notifications</h2>"
 };
 
@@ -4384,19 +4384,18 @@ function initDetails(response) {
   var year = date.getUTCFullYear();
 
   var bobTheHTMLBuilder = "";
-  bobTheHTMLBuilder += '<img id="detailCategory" src="./assets/images/' + response.category.toLowerCase() + '.png"></img>';
+  bobTheHTMLBuilder += '<div id="detailImage"><img id="detailCategory" src="./assets/images/' + response.category.toLowerCase() + '.png"></img></div>';
   bobTheHTMLBuilder += '<div class="challengeDetail">';
   bobTheHTMLBuilder += '<h2>' + response.name.toUpperCase() + '</h2>';
-  bobTheHTMLBuilder += '<p><strong>Here are your rules </strong>' + response.description + '</p>';
-  bobTheHTMLBuilder += '<p><strong>You need to finish before </strong>' + day + '/' + month + '/' + year + '</p>';
-  bobTheHTMLBuilder += '</div>';
-  bobTheHTMLBuilder += '<div class="friendsDetail">';
+  bobTheHTMLBuilder += '<strong>Challenge description: </strong><p id="detailDescription">' + response.description + '</p>';
+  bobTheHTMLBuilder += '<strong>You need to finish before </strong><p id="detailEndDate">' + day + '/' + month + '/' + year + '</p>';
+  bobTheHTMLBuilder += '<strong>Competitors: </strong><div class="friendsDetail">';
   console.log(response.acceptedUsers.length);
   for (var i = 0; i < response.acceptedUsers.length; i++) {
     bobTheHTMLBuilder += '<img src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
   }
-  bobTheHTMLBuilder += '</div>';
-  bobTheHTMLBuilder += '<button type="submit" id="btnChat">Go and talk about the challenge</button>';
+  bobTheHTMLBuilder += '</div></div>';
+  bobTheHTMLBuilder += '<button type="submit"  id="chatButton"><marquee>Complete challenge</marquee></button>';
   var detail = document.getElementById("showDetail");
   detail.innerHTML = bobTheHTMLBuilder;
 }
@@ -4422,11 +4421,11 @@ var _challenge = __webpack_require__(8);
 
 var _challenge2 = _interopRequireDefault(_challenge);
 
-var _validation = __webpack_require__(66);
+var _validation = __webpack_require__(67);
 
 var validate = _interopRequireWildcard(_validation);
 
-var _challenge3 = __webpack_require__(67);
+var _challenge3 = __webpack_require__(68);
 
 var _challenge4 = _interopRequireDefault(_challenge3);
 
@@ -4558,7 +4557,7 @@ module.exports = createChallenge;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(34);
-module.exports = __webpack_require__(68);
+module.exports = __webpack_require__(69);
 
 
 /***/ }),
@@ -4781,12 +4780,61 @@ module.exports = sidePanel;
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var notification = function () {
+    function notification(name, text) {
+        _classCallCheck(this, notification);
+
+        this.name = name;
+        this.text = text;
+    }
+
+    _createClass(notification, [{
+        key: 'RenderNotification',
+        value: function RenderNotification() {
+            var notifSection = document.createElement("section");
+            notifSection.setAttribute('id', 'notification');
+            var body = document.getElementById("ALL");
+            body.appendChild(notifSection);
+            var bobTheHTMLBuilder = "";
+            bobTheHTMLBuilder += "<div>";
+            bobTheHTMLBuilder += this.name + " " + this.text;
+            bobTheHTMLBuilder += "</div>";
+
+            notifSection.innerHTML = bobTheHTMLBuilder;
+            notifSection.setAttribute('id', 'showNotification');
+
+            setTimeout(function () {
+                notifSection.remove();
+            }, 5000);
+        }
+    }]);
+
+    return notification;
+}();
+
+exports.default = notification;
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
 
 /**
  * Module dependencies.
  */
 
-var url = __webpack_require__(37);
+var url = __webpack_require__(38);
 var parser = __webpack_require__(9);
 var Manager = __webpack_require__(21);
 var debug = __webpack_require__(3)('socket.io-client');
@@ -4893,7 +4941,7 @@ exports.Socket = __webpack_require__(27);
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -4975,7 +5023,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4991,7 +5039,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(39);
+exports.humanize = __webpack_require__(40);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -5181,7 +5229,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports) {
 
 /**
@@ -5336,7 +5384,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -5346,7 +5394,7 @@ function plural(ms, n, name) {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(41);
+exports = module.exports = __webpack_require__(42);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -5510,7 +5558,7 @@ function localstorage(){
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -5526,7 +5574,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(42);
+exports.humanize = __webpack_require__(43);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -5713,7 +5761,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports) {
 
 /**
@@ -5844,14 +5892,14 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = "function" === "function" && __webpack_require__(44);
+  var isLoader = "function" === "function" && __webpack_require__(45);
 
   // A set of types used to distinguish objects from primitives.
   var objectTypes = {
@@ -6754,7 +6802,7 @@ function plural(ms, n, name) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -6763,7 +6811,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 
@@ -6933,7 +6981,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -7081,19 +7129,19 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-module.exports = __webpack_require__(48);
-
-
-/***/ }),
 /* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 module.exports = __webpack_require__(49);
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+module.exports = __webpack_require__(50);
 
 /**
  * Exports parser
@@ -7105,7 +7153,7 @@ module.exports.parser = __webpack_require__(1);
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -7118,7 +7166,7 @@ var debug = __webpack_require__(5)('engine.io-client:socket');
 var index = __webpack_require__(26);
 var parser = __webpack_require__(1);
 var parseuri = __webpack_require__(16);
-var parsejson = __webpack_require__(63);
+var parsejson = __webpack_require__(64);
 var parseqs = __webpack_require__(13);
 
 /**
@@ -7850,7 +7898,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports) {
 
 
@@ -7873,7 +7921,7 @@ try {
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -8304,7 +8352,7 @@ function unloadHandler () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports) {
 
 
@@ -8329,7 +8377,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports) {
 
 /**
@@ -8364,7 +8412,7 @@ module.exports = function(arraybuffer, start, end) {
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = after
@@ -8398,7 +8446,7 @@ function noop() {}
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/wtf8 v1.0.0 by @mathias */
@@ -8638,7 +8686,7 @@ function noop() {}
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports) {
 
 /*
@@ -8711,7 +8759,7 @@ function noop() {}
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -8814,7 +8862,7 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8830,7 +8878,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(59);
+exports.humanize = __webpack_require__(60);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -9020,7 +9068,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports) {
 
 /**
@@ -9175,7 +9223,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -9413,7 +9461,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -9430,7 +9478,7 @@ var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(62);
+    NodeWebSocket = __webpack_require__(63);
   } catch (e) { }
 }
 
@@ -9705,13 +9753,13 @@ WS.prototype.check = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -9749,7 +9797,7 @@ module.exports = function parsejson(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -9768,7 +9816,7 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports) {
 
 
@@ -9859,7 +9907,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9914,7 +9962,7 @@ function enable(name, description, endDate, friends, category) {
 }
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9982,60 +10030,10 @@ var challenge = function () {
 exports.default = challenge;
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 69 */,
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var notification = function () {
-    function notification(name, text) {
-        _classCallCheck(this, notification);
-
-        this.name = name;
-        this.text = text;
-    }
-
-    _createClass(notification, [{
-        key: 'RenderNotification',
-        value: function RenderNotification() {
-            var notifSection = document.createElement("section");
-            notifSection.setAttribute('id', 'notification');
-            var body = document.getElementById("ALL");
-            body.appendChild(notifSection);
-            var bobTheHTMLBuilder = "";
-            bobTheHTMLBuilder += "<div>";
-            bobTheHTMLBuilder += this.name + " " + this.text;
-            bobTheHTMLBuilder += "</div>";
-
-            notifSection.innerHTML = bobTheHTMLBuilder;
-            notifSection.setAttribute('id', 'showNotification');
-
-            setTimeout(function () {
-                notifSection.remove();
-            }, 5000);
-        }
-    }]);
-
-    return notification;
-}();
-
-exports.default = notification;
 
 /***/ })
 /******/ ]);
