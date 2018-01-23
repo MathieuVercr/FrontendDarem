@@ -235,7 +235,8 @@ h1 {
 
 #showNotification {
   opacity: 1;
-  background-color: green;
+  color: #555;
+  background-color: #e9ffd9;
   -webkit-transition: opacity 1s ease-in;
   -moz-transition: opacity 1s ease-in;
   -ms-transition: opacity 1s ease-in;
@@ -243,11 +244,15 @@ h1 {
   transition: opacity 1s ease-in;
   position: fixed;
   bottom: 0;
-  right: 0; }
+  right: 0;
+  border-radius: 10px;
+  border: 1px solid #a6ca8a;
+  padding: 10px 10px 10px 36px;
+  margin: 10px; }
 
 #notification {
   opacity: 0;
-  background-color: green;
+  background-color: #e9ffd9;
   position: fixed;
   bottom: 0;
   right: 0; }
