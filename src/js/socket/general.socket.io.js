@@ -5,9 +5,8 @@ import * as facebook from '../facebook/facebook';
 import Notification from '../models/notification.class';
 import * as inviteModule from '../module/invites.module';
 import Challenge from "../models/challenge.class";
-import {
-  socketInit
-} from './socket.io.init';
+import {socketInit} from './socket.io.init';
+import getInvites from '../getInvites';
 let socket;
 let user;
 
@@ -120,6 +119,8 @@ export function generalSocket() {
     let userObject = JSON.parse(data.user);
     console.log(userObject);
     sessionStorage.setItem("nmct.darem.user", JSON.stringify(userObject));
+    getInvites();
+    updateChallengeData(data);
   });
 
   let getFriendsList = function() {
@@ -140,6 +141,22 @@ export function generalSocket() {
       }
     });
   }
+  function updateChallengeData(data){
+      let mark = document.getElementById("mark");
+      let divChallenges = document.getElementById("yourChallenges");
+      sessionStorage.setItem("nmct.darem.user", data.user);
+      divChallenges.innerHTML = "";
+      inviteModule.updateInvites(mark, JSON.parse(sessionStorage.getItem("nmct.darem.user")).challenges);
+      ShowChallenges(divChallenges, JSON.parse(sessionStorage.getItem("nmct.darem.user")).acceptedChallenges);
+    }
+    function ShowChallenges(divChallenges, challenges){
+      let bobTheHTMLBuilder = "";
+      console.log(challenges);
+      challenges.forEach((challenge)=>{
+        let acceptedChallenge = new Challenge(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
+        divChallenges.appendChild(acceptedChallenge.RenderChallenges());
+      });
+    }
 }
 
 export function chatSocket() {
