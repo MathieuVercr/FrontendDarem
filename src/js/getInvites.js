@@ -31,23 +31,6 @@ let getInvites = function(){
 
           inviteContainer.innerHTML += inviteHtml;
           inviteHtml = "";
-
-
-
-/*
-          console.log("index: " + indexId);
-          let accept = document.getElementById('accept' + indexId);
-          let decline = document.getElementById('decline' + indexId);
-          console.log(accept);
-          accept.onclick = function(event){
-            console.log("ACCEPT");
-            answerChallenge(event.path[0].getAttribute('meta'), 'accept');
-          }
-          decline.onclick = function(event){
-            console.log("DECLINE");
-            answerChallenge(event.path[0].getAttribute('meta'), 'decline');
-          }
-*/
           indexId++;
         });
       }

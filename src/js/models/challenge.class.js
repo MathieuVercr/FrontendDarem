@@ -1,5 +1,5 @@
 import challengeModule from '../module/challenge.module';
-
+import * as articleContent from '../showArticle';
 export default class challenge {
   constructor(name, description, category, creatorId, isCompleted, users, endDate) {
     this.name = name;
@@ -33,5 +33,23 @@ export default class challenge {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
+  }
+  RenderChallenges(){
+    let bobTheHTMLBuilder = "";
+        let divChallenge = document.createElement("div");
+        divChallenge.setAttribute('tag', this.creatorId);
+        bobTheHTMLBuilder += `<img src="./assets/images/${this.category.toLowerCase()}.png"></img>`;
+        bobTheHTMLBuilder += `<div class="challenge__detail"><p>${this.name}</p>`;
+        bobTheHTMLBuilder += `<p>${this.description}</p></div>`;
+        divChallenge.innerHTML = bobTheHTMLBuilder;
+        divChallenge.className = "challenge filler";
+
+        divChallenge.addEventListener('click', function(e) {
+          challengeModule.getChallengeData(e.target.attributes.tag.nodeValue).then(function(response) {
+            articleContent.initDetails(response);
+          });
+        });
+
+        return divChallenge;
   }
 }

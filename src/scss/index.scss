@@ -294,10 +294,26 @@ h1 {
     align-items: center;
     justify-content: space-around;
     align-self: stretch;
-
+    text-align: center;
     img {
       width: 50px;
     }
+  }
+  .showMark{
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;   
+  border: 2px solid #9e2929;
+  width: 20px;
+  height: 20px;  
+  background-color: #FF6B6B;
+  position: fixed;
+  top: 255px;
+  left: 300px;
+  color: white;
+  }
+  .noMark{
+    opacity: 0;
   }
 
   #info {
@@ -315,20 +331,25 @@ h1 {
 
 #showNotification{
   opacity: 1;
-  background-color: green;
+  color: #555;
+  padding: 10px 10px 10px 10px;
+  margin: 10px;
+  background-color: #ffecec;
+  border: 1px solid #a6ca8a;
   -webkit-transition: opacity 1s ease-in;
   -moz-transition: opacity 1s ease-in;
   -ms-transition: opacity 1s ease-in;
   -o-transition: opacity 1s ease-in;
   transition: opacity 1s ease-in;
-  position: fixed;
-  bottom: 0;
+  position: absolute;
+  top: 0;
   right: 0;
 }
 #notification{
   opacity: 0;
-  background-color: green;
-  position: fixed;
+  background-color: #ffecec;
+  border: 1px solid #a6ca8a;
+  position: absolute;
   bottom: 0;
   right: 0;
 

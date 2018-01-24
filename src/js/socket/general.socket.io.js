@@ -3,6 +3,8 @@ import Friend from '../models/friend.class';
 import * as friendModule from '../module/friend.module';
 import * as facebook from '../facebook/facebook';
 import Notification from '../models/notification.class';
+import * as inviteModule from '../module/invites.module';
+import Challenge from "../models/challenge.class";
 
 export function socket(){
 	var socket = io.connect('http://projecthowest.herokuapp.com');
@@ -23,6 +25,7 @@ export function socket(){
 		}
 	});
 	socket.on('new challenge', function(data){
+		updateChallengeData(data);
 		if(data.msg != "no notification"){
 			createChallengeNotification(data.msg, data.name);
 		}
@@ -33,11 +36,27 @@ export function socket(){
 		sessionStorage.setItem("nmct.darem.user", JSON.stringify(userObject));
 	});
 
+	function updateChallengeData(data){
+		let mark = document.getElementById("mark");
+		let divChallenges = document.getElementById("yourChallenges");
+		sessionStorage.setItem("nmct.darem.user", data.user);
+		divChallenges.innerHTML = "";
+		inviteModule.updateInvites(mark, JSON.parse(sessionStorage.getItem("nmct.darem.user")).challenges);
+		ShowChallenges(divChallenges, JSON.parse(sessionStorage.getItem("nmct.darem.user")).acceptedChallenges);
+	}
+	function ShowChallenges(divChallenges, challenges){
+		let bobTheHTMLBuilder = "";
+		console.log(challenges);
+		challenges.forEach((challenge)=>{
+		  let acceptedChallenge = new Challenge(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
+		  divChallenges.appendChild(acceptedChallenge.RenderChallenges());
+		});
+	}
 	function updateUserData(data){
 		console.log("UPDATE");
 		console.log(data.msg);
 
-		sessionStorage.setItem("nmct.darem.user", data.userOne);
+		sessionStorage.setItem("nmct.darem.user", data.user);
 		let divFriends = document.getElementById("friends");
 		divFriends.innerHTML = '';
 		friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);

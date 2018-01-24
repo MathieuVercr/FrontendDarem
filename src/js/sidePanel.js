@@ -3,7 +3,8 @@ import * as friendModule from './module/friend.module';
 import Friend from './models/friend.class';
 import { socket } from './socket/general.socket.io';
 import * as articleContent from './showArticle';
-
+import challenge from './models/challenge.class';
+import * as inviteModule from './module/invites.module';
 
 let sidePanel = function() {
   let storage = window.sessionStorage;
@@ -25,7 +26,7 @@ let sidePanel = function() {
     let empty = document.getElementById("noChallenges");
     let logout = document.getElementById("logout");
     let showChallengePage = document.getElementById('showChallengePage');
-
+    let mark = document.getElementById("mark");
     // Show profile info
     profilePic.src = userObject.facebook.photo;
     labelFullName.innerHTML = userObject.givenName + " " + userObject.familyName;
@@ -77,6 +78,11 @@ let sidePanel = function() {
       console.log(userObject);
       empty.innerHTML = "you currently have no challenges.";
     }
+
+    //show invites
+    let invites = userObject.challenges;
+    inviteModule.updateInvites(mark, invites);
+    
   }
 };
 
