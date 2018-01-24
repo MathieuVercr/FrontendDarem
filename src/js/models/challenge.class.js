@@ -1,5 +1,5 @@
 import challengeModule from '../module/challenge.module';
-
+import * as articleContent from '../showArticle';
 export default class challenge {
   constructor(name, description, category, creatorId, isCompleted, users, endDate) {
     this.name = name;
