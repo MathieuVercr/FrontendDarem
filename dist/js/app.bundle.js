@@ -2340,7 +2340,7 @@ function socket() {
 	socket.on('update', function (data) {
 		var userObject = JSON.parse(data.user);
 		console.log(userObject);
-		//sessionStorage.setItem("nmct.darem.user", userObject);
+		sessionStorage.setItem("nmct.darem.user", JSON.stringify(userObject));
 	});
 
 	function updateUserData(data) {
@@ -4389,6 +4389,10 @@ var _getInvites = __webpack_require__(69);
 
 var _getInvites2 = _interopRequireDefault(_getInvites);
 
+var _challenge = __webpack_require__(3);
+
+var _challenge2 = _interopRequireDefault(_challenge);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var pages = {
@@ -4441,6 +4445,24 @@ function initInvite() {
   article.innerHTML = pages.invitePage;
 
   (0, _getInvites2.default)();
+
+  var container = document.querySelector('#allNotificiations');
+  container.addEventListener('click', function (event) {
+    var element = event.path[0];
+    if (element.getAttribute('meta') !== null) {
+      answerChallenge(element.getAttribute('userid'), element.getAttribute('meta'), element.getAttribute('tag'));
+    }
+  });
+}
+
+function answerChallenge(userId, challengeId, reply) {
+  var jsonObject = {
+    user: userId,
+    challenge: challengeId,
+    response: reply
+  };
+  console.log(jsonObject);
+  _challenge2.default.acceptChallenge(jsonObject);
 }
 
 /***/ }),
@@ -4743,8 +4765,7 @@ var sidePanel = function sidePanel() {
     /*** SHOW USER INFO ON SCREEN ***/
     // Get HTML elements
     var profilepic = document.getElementById("profilePic");
-    var labelFirstName = document.getElementById("firstName");
-    var lableLastName = document.getElementById("lastName");
+    var labelFullName = document.getElementById("fullname");
     var labelEmail = document.getElementById("email");
     var divFriends = document.getElementById("friends");
     var divChallenges = document.getElementById("yourChallenges");
@@ -4754,8 +4775,7 @@ var sidePanel = function sidePanel() {
 
     // Show profile info
     profilePic.src = userObject.facebook.photo;
-    labelFirstName.innerHTML = userObject.givenName;
-    lableLastName.innerHTML = userObject.familyName;
+    labelFullName.innerHTML = userObject.givenName + " " + userObject.familyName;
     labelEmail.innerHTML = userObject.email;
     logout.addEventListener("click", function () {
       FB.getLoginStatus(function (e) {
@@ -4786,11 +4806,11 @@ var sidePanel = function sidePanel() {
         var bobTheHTMLBuilder = "";
         var divChallenge = document.createElement("div");
         divChallenge.setAttribute('tag', challenge._id);
-        bobTheHTMLBuilder += '<img src="./assets/images/' + challenge.category.toLowerCase() + '.png"></img>';
+        bobTheHTMLBuilder += '<img src="./assets/images/' + challenge.category.toLowerCase() + '.png">';
         bobTheHTMLBuilder += '<div class="challenge__detail"><p>' + challenge.name + '</p>';
         bobTheHTMLBuilder += '<p>' + challenge.description + '</p></div>';
         divChallenge.innerHTML = bobTheHTMLBuilder;
-        divChallenge.className = "challenge filler";
+        divChallenge.className = "challenge";
 
         divChallenge.addEventListener('click', function (e) {
           _challenge2.default.getChallengeData(e.target.attributes.tag.nodeValue).then(function (response) {
@@ -10082,46 +10102,50 @@ var getInvites = function getInvites() {
   if (account.challenges.length <= 0) {
     inviteContainer.innerHTML = "You have no new challenges";
   }
-  console.log(account);
+
   var inviteHtml = "";
-  var idIndex = 0;
+  var indexId = 0;
+  var loaded = [];
   account.challenges.forEach(function (challenge) {
-
     _challenge2.default.getChallengeData(challenge._id).then(function (response) {
-      var challenger = response.acceptedUsers[0];
+      loaded.push(response);
 
-      inviteHtml += "<section class='invite'>";
-      inviteHtml += "<div class='inviteImage'>";
-      inviteHtml += "<img src='" + challenger.facebook.photo + "' alt ='" + challenger.facebook.name + "'></div>";
-      inviteHtml += "<div class='inviteInfo'>";
-      inviteHtml += "<div id='inviteText'>" + challenger.facebook.name + " invited you to go " + challenge.category + "!</div>";
-      inviteHtml += "<div id='inviteReply'><div id='accept" + idIndex + "' class='reply' meta='" + response._id + "'>Accept</div><div id='decline" + idIndex + "' class='reply' meta='" + response._id + "'>Decline</div></div>";
-      inviteHtml += "</div>";
-      inviteHtml += "</section>";
+      if (account.challenges.length == loaded.length) {
+        loaded.forEach(function (challenge) {
+          var challenger = challenge.acceptedUsers[0];
 
-      inviteContainer.innerHTML += inviteHtml;
+          inviteHtml += "<section class='invite'>";
+          inviteHtml += "<div class='inviteImage'>";
+          inviteHtml += "<img src='" + challenger.facebook.photo + "' alt ='" + challenger.facebook.name + "'></div>";
+          inviteHtml += "<div class='inviteInfo'>";
+          inviteHtml += "<div id='inviteText'>" + challenger.facebook.name + " invited you to go " + challenge.category + "!</div>";
+          inviteHtml += "<div id='inviteReply'><div id='accept" + indexId + "' class='reply accept' meta='" + challenge._id + "' tag='accept' userid='" + account._id + "'>Accept</div>";
+          inviteHtml += "<div id='decline" + indexId + "' class='reply decline' meta='" + challenge._id + "' tag='decline' userid='" + account._id + "'>Decline</div></div>";
+          inviteHtml += "</div>";
+          inviteHtml += "</section>";
 
-      var accept = document.querySelector('#accept' + idIndex);
-      var decline = document.querySelector('#decline' + idIndex);
-      accept.addEventListener('click', function (event) {
-        answerChallenge(event.path[0].getAttribute('meta'), 'accept');
-      });
-      decline.addEventListener('click', function (event) {
-        answerChallenge(event.path[0].getAttribute('meta'), 'decline');
-      });
-      idIndex += 1;
+          inviteContainer.innerHTML += inviteHtml;
+          inviteHtml = "";
+
+          /*
+                    console.log("index: " + indexId);
+                    let accept = document.getElementById('accept' + indexId);
+                    let decline = document.getElementById('decline' + indexId);
+                    console.log(accept);
+                    accept.onclick = function(event){
+                      console.log("ACCEPT");
+                      answerChallenge(event.path[0].getAttribute('meta'), 'accept');
+                    }
+                    decline.onclick = function(event){
+                      console.log("DECLINE");
+                      answerChallenge(event.path[0].getAttribute('meta'), 'decline');
+                    }
+          */
+          indexId++;
+        });
+      }
     });
   });
-
-  function answerChallenge(challengeId, reply) {
-    var jsonObject = {
-      user: account._id,
-      challenge: challengeId,
-      response: reply
-    };
-    console.log(jsonObject);
-    //challengeRepo.acceptChallenge(jsonObject);
-  }
 };
 
 module.exports = getInvites;

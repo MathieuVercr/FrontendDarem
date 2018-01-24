@@ -1,5 +1,6 @@
 import createChallenge from './createChallenge';
 import getInvites from './getInvites';
+import challengeRepo from './module/challenge.module';
 let pages = {
   createPage: '<section class="createChallenge" id="challenge"><div class="form"><h2>Create challenge</h2><label for="name">Name: </label><br /><input type="text" name="name" id="name" class="form__textinput form-element" /><br /><label for="description">Description: </label><br /><textarea name="description" id="description" class="form__textinput form-element"></textarea><br /><label for="endDate">When does the challenge end? </label><br /><input type="date" name="endDate" id="enddate" class="form__dateinput form-element" /><br /><label for="category">Add some friends:</label><br /><select name="friends" id="addFriendToChallenge" placeholder="Add friends" multiple></select><label for="category">Choose a category:</label><br /><select name="category" id="addCategoryToChallenge" placeholder="Choose a category"></select><button type="submit" name="submit" id="submit" class="form__button form-element submit-invalid" disabled>Create challenge</button><br /></div></section>',
   chatPage: "<h2>Chat with your friends</h2><section><div class='chatSpace'>chat</div><div class='chatbar'><input type='text' placeholder='Type here...'><button>Send</button></div></section>",
@@ -50,5 +51,24 @@ export function initInvite(){
   article.innerHTML = pages.invitePage;
 
   getInvites();
+
+  let container = document.querySelector('#allNotificiations');
+  container.addEventListener('click', function(event){
+    let element = event.path[0];
+    if(element.getAttribute('meta')!==null){
+      answerChallenge(element.getAttribute('userid'), element.getAttribute('meta'), element.getAttribute('tag'));
+    }
+  });
+
+}
+
+function answerChallenge(userId, challengeId, reply){
+  let jsonObject = {
+    user: userId,
+    challenge: challengeId,
+    response: reply
+  };
+  console.log(jsonObject);
+  challengeRepo.acceptChallenge(jsonObject);
 
 }

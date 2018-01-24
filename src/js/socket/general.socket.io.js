@@ -30,7 +30,7 @@ export function socket(){
 	socket.on('update', function(data){
 		let userObject = JSON.parse(data.user);
 		console.log(userObject);
-		//sessionStorage.setItem("nmct.darem.user", userObject);
+		sessionStorage.setItem("nmct.darem.user", JSON.stringify(userObject));
 	});
 
 	function updateUserData(data){

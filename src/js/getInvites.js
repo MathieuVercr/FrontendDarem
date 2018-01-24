@@ -7,48 +7,52 @@ let getInvites = function(){
   if(account.challenges.length <= 0){
     inviteContainer.innerHTML = "You have no new challenges";
   }
-  console.log(account);
+
   let inviteHtml = "";
-  let idIndex = 0;
+  let indexId = 0;
+  let loaded = [];
   account.challenges.forEach(function(challenge){
-
     challengeRepo.getChallengeData(challenge._id).then(function(response){
-      let challenger = response.acceptedUsers[0];
+      loaded.push(response);
 
-      inviteHtml += "<section class='invite'>";
-      inviteHtml += "<div class='inviteImage'>";
-      inviteHtml += "<img src='" + challenger.facebook.photo + "' alt ='" + challenger.facebook.name + "'></div>";
-      inviteHtml += "<div class='inviteInfo'>";
-      inviteHtml += "<div id='inviteText'>" + challenger.facebook.name + " invited you to go " + challenge.category + "!</div>";
-      inviteHtml += "<div id='inviteReply'><div id='accept" + idIndex + "' class='reply' meta='" + response._id + "'>Accept</div><div id='decline" + idIndex + "' class='reply' meta='" + response._id + "'>Decline</div></div>";
-      inviteHtml += "</div>";
-      inviteHtml += "</section>";
+      if(account.challenges.length == loaded.length){
+        loaded.forEach(function(challenge){
+          let challenger = challenge.acceptedUsers[0];
 
-      inviteContainer.innerHTML += inviteHtml;
+          inviteHtml += "<section class='invite'>";
+          inviteHtml += "<div class='inviteImage'>";
+          inviteHtml += "<img src='" + challenger.facebook.photo + "' alt ='" + challenger.facebook.name + "'></div>";
+          inviteHtml += "<div class='inviteInfo'>";
+          inviteHtml += "<div id='inviteText'>" + challenger.facebook.name + " invited you to go " + challenge.category + "!</div>";
+          inviteHtml += "<div id='inviteReply'><div id='accept" + indexId + "' class='reply accept' meta='" + challenge._id + "' tag='accept' userid='" + account._id + "'>Accept</div>";
+          inviteHtml += "<div id='decline" + indexId + "' class='reply decline' meta='" + challenge._id + "' tag='decline' userid='" + account._id + "'>Decline</div></div>";
+          inviteHtml += "</div>";
+          inviteHtml += "</section>";
 
-      let accept = document.querySelector('#accept' + idIndex);
-      let decline = document.querySelector('#decline' + idIndex);
-      accept.addEventListener('click', function(event){
-        answerChallenge(event.path[0].getAttribute('meta'), 'accept');
-      });
-      decline.addEventListener('click', function(event){
-        answerChallenge(event.path[0].getAttribute('meta'), 'decline');
-      });
-      idIndex += 1;
+          inviteContainer.innerHTML += inviteHtml;
+          inviteHtml = "";
+
+
+
+/*
+          console.log("index: " + indexId);
+          let accept = document.getElementById('accept' + indexId);
+          let decline = document.getElementById('decline' + indexId);
+          console.log(accept);
+          accept.onclick = function(event){
+            console.log("ACCEPT");
+            answerChallenge(event.path[0].getAttribute('meta'), 'accept');
+          }
+          decline.onclick = function(event){
+            console.log("DECLINE");
+            answerChallenge(event.path[0].getAttribute('meta'), 'decline');
+          }
+*/
+          indexId++;
+        });
+      }
     });
-
   });
-
-  function answerChallenge(challengeId, reply){
-    let jsonObject = {
-      user: account._id,
-      challenge: challengeId,
-      response: reply
-    };
-    console.log(jsonObject);
-    //challengeRepo.acceptChallenge(jsonObject);
-
-  }
 }
 
 module.exports = getInvites;

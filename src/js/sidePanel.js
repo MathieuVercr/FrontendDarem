@@ -18,8 +18,7 @@ let sidePanel = function() {
     /*** SHOW USER INFO ON SCREEN ***/
     // Get HTML elements
     let profilepic = document.getElementById("profilePic");
-    let labelFirstName = document.getElementById("firstName");
-    let lableLastName = document.getElementById("lastName");
+    let labelFullName = document.getElementById("fullname");
     let labelEmail = document.getElementById("email");
     let divFriends = document.getElementById("friends");
     let divChallenges = document.getElementById("yourChallenges");
@@ -29,8 +28,7 @@ let sidePanel = function() {
 
     // Show profile info
     profilePic.src = userObject.facebook.photo;
-    labelFirstName.innerHTML = userObject.givenName;
-    lableLastName.innerHTML = userObject.familyName;
+    labelFullName.innerHTML = userObject.givenName + " " + userObject.familyName;
     labelEmail.innerHTML = userObject.email;
     logout.addEventListener("click", () => {
       FB.getLoginStatus(function(e) {
@@ -61,11 +59,11 @@ let sidePanel = function() {
         let bobTheHTMLBuilder = "";
         let divChallenge = document.createElement("div");
         divChallenge.setAttribute('tag', challenge._id);
-        bobTheHTMLBuilder += `<img src="./assets/images/${challenge.category.toLowerCase()}.png"></img>`;
+        bobTheHTMLBuilder += `<img src="./assets/images/${challenge.category.toLowerCase()}.png">`;
         bobTheHTMLBuilder += `<div class="challenge__detail"><p>${challenge.name}</p>`;
         bobTheHTMLBuilder += `<p>${challenge.description}</p></div>`;
         divChallenge.innerHTML = bobTheHTMLBuilder;
-        divChallenge.className = "challenge filler";
+        divChallenge.className = "challenge";
 
         divChallenge.addEventListener('click', function(e) {
           challengeModule.getChallengeData(e.target.attributes.tag.nodeValue).then(function(response) {
