@@ -476,6 +476,8 @@ h1 {
   .chatbar button {
     padding: 0 25px;
     margin: 3px; }
+  .chatbar #sendPhoto {
+    margin-left: 0; }
   .chatbar button:active {
     background-color: #9e2929;
     color: #f8f8f8; }

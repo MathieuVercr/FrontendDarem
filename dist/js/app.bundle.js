@@ -1438,7 +1438,9 @@ var userName = void 0;
 
 var message = void 0;
 var send = void 0;
+var sendPhoto = void 0;
 var chatSpace = void 0;
+var fileInput = void 0;
 
 function initSockets() {
   socket = (0, _socketIo.socketInit)();
@@ -1451,7 +1453,6 @@ function generalSocket() {
     //registreer op je eigen room -> andere kunnen u een notificatie sturen
     socket.emit('room', sessionStorage.getItem('nmct.darem.accessTokenDB'));
     socket.emit('room', sessionStorage.getItem('nmct.darem.accessToken'));
-    socket.emit('username', user.facebook.name);
     console.log("connected");
   });
 
@@ -1472,6 +1473,7 @@ function generalSocket() {
       createChallengeNotification(data.msg, data.name);
     }
   });
+
   function updateChallengeData(data) {
     var mark = document.getElementById("mark");
     var divChallenges = document.getElementById("yourChallenges");
@@ -1480,6 +1482,7 @@ function generalSocket() {
     inviteModule.updateInvites(mark, JSON.parse(sessionStorage.getItem("nmct.darem.user")).challenges);
     ShowChallenges(divChallenges, JSON.parse(sessionStorage.getItem("nmct.darem.user")).acceptedChallenges);
   }
+
   function ShowChallenges(divChallenges, challenges) {
     var bobTheHTMLBuilder = "";
     console.log(challenges);
@@ -1490,6 +1493,7 @@ function generalSocket() {
   }
   ///////
   socket.on('joined room', function (data) {
+    console.log(data);
     if (currentRoom != data.room && currentRoom != null) {
       socket.emit('leaveChatRoom', currentRoom);
     }
@@ -1575,6 +1579,24 @@ function generalSocket() {
       }
     });
   };
+
+  function updateChallengeData(data) {
+    var mark = document.getElementById("mark");
+    var divChallenges = document.getElementById("yourChallenges");
+    sessionStorage.setItem("nmct.darem.user", data.user);
+    divChallenges.innerHTML = "";
+    inviteModule.updateInvites(mark, JSON.parse(sessionStorage.getItem("nmct.darem.user")).challenges);
+    ShowChallenges(divChallenges, JSON.parse(sessionStorage.getItem("nmct.darem.user")).acceptedChallenges);
+  }
+
+  function ShowChallenges(divChallenges, challenges) {
+    var bobTheHTMLBuilder = "";
+    console.log(challenges);
+    challenges.forEach(function (challenge) {
+      var acceptedChallenge = new _challenge2.default(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
+      divChallenges.appendChild(acceptedChallenge.RenderChallenges());
+    });
+  }
 }
 
 function chatSocket() {
@@ -1582,6 +1604,8 @@ function chatSocket() {
   //new user joined the room
   message = document.getElementById('message');
   send = document.getElementById('sendMessage');
+  sendPhoto = document.getElementById('sendPhoto');
+  fileInput = document.getElementById('fileInput');
   chatSpace = document.getElementById('chatSpace');
 
   send.addEventListener('click', function () {
@@ -1589,30 +1613,62 @@ function chatSocket() {
     socket.emit('send message', {
       joinedRoom: currentRoom,
       msg: message.value,
-      user: userName
+      user: userName,
+      type: 'text'
     });
+  });
+
+  sendPhoto.addEventListener('click', function () {
+    fileInput.click();
+  });
+
+  fileInput.addEventListener('change', function (evt) {
+    for (var i = 0; i < evt.currentTarget.files.length; i++) {
+      var file = evt.currentTarget.files[i];
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function (evt) {
+        console.log("image send to backend");
+        socket.emit('send image', {
+          joinedRoom: currentRoom,
+          msg: evt.target.result,
+          user: userName,
+          type: 'image'
+        });
+      };
+    }
   });
 
   socket.on('new message', function (data) {
     if (currentRoom == data.room) {
-      console.log(data.username + ": " + data.msg);
-      if (data.username == userName) {
-        chatSpace.innerHTML += '<div class="well otherUser">' + " you say: " + data.msg + '</div>';
-      } else {
-        chatSpace.innerHTML += '<div class="well" class="otherUser">' + data.username + " says: " + data.msg + '</div>';
-      }
+      showMessage(data);
     }
   });
 
   socket.on('old messages', function (data) {
     for (var i = data.length - 1; i >= 0; i--) {
-      if (data[i].username == userName) {
-        chatSpace.innerHTML += '<div class="well otherUser">' + " you say: " + data[i].msg + '</div>';
-      } else {
-        chatSpace.innerHTML += '<div class="well" class="otherUser">' + data[i].userName + " says: " + data[i].msg + '</div>';
-      }
+      showMessage(data[i]);
     }
   });
+
+  socket.on('new image', function (data) {
+    if (currentRoom == data.room) {
+      showMessage(data);
+    }
+  });
+
+  function showMessage(data) {
+    console.log(data);
+    if (data.type == 'text') {
+      if (data.userName == userName) {
+        chatSpace.innerHTML += '<div class="well otherUser">' + " you say: " + data.msg + '</div>';
+      } else {
+        chatSpace.innerHTML += '<div class="well" class="otherUser">' + data.userName + " says: " + data.msg + '</div>';
+      }
+    } else {
+      chatSpace.innerHTML += '<img src="' + data.msg + '" class="well img" style="width: 500px"></img>';
+    }
+  }
 }
 
 /***/ }),
@@ -1748,7 +1804,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var pages = {
   createPage: '<section class="createChallenge" id="challenge"><div class="form"><h2>Create challenge</h2><label for="name">Name: </label><br /><input type="text" name="name" id="name" class="form__textinput form-element" /><br /><label for="description">Description: </label><br /><textarea name="description" id="description" class="form__textinput form-element"></textarea><br /><label for="endDate">When does the challenge end? </label><br /><input type="date" name="endDate" id="enddate" class="form__dateinput form-element" /><br /><label for="category">Add some friends:</label><br /><select name="friends" id="addFriendToChallenge" placeholder="Add friends" multiple></select><label for="category">Choose a category:</label><br /><select name="category" id="addCategoryToChallenge" placeholder="Choose a category"></select><button type="submit" name="submit" id="submit" class="form__button form-element submit-invalid" disabled>Create challenge</button><br /></div></section>',
   chatPage: "<h2>Chat with your friends</h2><section><div class='chatSpace'>chat</div><div class='chatbar'><input type='text' placeholder='Type here...'><button>Send</button></div></section>",
-  detailPage: '<section id="detailAndChat"><section class="showDetail" id="showDetail"></section><section class="chatInterface"><section><div class="chatSpace" id="chatSpace"></div><div class="chatbar"><input type="text" placeholder="Type here..." id="message"><button id="sendMessage">Send</button></div></section></section></section>',
+  detailPage: '<section id="detailAndChat"><section class="showDetail" id="showDetail"></section><section class="chatInterface"><section><div class="chatSpace" id="chatSpace"></div><div class="chatbar"><input type="text" placeholder="Type here..." id="message"><button id="sendMessage">Send</button><button id="sendPhoto">Photo</button><input id="fileInput" type="file" style="display:none;" /></div></section></section></section>',
   invitePage: "<h2>Notifications</h2><section id='allNotificiations'></section>"
 };
 var chatScriptLoaded = false;
