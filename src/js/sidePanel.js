@@ -1,16 +1,16 @@
 import challengeModule from './module/challenge.module';
 import * as friendModule from './module/friend.module';
 import Friend from './models/friend.class';
-import { socket } from './socket/general.socket.io';
+import * as GeneralSockets from './socket/general.socket.io';
 import * as articleContent from './showArticle';
-
 
 let sidePanel = function() {
   let storage = window.sessionStorage;
+  let socket = GeneralSockets.initSockets();
+  GeneralSockets.generalSocket();
   if (storage.getItem("nmct.darem.user") == null) {
     //window.location.href = "./index.html";
   } else {
-		socket();
     let userString = storage.getItem("nmct.darem.user");
     let userObject = JSON.parse(userString);
     console.log(userObject);
@@ -70,6 +70,7 @@ let sidePanel = function() {
         divChallenge.addEventListener('click', function(e) {
           challengeModule.getChallengeData(e.target.attributes.tag.nodeValue).then(function(response) {
             articleContent.initDetails(response);
+            socket.emit("joinChatRoom", { challengeID: response._id, userName: userObject.facebook.name });
           });
         });
 

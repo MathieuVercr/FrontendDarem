@@ -2268,9 +2268,11 @@ module.exports = initFacebook;
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
-exports.socket = socket;
+exports.initSockets = initSockets;
+exports.generalSocket = generalSocket;
+exports.chatSocket = chatSocket;
 
 var _friend = __webpack_require__(6);
 
@@ -2288,78 +2290,160 @@ var _notification = __webpack_require__(36);
 
 var _notification2 = _interopRequireDefault(_notification);
 
+var _socketIo = __webpack_require__(73);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var io = __webpack_require__(37);
-function socket() {
-	var socket = io.connect('http://projecthowest.herokuapp.com');
-	socket.on('connect', function () {
-		//registreer op je eigen room -> andere kunnen u een notificatie sturen
-		socket.emit('room', sessionStorage.getItem('nmct.darem.accessTokenDB'));
-		socket.emit('room', sessionStorage.getItem('nmct.darem.accessToken'));
-	});
 
-	socket.on('room joined', function (data) {
-		console.log(data);
-	});
+var socket = void 0;
+var user = void 0;
 
-	socket.on('new friend', function (data) {
-		updateUserData(data);
-		if (data.msg != "no notification") {
-			createNotification(data.msg);
-		}
-	});
-	socket.on('new challenge', function (data) {
-		if (data.msg != "no notification") {
-			createChallengeNotification(data.msg, data.name);
-		}
-	});
-	function updateUserData(data) {
-		console.log("UPDATE");
-		console.log(data.msg);
+var joinroom = sessionStorage.getItem('chatroom');
+var currentRoom = void 0; // in welke room zit de gebruiker?
+var userName = void 0;
 
-		sessionStorage.setItem("nmct.darem.user", data.userOne);
-		var divFriends = document.getElementById("friends");
-		divFriends.innerHTML = '';
-		friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);
-		facebook.initFacebook;
-		FB.getLoginStatus(function (e) {
-			if (sessionStorage.getItem('nmct.darem.user')) {
-				getFriendsList();
-			}
-		});
-	}
-	function createNotification(name) {
-		var notif = new _notification2.default(name, "has added you as a friend");
-		notif.RenderNotification();
-	}
-	function createChallengeNotification(name, challenge) {
-		console.log(name);
-		var notif = new _notification2.default(name, "has invited you to " + challenge);
-		notif.RenderNotification();
-	}
+var message = void 0;
+var send = void 0;
+var chatSpace = void 0;
 
-	var getFriendsList = function getFriendsList() {
-		FB.api('/me/friends', function (response) {
-			var obj = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
-			var newFriends = [];
-			for (var i = 0; i < response.data.length; i++) {
-				if (!JSON.stringify(obj.friends).includes(response.data[i].id)) {
-					newFriends.push(response.data[i]);
-				}
-			}
-			showInSidePanel(newFriends);
+function initSockets() {
+  socket = (0, _socketIo.socketInit)();
+  user = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
+  return socket;
+}
 
-			function showInSidePanel(newFriends) {
-				console.log("REFRESH!");
-				var divNewFriends = document.getElementById("newFriends");
-				friendModule.ShowNotAddedFriends(divNewFriends, newFriends);
-			}
-		});
-	};
+function generalSocket() {
+  socket.on('connect', function () {
+    //registreer op je eigen room -> andere kunnen u een notificatie sturen
+    socket.emit('room', sessionStorage.getItem('nmct.darem.accessTokenDB'));
+    socket.emit('room', sessionStorage.getItem('nmct.darem.accessToken'));
+    socket.emit('username', user.facebook.name);
+    console.log("connected");
+  });
+
+  socket.on('room joined', function (data) {
+    console.log(data);
+  });
+
+  socket.on('new friend', function (data) {
+    updateUserData(data);
+    if (data.msg != "no notification") {
+      createNotification(data.msg);
+    }
+  });
+  socket.on('new challenge', function (data) {
+    if (data.msg != "no notification") {
+      createChallengeNotification(data.msg, data.name);
+    }
+  });
+
+  ///////
+  socket.on('joined room', function (data) {
+    if (currentRoom != data.room && currentRoom != null) {
+      socket.emit('leaveChatRoom', currentRoom);
+    }
+    currentRoom = data.room;
+    userName = data.userName;
+    console.log(userName);
+    chatSpace.innerHTML = "";
+  });
+
+  socket.on('new user', function (data) {
+    console.log(data);
+  });
+
+  socket.on('user left', function (data) {
+    console.log(data.msg);
+  });
+  //////
+
+  function updateUserData(data) {
+    console.log("UPDATE");
+    console.log(data.msg);
+
+    sessionStorage.setItem("nmct.darem.user", data.user);
+    var divFriends = document.getElementById("friends");
+    divFriends.innerHTML = '';
+    friendModule.ShowAddedFriends(divFriends, JSON.parse(sessionStorage.getItem("nmct.darem.user")).friends);
+    facebook.initFacebook;
+    FB.getLoginStatus(function (e) {
+      if (sessionStorage.getItem('nmct.darem.user')) {
+        getFriendsList();
+      }
+    });
+  }
+
+  function createNotification(name) {
+    var notif = new _notification2.default(name, "has added you as a friend");
+    notif.RenderNotification();
+  }
+
+  function createChallengeNotification(name, challenge) {
+    console.log(name);
+    var notif = new _notification2.default(name, "has invited you to " + challenge);
+    notif.RenderNotification();
+  }
+
+  var getFriendsList = function getFriendsList() {
+    FB.api('/me/friends', function (response) {
+      var obj = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
+      var newFriends = [];
+      for (var i = 0; i < response.data.length; i++) {
+        if (!JSON.stringify(obj.friends).includes(response.data[i].id)) {
+          newFriends.push(response.data[i]);
+        }
+      }
+      showInSidePanel(newFriends);
+
+      function showInSidePanel(newFriends) {
+        console.log("REFRESH!");
+        var divNewFriends = document.getElementById("newFriends");
+        friendModule.ShowNotAddedFriends(divNewFriends, newFriends);
+      }
+    });
+  };
 };
+
+function chatSocket() {
+  /// CHAT
+  //new user joined the room
+  message = document.getElementById('message');
+  send = document.getElementById('sendMessage');
+  chatSpace = document.getElementById('chatSpace');
+
+  send.addEventListener('click', function () {
+    console.log(userName);
+    socket.emit('send message', {
+      joinedRoom: currentRoom,
+      msg: message.value,
+      user: userName
+    });
+  });
+
+  socket.on('new message', function (data) {
+    if (currentRoom == data.room) {
+      console.log(data.username + ": " + data.msg);
+      if (data.username == userName) {
+        chatSpace.innerHTML += '<div class="well otherUser">' + " you say: " + data.msg + '</div>';
+      } else {
+        chatSpace.innerHTML += '<div class="well" class="otherUser">' + data.username + " says: " + data.msg + '</div>';
+      }
+    }
+  });
+
+  socket.on('old messages', function (data) {
+    for (var i = data.length - 1; i >= 0; i--) {
+      if (data[i].username == userName) {
+        chatSpace.innerHTML += '<div class="well otherUser">' + " you say: " + data[i].msg + '</div>';
+      } else {
+        chatSpace.innerHTML += '<div class="well" class="otherUser">' + data[i].userName + " says: " + data[i].msg + '</div>';
+      }
+    }
+  });
+}
 
 /***/ }),
 /* 16 */
@@ -4358,26 +4442,35 @@ var _createChallenge = __webpack_require__(32);
 
 var _createChallenge2 = _interopRequireDefault(_createChallenge);
 
+var _generalSocket = __webpack_require__(15);
+
+var GeneralSockets = _interopRequireWildcard(_generalSocket);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var pages = {
   createPage: '<section class="createChallenge" id="challenge"><div class="form"><h2>Create challenge</h2><label for="name">Name: </label><br /><input type="text" name="name" id="name" class="form__textinput form-element" /><br /><label for="description">Description: </label><br /><textarea name="description" id="description" class="form__textinput form-element"></textarea><br /><label for="endDate">When does the challenge end? </label><br /><input type="date" name="endDate" id="enddate" class="form__dateinput form-element" /><br /><label for="category">Add some friends:</label><br /><select name="friends" id="addFriendToChallenge" placeholder="Add friends" multiple></select><label for="category">Choose a category:</label><br /><select name="category" id="addCategoryToChallenge" placeholder="Choose a category"></select><button type="submit" name="submit" id="submit" class="form__button form-element submit-invalid" disabled>Create challenge</button><br /></div></section>',
-  chatPage: "<h2>Chat with your friends</h2><section><div class='chatSpace'>chat</div><div class='chatbar'><input type='text' placeholder='Type here...'><button>Send</button></div></section>",
-  detailPage: '<section id="detailAndChat"><section class="showDetail" id="showDetail"></section><section class="chatInterface"><section><div class="chatSpace">chat</div><div class="chatbar"><input type="text" placeholder="Type here..."><button>Send</button></div></section></section></section>',
+  chatPage: "<h2>Chat with your friends</h2><section id='chat'><div class='chatSpace' id='chatSpace'></div><div class='chatbar'><input type='text' placeholder='Type here...' id='message'><button id='sendMessage'>Send</button></div></section>",
+  detailPage: '<section id="detailAndChat"><section class="showDetail" id="showDetail"></section><section class="chatInterface"><section><div class="chatSpace" id="chatSpace"></div><div class="chatbar"><input type="text" placeholder="Type here..." id="message"><button id="sendMessage">Send</button></div></section></section></section>',
   notificationPage: "<h2>Notifications</h2>"
 };
+var chatScriptLoaded = false;
 
 function initCreate() {
   var article = document.querySelector("#appInformation");
   article.innerHTML = pages.createPage;
-
   (0, _createChallenge2.default)();
 }
 
 function initDetails(response) {
-  var article = document.querySelector("#appInformation");
-  article.innerHTML = pages.detailPage;
-
+  if (!chatScriptLoaded) {
+    var article = document.querySelector("#appInformation");
+    article.innerHTML = pages.detailPage;
+    GeneralSockets.chatSocket();
+    chatScriptLoaded = true;
+  }
   var date = new Date(parseInt(response.endDate));
   var month = date.getUTCMonth() + 1;
   var day = date.getUTCDate();
@@ -4689,6 +4782,8 @@ var _friend3 = _interopRequireDefault(_friend2);
 
 var _generalSocket = __webpack_require__(15);
 
+var GeneralSockets = _interopRequireWildcard(_generalSocket);
+
 var _showArticle = __webpack_require__(31);
 
 var articleContent = _interopRequireWildcard(_showArticle);
@@ -4699,10 +4794,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var sidePanel = function sidePanel() {
   var storage = window.sessionStorage;
+  var socket = GeneralSockets.initSockets();
+  GeneralSockets.generalSocket();
   if (storage.getItem("nmct.darem.user") == null) {
     //window.location.href = "./index.html";
   } else {
-    (0, _generalSocket.socket)();
     var userString = storage.getItem("nmct.darem.user");
     var userObject = JSON.parse(userString);
     console.log(userObject);
@@ -4762,6 +4858,7 @@ var sidePanel = function sidePanel() {
         divChallenge.addEventListener('click', function (e) {
           _challenge2.default.getChallengeData(e.target.attributes.tag.nodeValue).then(function (response) {
             articleContent.initDetails(response);
+            socket.emit("joinChatRoom", { challengeID: response._id, userName: userObject.facebook.name });
           });
         });
 
@@ -10034,6 +10131,28 @@ exports.default = challenge;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.socketInit = socketInit;
+var io = __webpack_require__(37);
+
+function socketInit() {
+	var socket = io.connect('http://projecthowest.herokuapp.com');
+
+	return socket;
+};
 
 /***/ })
 /******/ ]);
