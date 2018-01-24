@@ -598,10 +598,13 @@ h1 {
 .chatSpace {
   flex-grow: 1;
   background-color: $backgroundColorSecondary;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .chatbar {
   height: 40px;
+  min-height: 40px;
   background-color: $backgroundColorAccent;
   display: flex;
   justify-content: space-around;
@@ -631,6 +634,36 @@ h1 {
     background-color: $backgroundColorSecondary;
     color: $mainColorPrimary;
     margin-bottom: 0;
+  }
+}
+
+.thisUser{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+
+  div{
+    background-color: $mainColorPrimary;
+    padding: 5px 10px;
+    color: $backgroundColorPrimary;
+    text-align: right;
+    border-radius: 25px;
+    margin-right: 3px;
+    margin-left: 25px;
+  }
+}
+
+.otherUser{
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 5px;
+
+  div{
+    background-color: $backgroundColorAccent;
+    padding: 5px 10px;
+    border-radius: 25px;
+    margin-left: 3px;
+    margin-right: 25px;
   }
 }
 

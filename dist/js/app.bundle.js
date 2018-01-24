@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 36);
+/******/ 	return __webpack_require__(__webpack_require__.s = 37);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -99,7 +99,7 @@ module.exports = g;
  */
 
 var keys = __webpack_require__(58);
-var hasBinary = __webpack_require__(29);
+var hasBinary = __webpack_require__(30);
 var sliceBuffer = __webpack_require__(59);
 var after = __webpack_require__(60);
 var utf8 = __webpack_require__(61);
@@ -1030,7 +1030,7 @@ function localstorage(){
   } catch (e) {}
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)))
 
 /***/ }),
 /* 5 */
@@ -1226,7 +1226,7 @@ function localstorage(){
   } catch (e) {}
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)))
 
 /***/ }),
 /* 7 */
@@ -1409,7 +1409,7 @@ var _facebook = __webpack_require__(17);
 
 var facebook = _interopRequireWildcard(_facebook);
 
-var _notification = __webpack_require__(39);
+var _notification = __webpack_require__(40);
 
 var _notification2 = _interopRequireDefault(_notification);
 
@@ -1423,7 +1423,7 @@ var _challenge2 = _interopRequireDefault(_challenge);
 
 var _socketIo = __webpack_require__(42);
 
-var _getInvites = __webpack_require__(41);
+var _getInvites = __webpack_require__(20);
 
 var _getInvites2 = _interopRequireDefault(_getInvites);
 
@@ -1431,7 +1431,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var io = __webpack_require__(20);
+var io = __webpack_require__(21);
 
 var socket = void 0;
 var user = void 0;
@@ -1597,25 +1597,26 @@ function chatSocket() {
       msg: message.value,
       user: userName
     });
+    message.innerHTML = "";
   });
 
   socket.on('new message', function (data) {
     if (currentRoom == data.room) {
       console.log(data.username + ": " + data.msg);
-      if (data.username == userName) {
-        chatSpace.innerHTML += '<div class="well otherUser">' + " you say: " + data.msg + '</div>';
+      if (data.username == user.facebook.name) {
+        chatSpace.innerHTML += '<div class="thisUser"><div><strong>' + "you say:</strong> " + data.msg + '</div></div>';
       } else {
-        chatSpace.innerHTML += '<div class="well" class="otherUser">' + data.username + " says: " + data.msg + '</div>';
+        chatSpace.innerHTML += '<div class="otherUser"><strong>' + data.username + " says:</strong> " + data.msg + '</div>';
       }
     }
   });
 
   socket.on('old messages', function (data) {
     for (var i = data.length - 1; i >= 0; i--) {
-      if (data[i].username == userName) {
-        chatSpace.innerHTML += '<div class="well otherUser">' + " you say: " + data[i].msg + '</div>';
+      if (data[i].username == user.facebook.name) {
+        chatSpace.innerHTML += '<div class="thisUser"><div><strong>' + "you say:</strong> " + data[i].msg + '</div></div>';
       } else {
-        chatSpace.innerHTML += '<div class="well" class="otherUser">' + data[i].userName + " says: " + data[i].msg + '</div>';
+        chatSpace.innerHTML += '<div class="otherUser"><div><strong>' + data[i].userName + " says:</strong> " + data[i].msg + '</div></div>';
       }
     }
   });
@@ -1735,7 +1736,7 @@ var _createChallenge = __webpack_require__(19);
 
 var _createChallenge2 = _interopRequireDefault(_createChallenge);
 
-var _getInvites = __webpack_require__(41);
+var _getInvites = __webpack_require__(20);
 
 var _getInvites2 = _interopRequireDefault(_getInvites);
 
@@ -1837,7 +1838,7 @@ var debug = __webpack_require__(46)('socket.io-parser');
 var json = __webpack_require__(49);
 var Emitter = __webpack_require__(51);
 var binary = __webpack_require__(52);
-var isBuf = __webpack_require__(25);
+var isBuf = __webpack_require__(26);
 
 /**
  * Protocol version.
@@ -2756,7 +2757,7 @@ var _challenge = __webpack_require__(2);
 
 var _challenge2 = _interopRequireDefault(_challenge);
 
-var _validation = __webpack_require__(40);
+var _validation = __webpack_require__(41);
 
 var validate = _interopRequireWildcard(_validation);
 
@@ -2891,6 +2892,59 @@ module.exports = createChallenge;
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+var _challenge = __webpack_require__(2);
+
+var _challenge2 = _interopRequireDefault(_challenge);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var getInvites = function getInvites() {
+  var account = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
+  var inviteContainer = document.querySelector('#allNotificiations');
+
+  if (account.challenges.length <= 0) {
+    inviteContainer.innerHTML = "You have no new challenges";
+  }
+
+  var inviteHtml = "";
+  var indexId = 0;
+  var loaded = [];
+  account.challenges.forEach(function (challenge) {
+    _challenge2.default.getChallengeData(challenge._id).then(function (response) {
+      loaded.push(response);
+
+      if (account.challenges.length == loaded.length) {
+        loaded.forEach(function (challenge) {
+          var challenger = challenge.acceptedUsers[0];
+
+          inviteHtml += "<section class='invite'>";
+          inviteHtml += "<div class='inviteImage'>";
+          inviteHtml += "<img src='" + challenger.facebook.photo + "' alt ='" + challenger.facebook.name + "'></div>";
+          inviteHtml += "<div class='inviteInfo'>";
+          inviteHtml += "<div id='inviteText'>" + challenger.facebook.name + " invited you to go " + challenge.category + "!</div>";
+          inviteHtml += "<div id='inviteReply'><div id='accept" + indexId + "' class='reply accept' meta='" + challenge._id + "' tag='accept' userid='" + account._id + "'>Accept</div>";
+          inviteHtml += "<div id='decline" + indexId + "' class='reply decline' meta='" + challenge._id + "' tag='decline' userid='" + account._id + "'>Decline</div></div>";
+          inviteHtml += "</div>";
+          inviteHtml += "</section>";
+
+          inviteContainer.innerHTML += inviteHtml;
+          inviteHtml = "";
+          indexId++;
+        });
+      }
+    });
+  });
+};
+
+module.exports = getInvites;
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
 
 /**
  * Module dependencies.
@@ -2898,7 +2952,7 @@ module.exports = createChallenge;
 
 var url = __webpack_require__(43);
 var parser = __webpack_require__(12);
-var Manager = __webpack_require__(26);
+var Manager = __webpack_require__(27);
 var debug = __webpack_require__(4)('socket.io-client');
 
 /**
@@ -2998,12 +3052,12 @@ exports.connect = lookup;
  * @api public
  */
 
-exports.Manager = __webpack_require__(26);
-exports.Socket = __webpack_require__(32);
+exports.Manager = __webpack_require__(27);
+exports.Socket = __webpack_require__(33);
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 /**
@@ -3048,7 +3102,7 @@ module.exports = function parseuri(str) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -3238,7 +3292,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -3266,7 +3320,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -3275,7 +3329,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -3295,7 +3349,7 @@ function isBuf(obj) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3304,13 +3358,13 @@ function isBuf(obj) {
  */
 
 var eio = __webpack_require__(53);
-var Socket = __webpack_require__(32);
-var Emitter = __webpack_require__(33);
+var Socket = __webpack_require__(33);
+var Emitter = __webpack_require__(34);
 var parser = __webpack_require__(12);
-var on = __webpack_require__(34);
-var bind = __webpack_require__(35);
+var on = __webpack_require__(35);
+var bind = __webpack_require__(36);
 var debug = __webpack_require__(4)('socket.io-client:manager');
-var indexOf = __webpack_require__(31);
+var indexOf = __webpack_require__(32);
 var Backoff = __webpack_require__(71);
 
 /**
@@ -3861,7 +3915,7 @@ Manager.prototype.onreconnect = function () {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -3921,7 +3975,7 @@ function polling (opts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -3932,7 +3986,7 @@ var Transport = __webpack_require__(14);
 var parseqs = __webpack_require__(16);
 var parser = __webpack_require__(1);
 var inherit = __webpack_require__(5);
-var yeast = __webpack_require__(30);
+var yeast = __webpack_require__(31);
 var debug = __webpack_require__(6)('engine.io-client:polling');
 
 /**
@@ -4172,7 +4226,7 @@ Polling.prototype.uri = function () {
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -4180,7 +4234,7 @@ Polling.prototype.uri = function () {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(24);
+var isArray = __webpack_require__(25);
 
 /**
  * Module exports.
@@ -4238,7 +4292,7 @@ function hasBinary(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4313,7 +4367,7 @@ module.exports = yeast;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports) {
 
 
@@ -4328,7 +4382,7 @@ module.exports = function(arr, obj){
 };
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4337,12 +4391,12 @@ module.exports = function(arr, obj){
  */
 
 var parser = __webpack_require__(12);
-var Emitter = __webpack_require__(33);
+var Emitter = __webpack_require__(34);
 var toArray = __webpack_require__(70);
-var on = __webpack_require__(34);
-var bind = __webpack_require__(35);
+var on = __webpack_require__(35);
+var bind = __webpack_require__(36);
 var debug = __webpack_require__(4)('socket.io-client:socket');
-var hasBin = __webpack_require__(29);
+var hasBin = __webpack_require__(30);
 
 /**
  * Module exports.
@@ -4753,7 +4807,7 @@ Socket.prototype.compress = function (compress) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4922,7 +4976,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 
@@ -4952,7 +5006,7 @@ function on (obj, ev, fn) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 /**
@@ -4981,15 +5035,15 @@ module.exports = function(obj, fn){
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(37);
+__webpack_require__(38);
 module.exports = __webpack_require__(72);
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5003,7 +5057,7 @@ var _user = __webpack_require__(8);
 
 var _user2 = _interopRequireDefault(_user);
 
-var _sidePanel = __webpack_require__(38);
+var _sidePanel = __webpack_require__(39);
 
 var _sidePanel2 = _interopRequireDefault(_sidePanel);
 
@@ -5097,7 +5151,7 @@ function initProfile() {
 }
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5219,7 +5273,7 @@ var sidePanel = function sidePanel() {
 module.exports = sidePanel;
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5268,7 +5322,7 @@ var notification = function () {
 exports.default = notification;
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5323,59 +5377,6 @@ function enable(name, description, endDate, friends, category) {
 }
 
 /***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _challenge = __webpack_require__(2);
-
-var _challenge2 = _interopRequireDefault(_challenge);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var getInvites = function getInvites() {
-  var account = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
-  var inviteContainer = document.querySelector('#allNotificiations');
-
-  if (account.challenges.length <= 0) {
-    inviteContainer.innerHTML = "You have no new challenges";
-  }
-
-  var inviteHtml = "";
-  var indexId = 0;
-  var loaded = [];
-  account.challenges.forEach(function (challenge) {
-    _challenge2.default.getChallengeData(challenge._id).then(function (response) {
-      loaded.push(response);
-
-      if (account.challenges.length == loaded.length) {
-        loaded.forEach(function (challenge) {
-          var challenger = challenge.acceptedUsers[0];
-
-          inviteHtml += "<section class='invite'>";
-          inviteHtml += "<div class='inviteImage'>";
-          inviteHtml += "<img src='" + challenger.facebook.photo + "' alt ='" + challenger.facebook.name + "'></div>";
-          inviteHtml += "<div class='inviteInfo'>";
-          inviteHtml += "<div id='inviteText'>" + challenger.facebook.name + " invited you to go " + challenge.category + "!</div>";
-          inviteHtml += "<div id='inviteReply'><div id='accept" + indexId + "' class='reply accept' meta='" + challenge._id + "' tag='accept' userid='" + account._id + "'>Accept</div>";
-          inviteHtml += "<div id='decline" + indexId + "' class='reply decline' meta='" + challenge._id + "' tag='decline' userid='" + account._id + "'>Decline</div></div>";
-          inviteHtml += "</div>";
-          inviteHtml += "</section>";
-
-          inviteContainer.innerHTML += inviteHtml;
-          inviteHtml = "";
-          indexId++;
-        });
-      }
-    });
-  });
-};
-
-module.exports = getInvites;
-
-/***/ }),
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5386,7 +5387,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 exports.socketInit = socketInit;
-var io = __webpack_require__(20);
+var io = __webpack_require__(21);
 
 function socketInit() {
 	var socket = io.connect('http://projecthowest.herokuapp.com');
@@ -5403,7 +5404,7 @@ function socketInit() {
  * Module dependencies.
  */
 
-var parseuri = __webpack_require__(21);
+var parseuri = __webpack_require__(22);
 var debug = __webpack_require__(4)('socket.io-client:url');
 
 /**
@@ -7253,7 +7254,7 @@ function plural(ms, n, name) {
   }
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)(module), __webpack_require__(0)))
 
 /***/ }),
 /* 50 */
@@ -7444,8 +7445,8 @@ Emitter.prototype.hasListeners = function(event){
  * Module requirements
  */
 
-var isArray = __webpack_require__(24);
-var isBuf = __webpack_require__(25);
+var isArray = __webpack_require__(25);
+var isBuf = __webpack_require__(26);
 
 /**
  * Replaces every Buffer | ArrayBuffer in packet with a numbered placeholder.
@@ -7614,12 +7615,12 @@ module.exports.parser = __webpack_require__(1);
  * Module dependencies.
  */
 
-var transports = __webpack_require__(27);
+var transports = __webpack_require__(28);
 var Emitter = __webpack_require__(15);
 var debug = __webpack_require__(6)('engine.io-client:socket');
-var index = __webpack_require__(31);
+var index = __webpack_require__(32);
 var parser = __webpack_require__(1);
-var parseuri = __webpack_require__(21);
+var parseuri = __webpack_require__(22);
 var parsejson = __webpack_require__(69);
 var parseqs = __webpack_require__(16);
 
@@ -7754,7 +7755,7 @@ Socket.protocol = parser.protocol; // this is an int
 
 Socket.Socket = Socket;
 Socket.Transport = __webpack_require__(14);
-Socket.transports = __webpack_require__(27);
+Socket.transports = __webpack_require__(28);
 Socket.parser = __webpack_require__(1);
 
 /**
@@ -8383,7 +8384,7 @@ try {
  */
 
 var XMLHttpRequest = __webpack_require__(13);
-var Polling = __webpack_require__(28);
+var Polling = __webpack_require__(29);
 var Emitter = __webpack_require__(15);
 var inherit = __webpack_require__(5);
 var debug = __webpack_require__(6)('engine.io-client:polling-xhr');
@@ -9137,7 +9138,7 @@ function noop() {}
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)(module), __webpack_require__(0)))
 
 /***/ }),
 /* 62 */
@@ -9685,7 +9686,7 @@ function plural(ms, n, name) {
  * Module requirements.
  */
 
-var Polling = __webpack_require__(28);
+var Polling = __webpack_require__(29);
 var inherit = __webpack_require__(5);
 
 /**
@@ -9926,7 +9927,7 @@ var Transport = __webpack_require__(14);
 var parser = __webpack_require__(1);
 var parseqs = __webpack_require__(16);
 var inherit = __webpack_require__(5);
-var yeast = __webpack_require__(30);
+var yeast = __webpack_require__(31);
 var debug = __webpack_require__(6)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;

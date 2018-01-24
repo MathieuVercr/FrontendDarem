@@ -166,6 +166,7 @@ export function chatSocket() {
   send = document.getElementById('sendMessage');
   chatSpace = document.getElementById('chatSpace');
 
+
   send.addEventListener('click', function() {
     console.log(userName);
     socket.emit('send message', {
@@ -173,25 +174,26 @@ export function chatSocket() {
       msg: message.value,
       user: userName
     });
+    message.innerHTML = "";
   });
 
   socket.on('new message', function(data) {
     if (currentRoom == data.room) {
       console.log(data.username + ": " + data.msg);
-      if (data.username == userName) {
-        chatSpace.innerHTML += '<div class="well otherUser">' + " you say: " + data.msg + '</div>';
+      if (data.username == user.facebook.name) {
+        chatSpace.innerHTML += '<div class="thisUser"><div><strong>' + "you say:</strong> " + data.msg + '</div></div>';
       } else {
-        chatSpace.innerHTML += '<div class="well" class="otherUser">' + data.username + " says: " + data.msg + '</div>';
+        chatSpace.innerHTML += '<div class="otherUser"><strong>' + data.username + " says:</strong> " + data.msg + '</div>';
       }
     }
   });
 
   socket.on('old messages', function(data) {
     for (let i = data.length - 1; i >= 0; i--) {
-      if (data[i].username == userName) {
-        chatSpace.innerHTML += '<div class="well otherUser">' + " you say: " + data[i].msg + '</div>';
+      if (data[i].username == user.facebook.name) {
+        chatSpace.innerHTML += '<div class="thisUser"><div><strong>' + "you say:</strong> " + data[i].msg + '</div></div>';
       } else {
-        chatSpace.innerHTML += '<div class="well" class="otherUser">' + data[i].userName + " says: " + data[i].msg + '</div>';
+        chatSpace.innerHTML += '<div class="otherUser"><div><strong>' + data[i].userName + " says:</strong> " + data[i].msg + '</div></div>';
       }
     }
   })

@@ -461,10 +461,13 @@ h1 {
 
 .chatSpace {
   flex-grow: 1;
-  background-color: #f8f8f8; }
+  background-color: #f8f8f8;
+  overflow: hidden;
+  overflow-y: scroll; }
 
 .chatbar {
   height: 40px;
+  min-height: 40px;
   background-color: #e0e0e0;
   display: flex;
   justify-content: space-around;
@@ -487,6 +490,30 @@ h1 {
     background-color: #f8f8f8;
     color: #9e2929;
     margin-bottom: 0; }
+
+.thisUser {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px; }
+  .thisUser div {
+    background-color: #9e2929;
+    padding: 5px 10px;
+    color: #fefefe;
+    text-align: right;
+    border-radius: 25px;
+    margin-right: 3px;
+    margin-left: 25px; }
+
+.otherUser {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 5px; }
+  .otherUser div {
+    background-color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 25px;
+    margin-left: 3px;
+    margin-right: 25px; }
 
 #allNotificiations {
   display: flex;
