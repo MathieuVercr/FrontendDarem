@@ -34,7 +34,7 @@ export default class challenge {
 
     return [year, month, day].join('-');
   }
-  RenderChallenges(){
+  RenderChallenges(socket){
     let bobTheHTMLBuilder = "";
         let divChallenge = document.createElement("div");
         divChallenge.setAttribute('tag', this.creatorId);
@@ -47,6 +47,7 @@ export default class challenge {
         divChallenge.addEventListener('click', function(e) {
           challengeModule.getChallengeData(e.target.attributes.tag.nodeValue).then(function(response) {
             articleContent.initDetails(response);
+            socket.emit("joinChatRoom", { challengeID: response._id, userName: userObject.facebook.name });
           });
         });
 
