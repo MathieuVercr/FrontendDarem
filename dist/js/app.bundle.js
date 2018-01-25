@@ -1669,9 +1669,9 @@ function chatSocket() {
     console.log(data);
     if (data.type == 'text') {
       if (data.userName == userName) {
-        chatSpace.innerHTML += '<div class="well otherUser">' + " you say: " + data.msg + '</div>';
+        chatSpace.innerHTML += '<div class="thisUser"><div><strong>' + "you say:</strong> " + data.msg + '</div></div>';
       } else {
-        chatSpace.innerHTML += '<div class="well" class="otherUser">' + data.userName + " says: " + data.msg + '</div>';
+        chatSpace.innerHTML += '<div class="otherUser"><strong>' + data.userName + " says:</strong> " + data.msg + '</div>';
       }
     } else {
       chatSpace.innerHTML += '<img src="' + data.msg + '" class="well img" style="width: 500px"></img>';
@@ -1819,7 +1819,6 @@ function initDetails(response) {
   var article = document.querySelector("#appInformation");
   article.innerHTML = pages.detailPage;
   GeneralSockets.chatSocket();
-  chatScriptLoaded = true;
 
   var date = new Date(parseInt(response.endDate));
   var month = date.getUTCMonth() + 1;

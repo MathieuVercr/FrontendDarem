@@ -19,7 +19,6 @@ export function initDetails(response){
   let article = document.querySelector("#appInformation");
   article.innerHTML = pages.detailPage;
   GeneralSockets.chatSocket();
-  chatScriptLoaded = true;
 
   var date = new Date(parseInt(response.endDate));
   var month = date.getUTCMonth() + 1;
