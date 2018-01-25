@@ -8,7 +8,6 @@ let pages = {
   detailPage: '<section id="detailAndChat"><section class="showDetail" id="showDetail"></section><section class="chatInterface"><section><div class="chatSpace" id="chatSpace"></div><div class="chatbar"><input type="text" placeholder="Type here..." id="message"><button id="sendMessage">Send</button><button id="sendPhoto">Photo</button><input id="fileInput" type="file" style="display:none;" /></div></section></section></section>',
   invitePage: "<h2>Notifications</h2><section id='allNotificiations'></section>"
 };
-let chatScriptLoaded = false;
 
 export function initCreate(){
   let article = document.querySelector("#appInformation");
@@ -17,12 +16,11 @@ export function initCreate(){
 }
 
 export function initDetails(response){
-  if(!chatScriptLoaded){
-    let article = document.querySelector("#appInformation");
-    article.innerHTML = pages.detailPage;
-    GeneralSockets.chatSocket();
-    chatScriptLoaded = true;
-  }
+  let article = document.querySelector("#appInformation");
+  article.innerHTML = pages.detailPage;
+  GeneralSockets.chatSocket();
+  chatScriptLoaded = true;
+
   var date = new Date(parseInt(response.endDate));
   var month = date.getUTCMonth() + 1;
   var day = date.getUTCDate();

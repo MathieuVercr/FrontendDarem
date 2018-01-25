@@ -52,7 +52,7 @@ let sidePanel = function() {
 
     // Show challenge page
     showChallengePage.addEventListener('click', () => {
-      articleContent.initCreate();
+      location.reload();
     })
 
     // Show challenges

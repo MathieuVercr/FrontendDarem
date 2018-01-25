@@ -15,11 +15,6 @@ let joinroom = sessionStorage.getItem('chatroom');
 let currentRoom; // in welke room zit de gebruiker?
 let userName;
 
-let message;
-let send;
-let sendPhoto;
-let chatSpace;
-let fileInput;
 
 export function initSockets() {
   socket = socketInit();
@@ -183,6 +178,13 @@ export function generalSocket() {
 export function chatSocket() {
   /// CHAT
   //new user joined the room
+
+  let message;
+  let send;
+  let sendPhoto;
+  let chatSpace;
+  let fileInput;
+
   message = document.getElementById('message');
   send = document.getElementById('sendMessage');
   sendPhoto = document.getElementById('sendPhoto');

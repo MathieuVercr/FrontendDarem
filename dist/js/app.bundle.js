@@ -1436,12 +1436,6 @@ var joinroom = sessionStorage.getItem('chatroom');
 var currentRoom = void 0; // in welke room zit de gebruiker?
 var userName = void 0;
 
-var message = void 0;
-var send = void 0;
-var sendPhoto = void 0;
-var chatSpace = void 0;
-var fileInput = void 0;
-
 function initSockets() {
   socket = (0, _socketIo.socketInit)();
   user = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
@@ -1602,6 +1596,13 @@ function generalSocket() {
 function chatSocket() {
   /// CHAT
   //new user joined the room
+
+  var message = void 0;
+  var send = void 0;
+  var sendPhoto = void 0;
+  var chatSpace = void 0;
+  var fileInput = void 0;
+
   message = document.getElementById('message');
   send = document.getElementById('sendMessage');
   sendPhoto = document.getElementById('sendPhoto');
@@ -1714,15 +1715,8 @@ var challenge = function () {
   _createClass(challenge, [{
     key: 'sendPost',
     value: function sendPost(name, description, endDate, friends, category) {
-      var _this = this;
-
       _challenge2.default.addChallenge(this).then(function (ok, nok) {
         if (nok) console.log(nok);
-        name.value = "";
-        description.value = "";
-        endDate.value = _this.formatDate(new Date());
-        friends.innerHTML = "";
-        category.value = "";
       });
     }
   }, {
@@ -1813,15 +1807,17 @@ function initCreate() {
   var article = document.querySelector("#appInformation");
   article.innerHTML = pages.createPage;
   (0, _createChallenge2.default)();
+  chatScriptLoaded = false;
 }
 
 function initDetails(response) {
-  if (!chatScriptLoaded) {
-    var article = document.querySelector("#appInformation");
-    article.innerHTML = pages.detailPage;
-    GeneralSockets.chatSocket();
-    chatScriptLoaded = true;
-  }
+  if (!chatScriptLoaded) {}
+
+  var article = document.querySelector("#appInformation");
+  article.innerHTML = pages.detailPage;
+  GeneralSockets.chatSocket();
+  chatScriptLoaded = true;
+
   var date = new Date(parseInt(response.endDate));
   var month = date.getUTCMonth() + 1;
   var day = date.getUTCDate();
@@ -5231,7 +5227,7 @@ var sidePanel = function sidePanel() {
 
     // Show challenge page
     showChallengePage.addEventListener('click', function () {
-      articleContent.initCreate();
+      location.reload();
     });
 
     // Show challenges
