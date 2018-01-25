@@ -5128,15 +5128,15 @@ var storage = window.sessionStorage;
 
 document.addEventListener("DOMContentLoaded", function (event) {
   console.log("init");
-  facebook.initFacebook;
 
   var body = document.getElementsByTagName("body")[0];
   switch (body.id) {
     case "INDEX":
+      facebook.initFacebook;
       initIndex();
       break;
     case "ALL":
-      console.log("check");
+      facebook.initFacebook;
       initProfile();
       break;
     default:
