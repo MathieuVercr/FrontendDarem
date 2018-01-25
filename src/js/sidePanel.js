@@ -3,7 +3,7 @@ import * as friendModule from './module/friend.module';
 import Friend from './models/friend.class';
 import * as GeneralSockets from './socket/general.socket.io';
 import * as articleContent from './showArticle';
-import challenge from './models/challenge.class';
+import Challenge from './models/challenge.class';
 import * as inviteModule from './module/invites.module';
 
 let sidePanel = function() {
@@ -52,32 +52,16 @@ let sidePanel = function() {
 
     // Show challenge page
     showChallengePage.addEventListener('click', () => {
-      location.reload();
+      articleContent.initCreate();
     })
 
     // Show challenges
     if (userObject.acceptedChallenges.length > 0) {
       userObject.acceptedChallenges.forEach((challenge) => {
-        let bobTheHTMLBuilder = "";
-        let divChallenge = document.createElement("div");
-        divChallenge.setAttribute('tag', challenge._id);
-        bobTheHTMLBuilder += `<img src="./assets/images/${challenge.category.toLowerCase()}.png">`;
-        bobTheHTMLBuilder += `<div class="challenge__detail"><p>${challenge.name}</p>`;
-        bobTheHTMLBuilder += `<p>${challenge.description}</p></div>`;
-        divChallenge.innerHTML = bobTheHTMLBuilder;
-        divChallenge.className = "challenge";
-
-        divChallenge.addEventListener('click', function(e) {
-          challengeModule.getChallengeData(e.target.attributes.tag.nodeValue).then(function(response) {
-            articleContent.initDetails(response);
-            socket.emit("joinChatRoom", { challengeID: response._id, userName: userObject.facebook.name });
-          });
-        });
-
-        divChallenges.appendChild(divChallenge);
+        let acceptedChallenge = new Challenge(challenge.name, challenge.description, challenge.category, challenge._id, "false", "", "");
+        divChallenges.appendChild(acceptedChallenge.RenderChallenges(socket, userObject));
       });
     } else {
-      console.log(userObject);
       empty.innerHTML = "you currently have no challenges.";
     }
 

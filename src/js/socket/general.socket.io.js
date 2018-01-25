@@ -182,14 +182,13 @@ export function chatSocket() {
 
 
   send.addEventListener('click', function() {
-    console.log(userName);
     socket.emit('send message', {
       joinedRoom: currentRoom,
       msg: message.value,
       user: userName,
       type: 'text'
     });
-    message.innerHTML = "";
+    message.value = ' ';
   });
 
   sendPhoto.addEventListener('click', function() {
