@@ -7,6 +7,7 @@ import * as inviteModule from '../module/invites.module';
 import Challenge from "../models/challenge.class";
 import {socketInit} from './socket.io.init';
 import getInvites from '../getInvites';
+import completedModule from '../module/isCompleted.module';
 let socket;
 let user;
 
@@ -46,24 +47,6 @@ export function generalSocket() {
       createChallengeNotification(data.msg, data.name);
     }
   });
-
-  function updateChallengeData(data) {
-    let mark = document.getElementById("mark");
-    let divChallenges = document.getElementById("yourChallenges");
-    sessionStorage.setItem("nmct.darem.user", data.user);
-    divChallenges.innerHTML = "";
-    inviteModule.updateInvites(mark, JSON.parse(sessionStorage.getItem("nmct.darem.user")).challenges);
-    ShowChallenges(divChallenges, JSON.parse(sessionStorage.getItem("nmct.darem.user")).acceptedChallenges);
-  }
-
-  function ShowChallenges(divChallenges, challenges) {
-    let bobTheHTMLBuilder = "";
-    console.log(challenges);
-    challenges.forEach((challenge) => {
-      let acceptedChallenge = new Challenge(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
-      divChallenges.appendChild(acceptedChallenge.RenderChallenges());
-    });
-  }
   ///////
   socket.on('joined room', function(data) {
     console.log(data);
@@ -137,7 +120,12 @@ export function generalSocket() {
     getInvites();
     updateChallengeData(data);
   });
-
+  socket.on('completed', function(data){
+    if(data.user != ""){
+      sessionStorage.setItem("nmct.darem.user", data.user);
+    }
+    completedModule.completeChallenge(data.challenge);
+  });
   let getFriendsList = function() {
     FB.api('/me/friends', function(response) {
       let obj = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
@@ -171,7 +159,7 @@ export function generalSocket() {
     console.log(challenges);
     challenges.forEach((challenge) => {
       let acceptedChallenge = new Challenge(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
-      divChallenges.appendChild(acceptedChallenge.RenderChallenges());
+      divChallenges.appendChild(acceptedChallenge.RenderChallenges(socket, user));
     });
   }
 }

@@ -442,21 +442,27 @@ h1 {
   justify-content: center;
   margin-top: 8px;
   margin-bottom: 50px; }
-  .friendsDetail img {
+  .friendsDetail .challengeNotCompleted {
     width: 80px;
     height: 80px;
     margin: 0 10px;
     border-radius: 50%;
     border: solid 3px #9e2929; }
+  .friendsDetail .challengeCompleted {
+    width: 80px;
+    height: 80px;
+    margin: 0 10px;
+    border-radius: 50%;
+    border: solid 3px #54a93d; }
 
-#chatButton {
+#btnCompleted {
   justify-content: center;
   background: #a52a2a;
   color: #ffffff;
   padding: 12px 20px;
   border: 1px solid #922828;
   border-radius: 4px; }
-  #chatButton:hover {
+  #btnCompleted:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
 
 .chatSpace {

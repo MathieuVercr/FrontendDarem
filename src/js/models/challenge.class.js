@@ -29,7 +29,7 @@ export default class challenge {
 
     return [year, month, day].join('-');
   }
-  RenderChallenges(socket){
+  RenderChallenges(socket, userObject){
     let bobTheHTMLBuilder = "";
         let divChallenge = document.createElement("div");
         divChallenge.setAttribute('tag', this.creatorId);

@@ -756,6 +756,25 @@ var challengeModule = function () {
     });
     return p;
   }
+  function completedChallenge(challengeId, userId) {
+    var p = new Promise(function (ok, nok) {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = function (err) {
+        nok(err);
+      };
+      xmlhttp.onload = function (res) {
+        if (xmlhttp.readyState === 4) {
+          data = xmlhttp.responseText;
+          ok(data);
+        }
+      };
+      xmlhttp.open('POST', 'https://projecthowest.herokuapp.com/challenge/completed', true);
+      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      var json = JSON.stringify({ challengeID: challengeId, authToken: userId, response: "completed" });
+      xmlhttp.send(json);
+    });
+    return p;
+  }
 
   function getCategories() {
     var categories = ["Baseball", "Basketball", "Bodybuilding", "Boxing", "Cycling", "Dancing", "Football", "Golf", "Running", "Swimming", "Tennis", "Volleyball", "Walking"];
@@ -786,7 +805,8 @@ var challengeModule = function () {
     getChallengeData: challengeData,
     addChallenge: addChallenge,
     getCategories: getCategories,
-    acceptChallenge: acceptChallenge
+    acceptChallenge: acceptChallenge,
+    completedChallenge: completedChallenge
   };
 }();
 
@@ -1427,6 +1447,10 @@ var _getInvites = __webpack_require__(20);
 
 var _getInvites2 = _interopRequireDefault(_getInvites);
 
+var _isCompleted = __webpack_require__(74);
+
+var _isCompleted2 = _interopRequireDefault(_isCompleted);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1471,24 +1495,6 @@ function generalSocket() {
       createChallengeNotification(data.msg, data.name);
     }
   });
-
-  function updateChallengeData(data) {
-    var mark = document.getElementById("mark");
-    var divChallenges = document.getElementById("yourChallenges");
-    sessionStorage.setItem("nmct.darem.user", data.user);
-    divChallenges.innerHTML = "";
-    inviteModule.updateInvites(mark, JSON.parse(sessionStorage.getItem("nmct.darem.user")).challenges);
-    ShowChallenges(divChallenges, JSON.parse(sessionStorage.getItem("nmct.darem.user")).acceptedChallenges);
-  }
-
-  function ShowChallenges(divChallenges, challenges) {
-    var bobTheHTMLBuilder = "";
-    console.log(challenges);
-    challenges.forEach(function (challenge) {
-      var acceptedChallenge = new _challenge2.default(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
-      divChallenges.appendChild(acceptedChallenge.RenderChallenges());
-    });
-  }
   ///////
   socket.on('joined room', function (data) {
     console.log(data);
@@ -1560,7 +1566,12 @@ function generalSocket() {
     (0, _getInvites2.default)();
     updateChallengeData(data);
   });
-
+  socket.on('completed', function (data) {
+    if (data.user != "") {
+      sessionStorage.setItem("nmct.darem.user", data.user);
+    }
+    _isCompleted2.default.completeChallenge(data.challenge);
+  });
   var getFriendsList = function getFriendsList() {
     FB.api('/me/friends', function (response) {
       var obj = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
@@ -1594,7 +1605,7 @@ function generalSocket() {
     console.log(challenges);
     challenges.forEach(function (challenge) {
       var acceptedChallenge = new _challenge2.default(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
-      divChallenges.appendChild(acceptedChallenge.RenderChallenges());
+      divChallenges.appendChild(acceptedChallenge.RenderChallenges(socket, user));
     });
   }
 }
@@ -1745,7 +1756,7 @@ var challenge = function () {
     }
   }, {
     key: 'RenderChallenges',
-    value: function RenderChallenges(socket) {
+    value: function RenderChallenges(socket, userObject) {
       var bobTheHTMLBuilder = "";
       var divChallenge = document.createElement("div");
       divChallenge.setAttribute('tag', this.creatorId);
@@ -1802,6 +1813,10 @@ var _generalSocket = __webpack_require__(9);
 
 var GeneralSockets = _interopRequireWildcard(_generalSocket);
 
+var _isCompleted = __webpack_require__(74);
+
+var _isCompleted2 = _interopRequireDefault(_isCompleted);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1838,12 +1853,20 @@ function initDetails(response) {
   bobTheHTMLBuilder += '<strong>Competitors: </strong><div class="friendsDetail">';
   console.log(response.acceptedUsers.length);
   for (var i = 0; i < response.acceptedUsers.length; i++) {
-    bobTheHTMLBuilder += '<img src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
+    bobTheHTMLBuilder += '<img id=' + response.acceptedUsers[i].facebook.id + ' class="challengeNotCompleted" src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
   }
   bobTheHTMLBuilder += '</div></div>';
-  bobTheHTMLBuilder += '<button type="submit"  id="chatButton"><marquee>Complete challenge</marquee></button>';
+  bobTheHTMLBuilder += '<button type="submit"  id="btnCompleted"><marquee>Complete challenge</marquee></button>';
+
   var detail = document.getElementById("showDetail");
   detail.innerHTML = bobTheHTMLBuilder;
+  var completed = document.getElementById("btnCompleted");
+
+  completed.addEventListener('click', function (e) {
+    var userId = JSON.parse(sessionStorage.getItem('nmct.darem.accessToken'));
+    _challenge2.default.completedChallenge(response._id, userId);
+  });
+  _isCompleted2.default.completeChallenge(response);
 }
 
 function initChat() {
@@ -10417,6 +10440,34 @@ Backoff.prototype.setJitter = function(jitter){
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 73 */,
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isCompletedModule = function () {
+
+  function completeChallenge(response) {
+    for (var i = 0; i < response.acceptedUsers.length; i++) {
+      for (var j = 0; j < response.acceptedUsers[i].acceptedChallenges.length; j++) {
+        if (response.acceptedUsers[i].acceptedChallenges[j]._id == response._id) {
+          if (response.acceptedUsers[i].acceptedChallenges[j].isCompleted == true) {
+            var imgUser = document.getElementById(response.acceptedUsers[i].facebook.id);
+            imgUser.setAttribute('class', 'challengeCompleted');
+          }
+        }
+      }
+    }
+  }
+  return {
+    completeChallenge: completeChallenge
+  };
+}();
+module.exports = isCompletedModule;
 
 /***/ })
 /******/ ]);
