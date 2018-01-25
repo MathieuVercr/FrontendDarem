@@ -14,9 +14,6 @@ let joinroom = sessionStorage.getItem('chatroom');
 let currentRoom; // in welke room zit de gebruiker?
 let userName;
 
-let message;
-let send;
-let chatSpace;
 
 export function initSockets() {
   socket = socketInit();
@@ -29,7 +26,6 @@ export function generalSocket() {
     //registreer op je eigen room -> andere kunnen u een notificatie sturen
     socket.emit('room', sessionStorage.getItem('nmct.darem.accessTokenDB'));
     socket.emit('room', sessionStorage.getItem('nmct.darem.accessToken'));
-    socket.emit('username', user.facebook.name);
     console.log("connected");
   });
 
@@ -50,24 +46,27 @@ export function generalSocket() {
       createChallengeNotification(data.msg, data.name);
     }
   });
-  function updateChallengeData(data){
-		let mark = document.getElementById("mark");
-		let divChallenges = document.getElementById("yourChallenges");
-		sessionStorage.setItem("nmct.darem.user", data.user);
-		divChallenges.innerHTML = "";
-		inviteModule.updateInvites(mark, JSON.parse(sessionStorage.getItem("nmct.darem.user")).challenges);
-		ShowChallenges(divChallenges, JSON.parse(sessionStorage.getItem("nmct.darem.user")).acceptedChallenges);
-	}
-	function ShowChallenges(divChallenges, challenges){
-		let bobTheHTMLBuilder = "";
-		console.log(challenges);
-		challenges.forEach((challenge)=>{
-		  let acceptedChallenge = new Challenge(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
-		  divChallenges.appendChild(acceptedChallenge.RenderChallenges());
-		});
-	  }
+
+  function updateChallengeData(data) {
+    let mark = document.getElementById("mark");
+    let divChallenges = document.getElementById("yourChallenges");
+    sessionStorage.setItem("nmct.darem.user", data.user);
+    divChallenges.innerHTML = "";
+    inviteModule.updateInvites(mark, JSON.parse(sessionStorage.getItem("nmct.darem.user")).challenges);
+    ShowChallenges(divChallenges, JSON.parse(sessionStorage.getItem("nmct.darem.user")).acceptedChallenges);
+  }
+
+  function ShowChallenges(divChallenges, challenges) {
+    let bobTheHTMLBuilder = "";
+    console.log(challenges);
+    challenges.forEach((challenge) => {
+      let acceptedChallenge = new Challenge(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
+      divChallenges.appendChild(acceptedChallenge.RenderChallenges());
+    });
+  }
   ///////
   socket.on('joined room', function(data) {
+    console.log(data);
     if (currentRoom != data.room && currentRoom != null) {
       socket.emit('leaveChatRoom', currentRoom);
     }
@@ -157,29 +156,40 @@ export function generalSocket() {
       }
     });
   }
-  function updateChallengeData(data){
-      let mark = document.getElementById("mark");
-      let divChallenges = document.getElementById("yourChallenges");
-      sessionStorage.setItem("nmct.darem.user", data.user);
-      divChallenges.innerHTML = "";
-      inviteModule.updateInvites(mark, JSON.parse(sessionStorage.getItem("nmct.darem.user")).challenges);
-      ShowChallenges(divChallenges, JSON.parse(sessionStorage.getItem("nmct.darem.user")).acceptedChallenges);
-    }
-    function ShowChallenges(divChallenges, challenges){
-      let bobTheHTMLBuilder = "";
-      console.log(challenges);
-      challenges.forEach((challenge)=>{
-        let acceptedChallenge = new Challenge(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
-        divChallenges.appendChild(acceptedChallenge.RenderChallenges());
-      });
-    }
+
+  function updateChallengeData(data) {
+    let mark = document.getElementById("mark");
+    let divChallenges = document.getElementById("yourChallenges");
+    sessionStorage.setItem("nmct.darem.user", data.user);
+    divChallenges.innerHTML = "";
+    inviteModule.updateInvites(mark, JSON.parse(sessionStorage.getItem("nmct.darem.user")).challenges);
+    ShowChallenges(divChallenges, JSON.parse(sessionStorage.getItem("nmct.darem.user")).acceptedChallenges);
+  }
+
+  function ShowChallenges(divChallenges, challenges) {
+    let bobTheHTMLBuilder = "";
+    console.log(challenges);
+    challenges.forEach((challenge) => {
+      let acceptedChallenge = new Challenge(challenge.name, challenge.description, challenge.category, challenge._id, "false", challenge.users, challenge.endDate);
+      divChallenges.appendChild(acceptedChallenge.RenderChallenges());
+    });
+  }
 }
 
 export function chatSocket() {
   /// CHAT
   //new user joined the room
+
+  let message;
+  let send;
+  let sendPhoto;
+  let chatSpace;
+  let fileInput;
+
   message = document.getElementById('message');
   send = document.getElementById('sendMessage');
+  sendPhoto = document.getElementById('sendPhoto');
+  fileInput = document.getElementById('fileInput');
   chatSpace = document.getElementById('chatSpace');
 
 
@@ -188,29 +198,63 @@ export function chatSocket() {
     socket.emit('send message', {
       joinedRoom: currentRoom,
       msg: message.value,
-      user: userName
+      user: userName,
+      type: 'text'
     });
     message.innerHTML = "";
   });
 
+  sendPhoto.addEventListener('click', function() {
+    fileInput.click();
+  });
+
+  fileInput.addEventListener('change', function(evt) {
+    for (var i = 0; i < evt.currentTarget.files.length; i++) {
+      var file = evt.currentTarget.files[i];
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function(evt) {
+        console.log("image send to backend");
+        socket.emit('send image', {
+          joinedRoom: currentRoom,
+          msg: evt.target.result,
+          user: userName,
+          type: 'image'
+        });
+      };
+    }
+  })
+
+
+
   socket.on('new message', function(data) {
     if (currentRoom == data.room) {
-      console.log(data.username + ": " + data.msg);
-      if (data.username == user.facebook.name) {
-        chatSpace.innerHTML += '<div class="thisUser"><div><strong>' + "you say:</strong> " + data.msg + '</div></div>';
-      } else {
-        chatSpace.innerHTML += '<div class="otherUser"><strong>' + data.username + " says:</strong> " + data.msg + '</div>';
-      }
+      showMessage(data);
     }
   });
 
   socket.on('old messages', function(data) {
     for (let i = data.length - 1; i >= 0; i--) {
-      if (data[i].username == user.facebook.name) {
-        chatSpace.innerHTML += '<div class="thisUser"><div><strong>' + "you say:</strong> " + data[i].msg + '</div></div>';
-      } else {
-        chatSpace.innerHTML += '<div class="otherUser"><div><strong>' + data[i].userName + " says:</strong> " + data[i].msg + '</div></div>';
-      }
+      showMessage(data[i]);
     }
-  })
+  });
+
+  socket.on('new image', function(data) {
+    if (currentRoom == data.room) {
+      showMessage(data);
+    }
+  });
+
+  function showMessage(data) {
+    console.log(data);
+    if (data.type == 'text') {
+      if (data.userName == userName) {
+        chatSpace.innerHTML += '<div class="well otherUser">' + " you say: " + data.msg + '</div>';
+      } else {
+        chatSpace.innerHTML += '<div class="well" class="otherUser">' + data.userName + " says: " + data.msg + '</div>';
+      }
+    } else {
+      chatSpace.innerHTML += '<img src="' + data.msg + '" class="well img" style="width: 500px"></img>';
+    }
+  }
 }
