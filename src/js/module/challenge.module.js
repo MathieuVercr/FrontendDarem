@@ -41,6 +41,25 @@ var challengeModule = (function() {
     });
     return p;
   }
+  function completedChallenge(challengeId, userId){
+    var p = new Promise((ok, nok)=>{
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onerror = (err)=>{
+        nok(err);
+      }
+      xmlhttp.onload = (res) => {
+        if (xmlhttp.readyState === 4) {
+          data = xmlhttp.responseText;
+          ok(data);
+        }
+      }
+      xmlhttp.open('POST', 'https://projecthowest.herokuapp.com/challenge/completed', true);
+      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      var json = JSON.stringify({challengeID: challengeId, authToken: userId, response: "completed"});
+      xmlhttp.send(json);
+    });
+    return p;
+  }
 
   function getCategories(){
     var categories = ["Baseball", "Basketball", "Bodybuilding", "Boxing", "Cycling", "Dancing", "Football", "Golf", "Running", "Swimming", "Tennis", "Volleyball", "Walking"];
@@ -71,7 +90,8 @@ var challengeModule = (function() {
     getChallengeData: challengeData,
     addChallenge: addChallenge,
     getCategories: getCategories,
-    acceptChallenge: acceptChallenge
+    acceptChallenge: acceptChallenge,
+    completedChallenge: completedChallenge
   }
 })()
 

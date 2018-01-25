@@ -2,6 +2,7 @@ import createChallenge from './createChallenge';
 import getInvites from './getInvites';
 import challengeRepo from './module/challenge.module';
 import * as GeneralSockets from './socket/general.socket.io';
+import completedModule from './module/isCompleted.module';
 let pages = {
   createPage: '<section class="createChallenge" id="challenge"><div class="form"><h2>Create challenge</h2><label for="name">Name: </label><br /><input type="text" name="name" id="name" class="form__textinput form-element" /><br /><label for="description">Description: </label><br /><textarea name="description" id="description" class="form__textinput form-element"></textarea><br /><label for="endDate">When does the challenge end? </label><br /><input type="date" name="endDate" id="enddate" class="form__dateinput form-element" /><br /><label for="category">Add some friends:</label><br /><select name="friends" id="addFriendToChallenge" placeholder="Add friends" multiple></select><label for="category">Choose a category:</label><br /><select name="category" id="addCategoryToChallenge" placeholder="Choose a category"></select><button type="submit" name="submit" id="submit" class="form__button form-element submit-invalid" disabled>Create challenge</button><br /></div></section>',
   chatPage: "<h2>Chat with your friends</h2><section><div class='chatSpace'>chat</div><div class='chatbar'><input type='text' placeholder='Type here...'><button>Send</button></div></section>",
@@ -34,12 +35,20 @@ export function initDetails(response){
   bobTheHTMLBuilder += '<strong>Competitors: </strong><div class="friendsDetail">';
   console.log(response.acceptedUsers.length);
   for (var i = 0; i < response.acceptedUsers.length; i++) {
-    bobTheHTMLBuilder += '<img src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
+    bobTheHTMLBuilder += '<img id='+response.acceptedUsers[i].facebook.id+' class="challengeNotCompleted" src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
   }
   bobTheHTMLBuilder += '</div></div>';
-  bobTheHTMLBuilder += '<button type="submit"  id="chatButton"><marquee>Complete challenge</marquee></button>'
-  var detail = document.getElementById("showDetail");
+  bobTheHTMLBuilder += '<button type="submit"  id="btnCompleted"><marquee>Complete challenge</marquee></button>'
+
+  let detail = document.getElementById("showDetail");
   detail.innerHTML = bobTheHTMLBuilder;
+  let completed = document.getElementById("btnCompleted");
+  
+  completed.addEventListener('click', function(e){
+    let userId = JSON.parse(sessionStorage.getItem('nmct.darem.accessToken'));
+    challengeRepo.completedChallenge(response._id, userId);
+  });
+  completedModule.completeChallenge(response);
 }
 
 export function initChat(){
