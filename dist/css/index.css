@@ -170,7 +170,7 @@ header {
   .bodyitem div,
   .bodyitem-reverse div {
     flex: 1;
-    display: flex;
+    display: inline-block;
     align-items: center;
     justify-content: center; }
     .bodyitem div img,
