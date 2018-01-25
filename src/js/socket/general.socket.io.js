@@ -251,10 +251,14 @@ export function chatSocket() {
       if (data.userName == userName) {
         chatSpace.innerHTML += '<div class="thisUser"><div><strong>' + "you say:</strong> " + data.msg + '</div></div>';
       } else {
-        chatSpace.innerHTML += '<div class="otherUser"><strong>' + data.userName + " says:</strong> " + data.msg + '</div>';
+        chatSpace.innerHTML += '<div class="otherUser"><div><strong>' + data.userName + " says:</strong> " + data.msg + '</div></div>';
       }
     } else {
-      chatSpace.innerHTML += '<img src="' + data.msg + '" class="well img" style="width: 500px"></img>';
+      if (data.userName == userName) {
+        chatSpace.innerHTML += '<div class="thisUser"><div class="sendImage"><img src="' + data.msg + '" class="well img"></div></div>';
+      } else {
+        chatSpace.innerHTML += '<div class="otherUser"><div class="sendImage"><img src="' + data.msg + '" class="well img"></div></div>';
+      }
     }
   }
 }

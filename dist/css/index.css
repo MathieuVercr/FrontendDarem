@@ -462,6 +462,7 @@ h1 {
 .chatSpace {
   flex-grow: 1;
   background-color: #f8f8f8;
+  padding-bottom: 5px;
   overflow: hidden;
   overflow-y: scroll; }
 
@@ -501,10 +502,19 @@ h1 {
     background-color: #9e2929;
     padding: 5px 10px;
     color: #fefefe;
-    text-align: right;
     border-radius: 25px;
     margin-right: 3px;
-    margin-left: 25px; }
+    margin-left: 25px;
+    text-align: right; }
+  .thisUser .sendImage {
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px 0; }
+    .thisUser .sendImage img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 15px;
+      margin: 10px 0 5px 0; }
 
 .otherUser {
   display: flex;
@@ -516,6 +526,15 @@ h1 {
     border-radius: 25px;
     margin-left: 3px;
     margin-right: 25px; }
+  .otherUser .sendImage {
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px 0; }
+    .otherUser .sendImage img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 15px;
+      margin: 10px 0 5px 0; }
 
 #allNotificiations {
   display: flex;
