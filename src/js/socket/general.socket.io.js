@@ -30,24 +30,6 @@ export function generalSocket() {
     console.log("connected");
   });
 
-  socket.on('room joined', function(data) {
-    console.log(data);
-  });
-
-  socket.on('new friend', function(data) {
-    updateUserData(data);
-    if (data.msg != "no notification") {
-      createNotification(data.msg);
-    }
-  });
-
-  socket.on('new challenge', function(data) {
-    updateChallengeData(data);
-    if (data.msg != "no notification") {
-      createChallengeNotification(data.msg, data.name);
-    }
-  });
-  ///////
   socket.on('joined room', function(data) {
     console.log(data);
     if (currentRoom != data.room && currentRoom != null) {
