@@ -57,7 +57,7 @@ let createChallenge = function() {
     console.log(selFriends);
     if (!validate.enable(name, description, endDate, friends, category)) {
       let challenge = new Challenge(name.value, description.value, category.value, creatorId, "false", selFriends, Date.parse(endDate.value));
-      challenge.sendPost(name, description, endDate, friends, category);
+      challenge.sendPost(name, description, endDate, friends, category, selFriends);
     }
   });
 

@@ -1609,14 +1609,13 @@ function chatSocket() {
   chatSpace = document.getElementById('chatSpace');
 
   send.addEventListener('click', function () {
-    console.log(userName);
     socket.emit('send message', {
       joinedRoom: currentRoom,
       msg: message.value,
       user: userName,
       type: 'text'
     });
-    message.innerHTML = "";
+    message.value = ' ';
   });
 
   sendPhoto.addEventListener('click', function () {
@@ -1718,9 +1717,19 @@ var challenge = function () {
 
   _createClass(challenge, [{
     key: 'sendPost',
-    value: function sendPost(name, description, endDate, friends, category) {
+    value: function sendPost(name, description, endDate, friends, category, selFriends) {
+      var _this = this;
+
       _challenge2.default.addChallenge(this).then(function (ok, nok) {
         if (nok) console.log(nok);
+        name.value = "";
+        name.style.border = "1px solid #ccc";
+        description.value = "";
+        description.style.border = "1px solid #ccc";
+        endDate.value = _this.formatDate(new Date());
+        friends.innerHTML = "";
+        category.value = "";
+        selFriends = [];
       });
     }
   }, {
@@ -1751,7 +1760,10 @@ var challenge = function () {
       divChallenge.addEventListener('click', function (e) {
         _challenge2.default.getChallengeData(e.target.attributes.tag.nodeValue).then(function (response) {
           articleContent.initDetails(response);
-          socket.emit("joinChatRoom", { challengeID: response._id, userName: userObject.facebook.name });
+          socket.emit("joinChatRoom", {
+            challengeID: response._id,
+            userName: userObject.facebook.name
+          });
         });
       });
 
@@ -2879,7 +2891,7 @@ var createChallenge = function createChallenge() {
     console.log(selFriends);
     if (!validate.enable(name, description, endDate, friends, category)) {
       var challenge = new _challenge4.default(name.value, description.value, category.value, creatorId, "false", selFriends, Date.parse(endDate.value));
-      challenge.sendPost(name, description, endDate, friends, category);
+      challenge.sendPost(name, description, endDate, friends, category, selFriends);
     }
   });
 
@@ -5318,32 +5330,16 @@ var sidePanel = function sidePanel() {
 
     // Show challenge page
     showChallengePage.addEventListener('click', function () {
-      location.reload();
+      articleContent.initCreate();
     });
 
     // Show challenges
     if (userObject.acceptedChallenges.length > 0) {
       userObject.acceptedChallenges.forEach(function (challenge) {
-        var bobTheHTMLBuilder = "";
-        var divChallenge = document.createElement("div");
-        divChallenge.setAttribute('tag', challenge._id);
-        bobTheHTMLBuilder += '<img src="./assets/images/' + challenge.category.toLowerCase() + '.png">';
-        bobTheHTMLBuilder += '<div class="challenge__detail"><p>' + challenge.name + '</p>';
-        bobTheHTMLBuilder += '<p>' + challenge.description + '</p></div>';
-        divChallenge.innerHTML = bobTheHTMLBuilder;
-        divChallenge.className = "challenge";
-
-        divChallenge.addEventListener('click', function (e) {
-          _challenge2.default.getChallengeData(e.target.attributes.tag.nodeValue).then(function (response) {
-            articleContent.initDetails(response);
-            socket.emit("joinChatRoom", { challengeID: response._id, userName: userObject.facebook.name });
-          });
-        });
-
-        divChallenges.appendChild(divChallenge);
+        var acceptedChallenge = new _challenge4.default(challenge.name, challenge.description, challenge.category, challenge._id, "false", "", "");
+        divChallenges.appendChild(acceptedChallenge.RenderChallenges(socket, userObject));
       });
     } else {
-      console.log(userObject);
       empty.innerHTML = "you currently have no challenges.";
     }
 
