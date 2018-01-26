@@ -1718,17 +1718,9 @@ var challenge = function () {
   _createClass(challenge, [{
     key: 'sendPost',
     value: function sendPost(name, description, endDate, friends, category, selFriends) {
-      var _this = this;
-
       _challenge2.default.addChallenge(this).then(function (ok, nok) {
         if (nok) console.log(nok);
-        name.value = "";
-        name.style.border = "1px solid #ccc";
-        description.value = "";
-        description.style.border = "1px solid #ccc";
-        endDate.value = _this.formatDate(new Date());
-        friends.innerHTML = "";
-        category.value = "";
+        articleContent.initCreate();
         selFriends = [];
       });
     }
@@ -2980,10 +2972,10 @@ var getInvites = function getInvites() {
   var inviteHtml = "";
   var indexId = 0;
   var loaded = [];
+  inviteContainer.innerHTML = "";
   account.challenges.forEach(function (challenge) {
     _challenge2.default.getChallengeData(challenge._id).then(function (response) {
       loaded.push(response);
-
       if (account.challenges.length == loaded.length) {
         loaded.forEach(function (challenge) {
           var challenger = challenge.acceptedUsers[0];

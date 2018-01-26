@@ -15,13 +15,7 @@ export default class challenge {
   sendPost(name, description, endDate, friends, category, selFriends) {
     challengeModule.addChallenge(this).then((ok, nok) => {
       if (nok) console.log(nok);
-      name.value = "";
-      name.style.border = "1px solid #ccc";
-      description.value = "";
-      description.style.border = "1px solid #ccc";
-      endDate.value = this.formatDate(new Date());
-      friends.innerHTML = "";
-      category.value = "";
+      articleContent.initCreate();
       selFriends = []
     });
   }
