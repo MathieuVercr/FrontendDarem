@@ -11,10 +11,10 @@ let getInvites = function(){
   let inviteHtml = "";
   let indexId = 0;
   let loaded = [];
+  inviteContainer.innerHTML = "";
   account.challenges.forEach(function(challenge){
     challengeRepo.getChallengeData(challenge._id).then(function(response){
       loaded.push(response);
-
       if(account.challenges.length == loaded.length){
         loaded.forEach(function(challenge){
           let challenger = challenge.acceptedUsers[0];
