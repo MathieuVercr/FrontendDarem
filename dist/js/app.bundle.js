@@ -1811,7 +1811,7 @@ var pages = {
   createPage: '<section class="createChallenge" id="challenge"><div class="form"><h2>Create challenge</h2><label for="name">Name: </label><br /><input type="text" name="name" id="name" class="form__textinput form-element" /><br /><label for="description">Description: </label><br /><textarea name="description" id="description" class="form__textinput form-element"></textarea><br /><label for="endDate">When does the challenge end? </label><br /><input type="date" name="endDate" id="enddate" class="form__dateinput form-element" /><br /><label for="category">Add some friends:</label><br /><select name="friends" id="addFriendToChallenge" placeholder="Add friends" multiple></select><label for="category">Choose a category:</label><br /><select name="category" id="addCategoryToChallenge" placeholder="Choose a category"></select><button type="submit" name="submit" id="submit" class="form__button form-element submit-invalid" disabled>Create challenge</button><br /></div></section>',
   chatPage: "<h2>Chat with your friends</h2><section><div class='chatSpace'>chat</div><div class='chatbar'><input type='text' placeholder='Type here...'><button>Send</button></div></section>",
   detailPage: '<section id="detailAndChat"><section class="showDetail" id="showDetail"></section><section class="chatInterface"><section><div class="chatSpace" id="chatSpace"></div><div class="chatbar"><input type="text" placeholder="Type here..." id="message"><button id="sendMessage">Send</button><button id="sendPhoto">Photo</button><input id="fileInput" type="file" style="display:none;" /></div></section></section></section>',
-  invitePage: "<h2>Notifications</h2><section id='allNotificiations'></section>"
+  invitePage: "<h2>Invites</h2><section id='allNotificiations'></section>"
 };
 
 function initCreate() {
@@ -2964,6 +2964,7 @@ var getInvites = function getInvites() {
   var account = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
   var inviteContainer = document.querySelector('#allNotificiations');
 
+  inviteContainer.innerHTML = "";
   if (account.challenges.length <= 0) {
     inviteContainer.innerHTML = "You have no new challenges";
   }
@@ -2971,7 +2972,7 @@ var getInvites = function getInvites() {
   var inviteHtml = "";
   var indexId = 0;
   var loaded = [];
-  inviteContainer.innerHTML = "";
+
   account.challenges.forEach(function (challenge) {
     _challenge2.default.getChallengeData(challenge._id).then(function (response) {
       loaded.push(response);

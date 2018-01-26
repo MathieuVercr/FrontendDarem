@@ -4,6 +4,7 @@ let getInvites = function(){
   let account = JSON.parse(sessionStorage.getItem('nmct.darem.user'));
   let inviteContainer = document.querySelector('#allNotificiations');
 
+  inviteContainer.innerHTML = "";
   if(account.challenges.length <= 0){
     inviteContainer.innerHTML = "You have no new challenges";
   }
@@ -11,7 +12,7 @@ let getInvites = function(){
   let inviteHtml = "";
   let indexId = 0;
   let loaded = [];
-  inviteContainer.innerHTML = "";
+
   account.challenges.forEach(function(challenge){
     challengeRepo.getChallengeData(challenge._id).then(function(response){
       loaded.push(response);
