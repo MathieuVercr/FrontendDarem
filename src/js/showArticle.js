@@ -38,17 +38,17 @@ export function initDetails(response){
     bobTheHTMLBuilder += '<img id='+response.acceptedUsers[i].facebook.id+' class="challengeNotCompleted" src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
   }
   bobTheHTMLBuilder += '</div></div>';
-  bobTheHTMLBuilder += '<button type="submit"  id="btnCompleted"><marquee>Complete challenge</marquee></button>'
+  bobTheHTMLBuilder += '<button type="submit"  id="btnCompleted">Complete challenge</button>'
 
   let detail = document.getElementById("showDetail");
   detail.innerHTML = bobTheHTMLBuilder;
   let completed = document.getElementById("btnCompleted");
-  
   completed.addEventListener('click', function(e){
     let userId = JSON.parse(sessionStorage.getItem('nmct.darem.accessToken'));
     challengeRepo.completedChallenge(response._id, userId);
   });
   completedModule.completeChallenge(response);
+
 }
 
 export function initChat(){

@@ -1850,12 +1850,11 @@ function initDetails(response) {
     bobTheHTMLBuilder += '<img id=' + response.acceptedUsers[i].facebook.id + ' class="challengeNotCompleted" src="https://graph.facebook.com/v2.6/' + response.acceptedUsers[i].facebook.id + '/picture?type=large"></img>';
   }
   bobTheHTMLBuilder += '</div></div>';
-  bobTheHTMLBuilder += '<button type="submit"  id="btnCompleted"><marquee>Complete challenge</marquee></button>';
+  bobTheHTMLBuilder += '<button type="submit"  id="btnCompleted">Complete challenge</button>';
 
   var detail = document.getElementById("showDetail");
   detail.innerHTML = bobTheHTMLBuilder;
   var completed = document.getElementById("btnCompleted");
-
   completed.addEventListener('click', function (e) {
     var userId = JSON.parse(sessionStorage.getItem('nmct.darem.accessToken'));
     _challenge2.default.completedChallenge(response._id, userId);
@@ -3024,12 +3023,19 @@ var isCompletedModule = function () {
         if (response.acceptedUsers[i].acceptedChallenges[j]._id == response._id) {
           if (response.acceptedUsers[i].acceptedChallenges[j].isCompleted == true) {
             var imgUser = document.getElementById(response.acceptedUsers[i].facebook.id);
+            var user = JSON.parse(sessionStorage.getItem('nmct.darem.accessToken'));
             imgUser.setAttribute('class', 'challengeCompleted');
+            if (response.acceptedUsers[i].facebook.id == user) {
+              var completed = document.getElementById("btnCompleted");
+              completed.setAttribute("id", "btndisabled");
+              completed.disabled = true;
+            }
           }
         }
       }
     }
   }
+
   return {
     completeChallenge: completeChallenge
   };

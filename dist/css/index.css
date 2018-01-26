@@ -465,6 +465,14 @@ h1 {
   #btnCompleted:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
 
+#btndisabled {
+  justify-content: center;
+  color: #ffffff;
+  padding: 12px 20px;
+  border: 1px solid #922828;
+  border-radius: 4px;
+  background: #e0e0e0; }
+
 .chatSpace {
   flex-grow: 1;
   background-color: #f8f8f8;
